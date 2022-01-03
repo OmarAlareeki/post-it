@@ -1,0 +1,11 @@
+
+.mainHeader {
+  text-align: center;
+}
+
+
+.listOrders {
+  text-align: center;
+  list-style: inside;
+  color:blue
+}
