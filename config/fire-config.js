@@ -1,3 +1,4 @@
+
 import firebase from 'firebase';
 
 const firebaseConfig = {
@@ -18,5 +19,5 @@ firebase.initializeApp(firebaseConfig);
   if (!/already exists/.test(err.message)) {
     console.error('Firebase initialization error', err.stack)}
 }
-const fire = firebase;
-export default fire;
+const db = firebase;
+export { db };
