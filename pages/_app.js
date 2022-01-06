@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import Head from 'next/head'
-import fire from '../config/fire-config';
+import db from '../config/fire-config';
 
 function MyApp({ Component, pageProps }) {
   console.log()

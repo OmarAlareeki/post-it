@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import fire from '../config/fire-config';
+import {db} from '../config/fire-config';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
@@ -8,7 +8,7 @@ import { Container } from 'react-bootstrap';
 const Home = () => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    fire.firestore()
+    db.firestore()
       .collection('Posts')
       .onSnapshot(snap => {
         const posts = snap.docs.map(doc => ({
