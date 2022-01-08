@@ -3,33 +3,22 @@ import fire from '../config/fire-config';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { Container } from 'react-bootstrap';
+import Link from 'next/link';
+import { useAuth } from '../auth';
+import Container from '../components/Container';
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    fire.firestore()
-      .collection('Posts')
-      .onSnapshot(snap => {
-        const posts = snap.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        console.log(posts)
-        setPosts(posts);
-      });
-  }, []);
+
+  const { user } = useAuth();
 
   return (
     <Container>
-      <h1 className={styles.mainHeader}>Post It</h1>
-      <ul className={styles.listOrders}>
-        {posts.map(post =>
-          <li key={post.id}>
-            <a href=''>{post.title}</a>
-          </li>
-        )}
-      </ul>
+        <div>
+          <h3>WELCOME TO POST IT!</h3>
+          <span>{`User ID: ${user ? user.uid : 'No user signed in'}`}</span>
+          <button isDisabled={!user}><Link href='/Home'><a>Protected routes</a></Link></button>
+          <button isDisabled={user}><Link href='/login'><a>Login</a></Link></button>
+        </div>
     </Container>
   )
 }
