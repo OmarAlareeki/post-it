@@ -35,10 +35,7 @@ const PostsListContainer = () => {
   return (
     <Container style={{ marginTop: "10px", marginLeft: "15px" }}>
       <NavBar postsData={posts} previewSearchResults={previewSearchResults} />
-      {/* <SearchPosts
-        postsData={posts}
-        previewSearchResults={previewSearchResults}
-      /> */}
+
       {searchResults.map((searchResult) => (
         <div key={searchResult.id}>
           <Card style={{ width: "18rem" }}>
