@@ -1,37 +1,13 @@
-import { useState, useEffect } from 'react';
-import {db} from '../config/fire-config';
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import { Container } from 'react-bootstrap';
+import { useState, useEffect } from "react";
+import { db } from "../config/fire-config";
+import Head from "next/head";
+import Style from "../styles/Home.module.css";
+import { Container, Card } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
+import PostsListContainer from "../components/PostsListContainer";
+import NavBar from "../components/NavBar/NavBar";
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    db.firestore()
-      .collection('Posts')
-      .onSnapshot(snap => {
-        const posts = snap.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        console.log(posts)
-        setPosts(posts);
-      });
-  }, []);
-
-  return (
-    <Container>
-      <h1 className={styles.mainHeader}>Post It</h1>
-      <ul className={styles.listOrders}>
-        {posts.map(post =>
-          <li key={post.id}>
-            <a href=''>{post.title}</a>
-          </li>
-        )}
-      </ul>
-    </Container>
-  )
-}
-
+  return (<NavBar />), (<PostsListContainer />);
+};
 export default Home;
