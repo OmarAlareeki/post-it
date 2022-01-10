@@ -11,7 +11,7 @@ const NavBar = ({ postsData, previewSearchResults }) => {
 
   return (
     <div className={style.NavBar}>
-      <img src="../Logo.jpg" style={{ height: "100px" }} />
+      <img src="../Logo.jpg" style={{ height: "100px", width: "100px" }} />
       <SearchPosts
         postsData={postsData}
         filteredSearchList={filteredSearchList}
