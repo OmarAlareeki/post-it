@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
