@@ -9,3 +9,19 @@
   list-style: inside;
   color:blue
 }
+
+.postImage {
+  padding: 5px 15px;
+}
+.postImage:hover{
+  cursor: pointer;
+}
+
+.postedMain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+
+}

@@ -8,7 +8,7 @@ import { Container } from 'react-bootstrap';
 const Home = () => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    db.firestore()
+    db
       .collection('Posts')
       .onSnapshot(snap => {
         const posts = snap.docs.map(doc => ({
