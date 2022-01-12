@@ -13,6 +13,7 @@ import { useAuth } from "../config/auth";
 import { Container } from "react-bootstrap";
 import { Flex, Box, Button, Text, Stack, Heading } from "@chakra-ui/core";
 
+
 const Home = () => {
     const { user } = useAuth();
   return (
