@@ -1,13 +1,24 @@
+
+import { useState, useEffect } from "react";
+import { db } from "../config/fire-config";
+import Head from "next/head";
+import Style from "../styles/Home.module.css";
+import { Container, Card } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
+import PostsListContainer from "../components/PostsListContainer";
+import NavBar from "../components/NavBar/NavBar";
 import React, { useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useAuth } from "../config/auth";
 import { Container } from "react-bootstrap";
 import { Flex, Box, Button, Text, Stack, Heading } from "@chakra-ui/core";
 
-export default function Home() {
-	const { user } = useAuth();
+const Home = () => {
+    const { user } = useAuth();
+  return (
+    <NavBar />
+    <PostsListContainer />);
 
-	return (
 		<Container>
 			<Flex>
 				<Box w={500} p={4} my={12} mx="auto">
@@ -48,4 +59,6 @@ export default function Home() {
 			</Flex>
 		</Container>
 	);
-}
+};
+export default Home;
+
