@@ -18,7 +18,8 @@ const PostItem = () => {
     zip: "",
     email: "",
     price: "",
-    userId:'',
+    userId:"",
+    imageUrls: "",
     description: ""
   });
   const [phoneNumber, setPhoneNumber] = useState(undefined);
@@ -50,6 +51,7 @@ const PostItem = () => {
         category: data.category,
         price: data.price,
         description: data.description,
+        imageUrls: displayUrl,
         postDate: new Date()
       })
       .then( doc => {
@@ -81,17 +83,19 @@ const PostItem = () => {
       case "uploading":
         return <div>uploading...</div>;
       case "uploaded":
-        return (displayUrl.map(srcUrl => {
+        return (
+          <div> {
+          displayUrl.map(srcUrl => {
               return ( 
           <Image
             key={srcUrl}
             src={srcUrl}
             alt={srcUrl}
-            witdh='100px'
-            Height='100px'
+            height={100}
+            width={100}
             className={style.postImage}
-          /> )
-        }));
+          /> )})}</div>
+        );
       case "failedUpload":
         return <div> Upload failed </div>;
     }}
@@ -99,7 +103,7 @@ const PostItem = () => {
       if(data.category){ 
       const image = e.target.files[0]
       setImageTitles([...imageTitles, image.name])
-      const uploadImages = storage.ref(`${postId}/${image.name}`).put(image);
+      const uploadImages = storage.ref(`postImages/${image.name}`).put(image);
       uploadImages.on(
         "state_changed",
         snapshot => {
@@ -112,7 +116,7 @@ const PostItem = () => {
         },
         () => {
          
-          storage.ref(postId).child(image.name).getDownloadURL().then(url => {
+          storage.ref('postImages').child(image.name).getDownloadURL().then(url => {
             setDisplayUrl([...displayUrl, url]);
             setProgress('uploaded')
           });

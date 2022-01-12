@@ -11,6 +11,8 @@
 
 .postImage {
   padding: 5px 15px;
+  width: 200px;
+  height: auto;
 }
 .postImage:hover{
   cursor: pointer;

@@ -1,15 +1,15 @@
 import React from "react";
 import nookies from "nookies";
 import { verifyIdToken } from "../config/firebase-admin";
-import firebaseClient from "../config/firebase-client";
-import firebase from "firebase/app";
 import { Box, Flex, Text, Heading, Button } from "@chakra-ui/core";
-import Home from './postsList'
+import PostsList from "../components/PostsList";
+import  Router from 'next/router'
 
 function Authenticated({ session }) {
-  firebaseClient();
+  
   if (session) {
     return (
+      <div>
       <Flex>
         <Box w={500} p={4} my={12} mx="auto">
           <Heading as="h2" mb={12} textAlign="center">
@@ -19,7 +19,7 @@ function Authenticated({ session }) {
             <Text textAlign="center">{session}</Text>
             <Text textAlign="center" mt={8}>
               User can explore now!
-              <Home />
+              <PostsList />
             </Text>
           </Box>
           <Box my={12} mx="auto" width="500px">
@@ -34,9 +34,18 @@ function Authenticated({ session }) {
             >
               Sign out
             </Button>
+            <Button 
+              width="100%"
+              variant="secondery"
+              className="my-2"
+              onClick={()=>{
+              Router.push("/")}}>
+              back
+            </Button> 
           </Box>
         </Box>
       </Flex>
+      </div>
     );
   } else {
     return (

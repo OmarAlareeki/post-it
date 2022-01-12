@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Link from "next/link";
-import firebaseClient from "../config/firebase-client";
 import firebase from "firebase/app";
 import "firebase/auth";
 import {
@@ -18,7 +16,6 @@ import {
 } from "@chakra-ui/core";
 
 export default function Login({ props }) {
-  firebaseClient();
   const toast = useToast();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");

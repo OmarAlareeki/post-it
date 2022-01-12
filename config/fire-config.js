@@ -13,8 +13,7 @@ const firebaseConfig = {
 };
 
 try {
-
-firebase.initializeApp(firebaseConfig);
+ firebase.initializeApp(firebaseConfig);
 } catch(err){
   if (!/already exists/.test(err.message)) {
     console.error("Firebase initialization error", err.stack);
@@ -22,4 +21,5 @@ firebase.initializeApp(firebaseConfig);
 }
 const db = firebase.firestore();
 const storage = firebase.storage();
+
 export { db, storage };

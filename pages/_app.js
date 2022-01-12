@@ -1,6 +1,5 @@
 import '../styles/globals.css'
 import Head from 'next/head'
-import db from '../config/fire-config';
 import { ThemeProvider, CSSReset } from "@chakra-ui/core";
 import { AuthProvider } from "../config/auth";
 

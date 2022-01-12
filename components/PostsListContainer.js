@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { db } from "../config/fire-config";
-import Head from "next/head";
-import Style from "../styles/Home.module.css";
+import { db, storage } from "../config/fire-config";
 import { Container, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "../components/NavBar/NavBar";
@@ -9,39 +7,23 @@ import PostsList from "./PostsList";
 import "firebase/storage";
 
 const PostsListContainer = () => {
-  const [posts, setPosts] = useState([]);
+  const [displayPosts, setDisplayPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [url, setUrl] = useState("");
+
 
   useEffect(() => {
-    db.firestore()
-      .collection("posts")
+    db.collection("posts")
       .onSnapshot((snap) => {
         const posts = snap.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-        }));
-        console.log("***Posts: " + JSON.stringify(posts[0]));
-        //const pathVal = posts[0].images[0].path;
-        posts.map((post) => {
-          //const imageUrl = post.image[0].path;
-          db.storage()
-            .ref("")
-            .child("")
-            .getDownloadURL()
-            .then((url) => {
-              setUrl(url);
-              console.log("Hi:" + url);
-              console.log(post.image[0].path);
-            });
-        });
-        //console.log("***Image: " + posts[0].image[0].path);
-
-        setPosts(posts);
-      });
+        }))
+        setDisplayPosts(posts);
+      })
+      console.log(displayPosts)
   }, []);
 
-  console.log(posts);
+ 
 
   //console.log("**** Images:*** " + posts[0].image);
 
@@ -52,11 +34,11 @@ const PostsListContainer = () => {
 
   return (
     <Container style={{ marginTop: "10px", marginLeft: "15px" }}>
-      <NavBar postsData={posts} previewSearchResults={previewSearchResults} />
-      <img src="https://firebasestorage.googleapis.com/v0/b/journeymanapp-17b05.appspot.com/o/images%2FTodoLogo.jpg?alt=media&token=1ee8d6bb-1920-4673-929e-aab0b9590909" />
+      <NavBar postsData={displayPosts} previewSearchResults={previewSearchResults} />
+      {/* <img src="https://firebasestorage.googleapis.com/v0/b/journeymanapp-17b05.appspot.com/o/images%2FTodoLogo.jpg?alt=media&token=1ee8d6bb-1920-4673-929e-aab0b9590909" /> */}
       <div>
         {searchResults && searchResults.length <= 0 ? (
-          <PostsList posts={posts} />
+          <PostsList posts={displayPosts} />
         ) : (
           <>
             {searchResults.map((searchResult) => (
