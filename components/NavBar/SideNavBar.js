@@ -8,7 +8,7 @@ export const SideNavBar = () => {
         <li value="Saved Posts"> Saved Posts</li>
         <li value="My Posts"> My Posts </li>
         <li value="Free"> Free </li>
-        <li style={{ fontSize: "20px", padding: "10px", fontWeight: "bold" }}>
+        <li style={{ fontSize: "20px", paddingTop:"10px", paddingBottom: "10px", fontWeight: "bold" }}>
           Categories:
         </li>
         <li value="appliance"> Appliance </li>

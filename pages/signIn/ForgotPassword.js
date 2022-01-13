@@ -3,7 +3,7 @@ import Router  from 'next/router'
 import React, { useState } from 'react'
 import { Modal, Button, Form, } from 'react-bootstrap'
 import { auth } from "../../config/fire-config"
-
+import style from "../../styles/Home.module.css"
 
 
 function ForgotPassword( ) {
@@ -39,7 +39,7 @@ function ForgotPassword( ) {
   
   return (
     <>
-      <div>
+      <div className={style.container}>
           { successEmailSent? 
           <div  className='d-flex flex-column'style={{padding: '20px'}}>
               <p> An email was sent to your address.</p>
@@ -57,22 +57,22 @@ function ForgotPassword( ) {
                     Router.push('/')}}> OK</Button></div></div>):  
           
         <div>  
-            <Modal.Header closeButton className='border-bottom-0'>
-            <Modal.Title>Reset Password</Modal.Title>
-            </Modal.Header>
+            
+            <h1>Reset Password</h1>
+            
             <Form>
                 <Form.Group className="m-3" controlId="formGridEmail">
                     <Form.Label> Email Address</Form.Label>
                     <Form.Control type="email" placeholder="name@example.com" onChange={(e) => setEmail(e.target.value)} />
                 </Form.Group>
                 </Form>
-            <Modal.Footer className="d-flex justify-content-center border-top-0">
+            <div className="d-flex justify-content-center border-top-0">
             <Button variant="primary" className="w-25" onClick={() => {
             sendPasswordEmail()
             }} >
                 Reset Email
             </Button>
-            </Modal.Footer>
+            </div>
         </div>)}
       </div>
     </>

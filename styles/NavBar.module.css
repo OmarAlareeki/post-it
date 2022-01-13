@@ -1,12 +1,11 @@
-.TopNavBar {
+.nav {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   align-content: center;
   padding: 15px;
-  position: fixed;
   width: 100%;
-  background-color: #fff;
+  background: transparent;
   z-index: 1;
 }
 .SearchContainer {
@@ -46,14 +45,15 @@
   display: flex;
   align-items: center;
   background-color: transparent;
-  border: none;
+  border: bold;
+  padding: 0;
 }
 
 .SideBar {
   list-style: none;
-  width: 300;
+  width: 300px;
+  margin:auto;
   line-height: 2.5rem;
-  padding: 70px;
-  position: fixed;
-  top: 144px;
+  padding-right: 70px;
+  padding-left: 40px;
 }

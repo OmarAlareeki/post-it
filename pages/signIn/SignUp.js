@@ -1,9 +1,8 @@
-
 import  Router  from 'next/router'
 import React, { useState, useEffect } from 'react'
-import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
+import { Button, Form, Row, Col } from 'react-bootstrap'
 import { auth } from "../../config/fire-config"
-
+import style from "../../styles/Home.module.css"
 
 
 function SignUp() {
@@ -42,9 +41,9 @@ function SignUp() {
 
   return (
     <>
-      <div>
+      <div className={style.container}>
     
-          <Modal.Title>Sign Up</Modal.Title>
+          <h1 className='m-4'>Sign Up</h1>
 
           <div className="mx-4">
             <Form validated={firstName||lastName? true:false} onSubmit={()=>signUp()}>
@@ -113,13 +112,19 @@ function SignUp() {
               </Form.Group >
             </Form>
           </div>
-          <Button variant="primary" className="w-25" onClick={() => { 
+          <div className="d-flex justify-content-center ">
+          <Button variant="light" className="w-25 mt-5 mx-2" onClick={() => { 
+            Router.push('/')
+          }} >
+            Cancel
+          </Button>
+          <Button variant="primary" className="w-25 mt-5 mx-2" onClick={() => { 
             signUp()
             Router.push('/')
           }} >
             Sign Up
           </Button>
-        
+        </div>
       </div>
     </>
   );
