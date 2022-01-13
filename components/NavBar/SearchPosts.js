@@ -6,10 +6,11 @@ const SearchPosts = ({ postsData, filteredSearchList }) => {
   const [searchedValue, setSearchedValue] = useState("");
 
   const handleSearch = () => {
-    const searchList = postsData.filter((post) => post.title == searchedValue);
-    console.log("*** SearchList: " + JSON.stringify(searchList));
+    const searchList = postsData.filter((post) =>
+      post.title.toLowerCase().includes(searchedValue)
+    );
+
     filteredSearchList(searchList);
-    //searchList.map((item) => <BlockPostPreview key={item.id} item={item} />);
     setSearchedValue(" ");
   };
   console.log(searchedValue);
@@ -22,7 +23,7 @@ const SearchPosts = ({ postsData, filteredSearchList }) => {
         className={Style.SearchBar}
         aria-label="Search"
         onChange={({ target }) => {
-          setSearchedValue(target.value);
+          setSearchedValue(target.value.toLowerCase());
         }}
       />
       <button className={Style.SearchButton} onClick={handleSearch}>
