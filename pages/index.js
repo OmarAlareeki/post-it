@@ -1,7 +1,16 @@
+<<<<<<< HEAD
+=======
+import React from 'react'
+import "bootstrap/dist/css/bootstrap.css";
+>>>>>>> master
 import PostsListContainer from "../components/PostsListContainer";
-import NavBar from "../components/NavBar/NavBar";
-
+import LoginPage from './LoginPage'
 const Home = () => {
-  return (<NavBar />), (<PostsListContainer />);
+  
+  return (
+    <div>
+      <PostsListContainer />
+    </div>
+  );
 };
 export default Home;
