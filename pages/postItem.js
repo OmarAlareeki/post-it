@@ -115,7 +115,6 @@ const PostItem = () => {
           console.log("Encounter ", error);
         },
         () => {
-         
           storage.ref('postImages').child(image.name).getDownloadURL().then(url => {
             setDisplayUrl([...displayUrl, url]);
             setProgress('uploaded')

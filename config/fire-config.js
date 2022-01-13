@@ -21,5 +21,5 @@ try {
 }
 const db = firebase.firestore();
 const storage = firebase.storage();
-
-export { db, storage };
+const auth = firebase.auth();
+export { db, storage, auth };
