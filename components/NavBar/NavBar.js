@@ -1,3 +1,8 @@
+
+import style from "../../styles/NavBar.module.css";
+import SearchPosts from "./SearchPosts.js";
+import { FaUserCircle } from "react-icons/fa";
+import { SideNavBar } from "./sideNavBar";
 import { useState, useEffect } from "react";
 import style from "../../styles/NavBar.module.css";
 import SearchPosts from "./SearchPosts";
@@ -6,6 +11,7 @@ import Router from "next/router";
 import { Button, Modal } from "react-bootstrap";
 import SignoutModal from "../../pages/signIn/SignoutModal"
 import { auth } from "../../config/fire-config";
+
 
 
 const NavBar = ({ postsData, }) => {
@@ -29,17 +35,48 @@ const NavBar = ({ postsData, }) => {
   
   return (
     <nav>
-    <div className={style.NavBar}>
-      <img
-        src="../Post-It-Logo.svg"
-        style={{ height: "80px", width: "80px" }}
-      />
-      <SearchPosts
-        postsData={postsData}
-        filteredSearchList={filteredSearchList}
-      />
+
+      <div className={style.TopNavBar}>
+        <img src="../Logo3.png" style={{ height: "100px", width: "auto" }} />
+        <SearchPosts
+          postsData={postsData}
+          filteredSearchList={filteredSearchList}
+        />
+        <button type="button" className={style.UserButton}>
+          <FaUserCircle
+            style={{
+              width: "auto",
+              height: "60px",
+              margin: "10px",
+              padding: "10px",
+              fill: "#ef9d06",
+            }}
+          />
+        </button>
+      </div>
+      <SideNavBar />
       <p>Hi, {currentUser.displayName? currentUser.displayName.split(' ')[0]:'there'}!</p>
-       {loggedIn?<Button variant="warning" onClick={toggleSignOutModal}>Sign Out</Button>: <Button onClick={()=>{Router.push("/signIn/SignIn")}}>Sign In</Button>}
+              
+{loggedIn?  <button type="button" className={style.UserButton} onClick={toggleSignOutModal}>
+          <FaUserCircle
+            style={{
+              width: "auto",
+              height: "60px",
+              margin: "10px",
+              padding: "10px",
+              fill: "#ef9d06",
+            }}
+          /> :
+  <button type="button" className={style.UserButton} onClick={()=>{Router.push("/signIn/SignIn")}>
+          <FaUserCircle
+            style={{
+              width: "auto",
+              height: "60px",
+              margin: "10px",
+              padding: "10px",
+              fill: "#fafafa",
+            }}
+          /> 
       </div>
       <div>
         
@@ -47,6 +84,7 @@ const NavBar = ({ postsData, }) => {
       Post new Item</button>
     </div>
     < SignoutModal show={signoutModal} onHide={toggleSignOutModal} setLoggedIn={setLoggedIn} />
+
     </nav>
   );
 };

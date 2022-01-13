@@ -2,6 +2,20 @@
   text-align: center;
 }
 
+<<<<<<< HEAD
+.PostsContainer {
+  padding: 30vh;
+}
+
+.PostsDisplay {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-evenly;
+  align-items: center;
+}
+=======
 
 .listOrders {
   text-align: center;
@@ -27,3 +41,4 @@
 
 }
 
+>>>>>>> master
