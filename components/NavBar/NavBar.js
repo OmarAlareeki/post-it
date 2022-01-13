@@ -1,18 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import style from "../../styles/NavBar.module.css";
 import SearchPosts from "./SearchPosts";
 import nookies  from "nookies"
 import Router from "next/router";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import SignoutModal from "../../pages/signIn/SignoutModal"
+import { auth } from "../../config/fire-config";
 
 
-const NavBar = ({ postsData, previewSearchResult, uid}) => {
+const NavBar = ({ postsData, }) => {
+  const [ currentUser, setCurrentUser ] = useState('')
   const [loggedIn, setLoggedIn] = useState(false);
+  const [ signoutModal, setSignoutModal ] = useState(false)
   const filteredSearchList = (results) => {
     previewSearchResults(results);
-    
   };
+  useEffect(() => {
+  auth.onAuthStateChanged(function(user){
+    if(user){
+      setCurrentUser(user)
+      setLoggedIn(true)}
+  else{
+    setCurrentUser('')
+  }
+})},[loggedIn])
 
+  const toggleSignOutModal = () => setSignoutModal(!signoutModal)
+  
   return (
     <nav>
     <div className={style.NavBar}>
@@ -24,27 +38,17 @@ const NavBar = ({ postsData, previewSearchResult, uid}) => {
         postsData={postsData}
         filteredSearchList={filteredSearchList}
       />
-       {loggedIn?<Button onClick={showSignOutModal}>Sign Out</Button>: <Button onClick={()=>{Router.push("/LoginPage")}}>Sign In</Button>}
+      <p>Hi, {currentUser.displayName? currentUser.displayName.split(' ')[0]:'there'}!</p>
+       {loggedIn?<Button variant="warning" onClick={toggleSignOutModal}>Sign Out</Button>: <Button onClick={()=>{Router.push("/signIn/SignIn")}}>Sign In</Button>}
       </div>
       <div>
+        
       <button onClick={()=>{Router.push('/postItem')}}> 
       Post new Item</button>
     </div>
+    < SignoutModal show={signoutModal} onHide={toggleSignOutModal} setLoggedIn={setLoggedIn} />
     </nav>
   );
 };
-export async function getServerSideProps(context) {
-  try {
-    const cookies = nookies.get(context);
-    const token = await verifyIdToken(cookies.token);
-    const { uid } = token;
-    return {
-      props: { uid:uid },
-    };
-  } catch (err) {
-    context.res.writeHead(302, { Location: "/login" });
-    context.res.end();
-    return { props: {} };
-  }
-}
+
 export default NavBar;
