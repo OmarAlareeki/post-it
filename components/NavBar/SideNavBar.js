@@ -4,7 +4,13 @@ export const SideNavBar = () => {
   return (
     <div>
       <ul className={style.SideBar}>
-        <li value="All Posts"> All Posts </li>
+        <li
+          onClick={() => {
+            Router.push("../CategoryPostsList");
+          }}
+        >
+          All Posts
+        </li>
         <li value="Saved Posts"> Saved Posts</li>
         <li value="My Posts"> My Posts </li>
         <li value="Free"> Free </li>

@@ -10,6 +10,7 @@ import "firebase/storage";
 const PostsListContainer = () => {
   const [posts, setPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [categoryResults, setCategoryResults] = useState([]);
 
   useEffect(() => {
     db.firestore()
@@ -22,8 +23,6 @@ const PostsListContainer = () => {
         setPosts(posts);
       });
   }, []);
-
-  console.log(posts);
 
   const previewSearchResults = (items) => {
     console.log("***********items: " + JSON.stringify(items));
