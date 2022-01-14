@@ -13,34 +13,35 @@ const PostsListContainer = () => {
   //const [categoryResults, setCategoryResults] = useState([]);
   const [searchCriteria, setSearchCriteria] = useState("");
 
-  useEffect(() => {
-    const postsRef = collection(dbQuery, "posts");
-    const q = query(postsRef, where("title", "==", "Car"));
+  // useEffect(() => {
+  //   // const postsRef = collection(db, "posts");
+  //   // const q = query(postsRef, where("title", "==", "Car"));
 
-    // const querySnapshot = await getDocs(q);
-    // const posts = querySnapshot.docs.map((doc) => ({
-    //   id: doc.id,
-    //   ...doc.data(),
-    // }));
-    // setPosts(posts);
+  //   // const querySnapshot = await getDocs(q);
+  //   // const posts = querySnapshot.docs.map((doc) => ({
+  //   //   id: doc.id,
+  //   //   ...doc.data(),
+  //   // }));
+  //   // setPosts(posts);
 
-    // db.firestore()
-    //   .collection("posts")
-    postsRef.getDocs(q).onSnapshot((snap) => {
-      const posts = snap.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPosts(posts);
-      //const postsRef = db.database().ref("posts");
-      // postsRef
-      //   .orderByChild("title")
-      //   .equalTo({ searchCriteria })
-      //   .on("child_searched", function (snapshot) {
-      //     console.log(snapshot.Key);
-      //   });
-    });
-  }, []);
+  //   // db.firestore()
+  //   //   .collection("posts")
+  //   // postsRef.getDocs(q).onSnapshot((snap) => {
+  //   //   const posts = snap.docs.map((doc) => ({
+  //   //     id: doc.id,
+  //   //     ...doc.data(),
+  //    // }));
+
+  //     const postsRef = db.database().ref("posts");
+  //     postsRef
+  //       .orderByChild("title")
+  //       .equalTo({ searchCriteria })
+  //       .on("child_searched", function (snapshot) {
+  //         console.log(snapshot.Key);
+  //       });
+  //    setPosts(posts);
+  //   });
+  // }, []);
 
   useEffect(() => {
     const searchFilteredList = posts.filter((post) =>

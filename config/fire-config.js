@@ -1,5 +1,7 @@
-import firebase from "firebase";
-import "firebase/storage";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,13 +14,13 @@ const firebaseConfig = {
 };
 
 try {
-  console.log("FB", firebaseConfig);
-  firebase.initializeApp(firebaseConfig);
+  initializeApp(firebaseConfig);
 } catch (err) {
   if (!/already exists/.test(err.message)) {
     console.error("Firebase initialization error", err.stack);
   }
 }
-const db = firebase;
-const dbQuery = firebase.firestore;
-export { db, dbQuery };
+const db = getFirestore();
+const storage = getStorage();
+const auth = getAuth();
+export { db, storage, auth };
