@@ -6,6 +6,8 @@ import { auth } from "../../config/fire-config";
 import GoogleLogin from "react-google-button";
 import Router from "next/router";
 import style from "../../styles/Home.module.css";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const SignInPage = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -13,8 +15,8 @@ const SignInPage = () => {
   const [errorMessage, setErrorMessage] = useState("Error message");
 
   const login = () => {
-    auth
-      .signInWithEmailAndPassword(userEmail, userPassword)
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, userEmail, userPassword)
       .then(userCredential => {
         console.log(userCredential.user);
         setErrorMessage("");
@@ -36,9 +38,8 @@ const SignInPage = () => {
       });
   };
   const googleLogin = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth
-      .signInWithPopup(provider)
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(provider)
       .then(result => {
         var credential = result.credential;
         var token = credential.accessToken;
@@ -51,9 +52,8 @@ const SignInPage = () => {
       });
   };
   const facebookLogin = () => {
-    const provider = new firebase.auth.FacebookAuthProvider();
-    auth
-      .signInWithPopup(provider)
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(provider)
       .then(() => {
         setErrorMessage("");
       })

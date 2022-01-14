@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { auth } from "../../config/fire-config"
 import style from "../../styles/Home.module.css"
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 
 function SignUp() {
@@ -24,13 +25,14 @@ function SignUp() {
   }, [password1, password2])
 
   const signUp = async () => {
+    const auth = getAuth();
     if (password1 === password2) {
-      await auth.createUserWithEmailAndPassword( email, password1)
+      createUserWithEmailAndPassword(auth, email, password1)
       .then((userCredential)=>{
         console.log(userCredential)
       })
       .then(()=>{
-        auth.sendEmailVerification(auth.currentUser)
+        sendEmailVerification(auth, currentUser)
         setUpdateProfile(true)
       })
       .catch((error)=>{
