@@ -3,19 +3,12 @@ import SearchPosts from "./SearchPosts.js";
 import { FaUserCircle } from "react-icons/fa";
 import { SideNavBar } from "./sideNavBar";
 
-const NavBar = ({ postsData, previewSearchResults }) => {
-  const filteredSearchList = (results) => {
-    previewSearchResults(results);
-  };
-
+const NavBar = ({ setSearchCriteria }) => {
   return (
     <nav>
       <div className={style.TopNavBar}>
-        <img src="../Logo3.png" style={{ height: "100px", width: "auto" }} />
-        <SearchPosts
-          postsData={postsData}
-          filteredSearchList={filteredSearchList}
-        />
+        <img src="../New-Logo1.png" style={{ height: "80px", width: "auto" }} />
+        <SearchPosts setSearchCriteria={setSearchCriteria} />
         <button type="button" className={style.UserButton}>
           <FaUserCircle
             style={{

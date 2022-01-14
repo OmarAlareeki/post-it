@@ -20,4 +20,5 @@ try {
   }
 }
 const db = firebase;
-export { db };
+const dbQuery = firebase.firestore;
+export { db, dbQuery };
