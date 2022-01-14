@@ -12,6 +12,38 @@ import { SideNavBar } from "./NavBar/SideNavBar";
 const PostsListContainer = () => {
   const [displayPosts, setDisplayPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  //const [categoryResults, setCategoryResults] = useState([]);
+  const [searchCriteria, setSearchCriteria] = useState("");
+
+  // useEffect(() => {
+  //   // const postsRef = collection(db, "posts");
+  //   // const q = query(postsRef, where("title", "==", "Car"));
+
+  //   // const querySnapshot = await getDocs(q);
+  //   // const posts = querySnapshot.docs.map((doc) => ({
+  //   //   id: doc.id,
+  //   //   ...doc.data(),
+  //   // }));
+  //   // setPosts(posts);
+
+  //   // db.firestore()
+  //   //   .collection("posts")
+  //   // postsRef.getDocs(q).onSnapshot((snap) => {
+  //   //   const posts = snap.docs.map((doc) => ({
+  //   //     id: doc.id,
+  //   //     ...doc.data(),
+  //    // }));
+
+  //     const postsRef = db.database().ref("posts");
+  //     postsRef
+  //       .orderByChild("title")
+  //       .equalTo({ searchCriteria })
+  //       .on("child_searched", function (snapshot) {
+  //         console.log(snapshot.Key);
+  //       });
+  //    setPosts(posts);
+  //   });
+  // }, []);
 
   useEffect(() => {
     db.collection("posts").onSnapshot(snap => {

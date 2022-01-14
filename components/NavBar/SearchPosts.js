@@ -2,17 +2,15 @@ import { useState } from "react";
 import Style from "../../styles/NavBar.module.css";
 import { BsSearch } from "react-icons/bs";
 
-const SearchPosts = ({ postsData, filteredSearchList }) => {
+const SearchPosts = ({ setSearchCriteria }) => {
   const [searchedValue, setSearchedValue] = useState("");
 
   const handleSearch = () => {
-    const searchList = postsData.filter((post) =>
-      post.title.toLowerCase().includes(searchedValue)
-    );
-
-    filteredSearchList(searchList);
+    console.log("******" + searchedValue);
+    setSearchCriteria(searchedValue);
     setSearchedValue(" ");
   };
+
   console.log(searchedValue);
 
   return (
