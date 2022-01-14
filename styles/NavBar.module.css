@@ -1,14 +1,18 @@
-.NavBar {
+.nav {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   align-content: center;
+  padding: 15px;
+  width: 100%;
+  background: transparent;
+  z-index: 1;
 }
 .SearchContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   align-content: center;
   max-width: 90%;
 }
@@ -35,4 +39,21 @@
   display: flex;
   background-color: transparent;
   border: none;
+}
+
+.UserButton {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: bold;
+  padding: 0;
+}
+
+.SideBar {
+  list-style: none;
+  width: 300px;
+  margin:auto;
+  line-height: 2.5rem;
+  padding-right: 70px;
+  padding-left: 40px;
 }

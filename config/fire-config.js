@@ -1,5 +1,7 @@
-import firebase from "firebase";
-import "firebase/storage";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
 
 const firebaseConfig = {
@@ -13,13 +15,24 @@ const firebaseConfig = {
 };
 
 try {
+<<<<<<< HEAD
  firebase.initializeApp(firebaseConfig);
 } catch(err){
+=======
+  initializeApp(firebaseConfig);
+} catch (err) {
+>>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
   if (!/already exists/.test(err.message)) {
     console.error("Firebase initialization error", err.stack);
   }
 }
+<<<<<<< HEAD
 const db = firebase.firestore();
 const storage = firebase.storage();
 const auth = firebase.auth();
+=======
+const db = getFirestore();
+const storage = getStorage();
+const auth = getAuth();
+>>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
 export { db, storage, auth };

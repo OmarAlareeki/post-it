@@ -1,71 +1,127 @@
 import { useState, useEffect } from "react";
+<<<<<<< HEAD
 import { db, storage } from "../config/fire-config";
-import { Container, Card } from "react-bootstrap";
+import Router from "next/router";
+=======
+import { db, dbQuery } from "../config/fire-config";
+import Style from "../styles/Home.module.css";
+>>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "../components/NavBar/NavBar";
-import PostsList from "./PostsList";
+import AllPostsList from "./AllPostsList";
+import SearchPostsList from "./SearchPostsList";
+<<<<<<< HEAD
 import "firebase/storage";
+import style from "../styles/Home.module.css";
+import { SideNavBar } from "./NavBar/SideNavBar";
+=======
+import { collection, getDocs, query, where } from "firebase/firestore";
+>>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
 
 const PostsListContainer = () => {
   const [displayPosts, setDisplayPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  //const [categoryResults, setCategoryResults] = useState([]);
+  const [searchCriteria, setSearchCriteria] = useState("");
 
+  // useEffect(() => {
+  //   // const postsRef = collection(db, "posts");
+  //   // const q = query(postsRef, where("title", "==", "Car"));
+
+  //   // const querySnapshot = await getDocs(q);
+  //   // const posts = querySnapshot.docs.map((doc) => ({
+  //   //   id: doc.id,
+  //   //   ...doc.data(),
+  //   // }));
+  //   // setPosts(posts);
+
+  //   // db.firestore()
+  //   //   .collection("posts")
+  //   // postsRef.getDocs(q).onSnapshot((snap) => {
+  //   //   const posts = snap.docs.map((doc) => ({
+  //   //     id: doc.id,
+  //   //     ...doc.data(),
+  //    // }));
+
+  //     const postsRef = db.database().ref("posts");
+  //     postsRef
+  //       .orderByChild("title")
+  //       .equalTo({ searchCriteria })
+  //       .on("child_searched", function (snapshot) {
+  //         console.log(snapshot.Key);
+  //       });
+  //    setPosts(posts);
+  //   });
+  // }, []);
 
   useEffect(() => {
-    db.collection("posts")
-      .onSnapshot((snap) => {
-        const posts = snap.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
-        setDisplayPosts(posts);
-      })
-      console.log(displayPosts)
+<<<<<<< HEAD
+    db.collection("posts").onSnapshot(snap => {
+      const posts = snap.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setDisplayPosts(posts);
+    });
   }, []);
 
- 
-
-  //console.log("**** Images:*** " + posts[0].image);
-
-  const previewSearchResults = (items) => {
+  const previewSearchResults = items => {
     console.log("***********items: " + JSON.stringify(items));
     setSearchResults(items);
   };
 
   return (
-    <Container style={{ marginTop: "10px", marginLeft: "15px" }}>
-      <NavBar postsData={displayPosts} previewSearchResults={previewSearchResults} />
-      {/* <img src="https://firebasestorage.googleapis.com/v0/b/journeymanapp-17b05.appspot.com/o/images%2FTodoLogo.jpg?alt=media&token=1ee8d6bb-1920-4673-929e-aab0b9590909" /> */}
-      <div>
+    <main>
+      <NavBar
+        postsData={displayPosts}
+        previewSearchResults={previewSearchResults}
+      />
+=======
+    const searchFilteredList = posts.filter((post) =>
+      post.title.toLowerCase().includes(searchCriteria)
+    );
+    setSearchResults(searchFilteredList);
+    console.log("***** Search: " + searchResults);
+  }, [searchCriteria]);
+
+  return (
+    <main>
+      <NavBar setSearchCriteria={setSearchCriteria} />
+>>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
+
+      <div className={style.mainContainer}>
+        <div>
+          <SideNavBar />
+        </div>
+        <div>
+          <div className={style.PostsContainer}>
+            <div>
+              <span> Sort </span>
+              <span>Filter</span>
+              <button
+                onClick={() => {
+                  Router.push("/postItem");
+                }}
+              >
+                Add Post
+              </button>
+            </div>
+            {searchResults && searchResults.length <= 0
+              ? <AllPostsList posts={displayPosts} />
+              : <SearchPostsList searchResults={searchResults} />}
+          </div>
+        </div>
+<<<<<<< HEAD
+=======
+
         {searchResults && searchResults.length <= 0 ? (
-          <PostsList posts={displayPosts} />
+          <AllPostsList posts={posts} />
         ) : (
-          <>
-            {searchResults.map((searchResult) => (
-              <div key={searchResult.id}>
-                <Card style={{ width: "18rem" }}>
-                  <Card.Img
-                    variant="top"
-                    src="https://www.montblanc.com/variants/images/34480784411792216/A/w747.jpg"
-                    alt={searchResult.title}
-                  />
-                  <Card.Body>
-                    <Card.Title>{searchResult.title}</Card.Title>
-                    <Card.Text>$ {searchResult.price}</Card.Text>
-                    <Card.Text>
-                      {searchResult.postDate.toDate().toLocaleDateString() +
-                        " " +
-                        searchResult.postDate.toDate().toLocaleTimeString()}
-                    </Card.Text>
-                    <Card.Link href="www.google.com">Details</Card.Link>
-                  </Card.Body>
-                </Card>
-              </div>
-            ))}
-          </>
+          <SearchPostsList searchResults={searchResults} />
         )}
+>>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
       </div>
-    </Container>
+    </main>
   );
 };
 export default PostsListContainer;

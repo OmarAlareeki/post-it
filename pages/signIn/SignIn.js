@@ -5,6 +5,7 @@ import firebase from "firebase";
 import { auth } from "../../config/fire-config";
 import GoogleLogin from "react-google-button";
 import Router from "next/router";
+import style from "../../styles/Home.module.css";
 
 const SignInPage = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -36,7 +37,8 @@ const SignInPage = () => {
   };
   const googleLogin = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
+    auth
+      .signInWithPopup(provider)
       .then(result => {
         var credential = result.credential;
         var token = credential.accessToken;
@@ -50,7 +52,8 @@ const SignInPage = () => {
   };
   const facebookLogin = () => {
     const provider = new firebase.auth.FacebookAuthProvider();
-    auth.signInWithPopup(provider)
+    auth
+      .signInWithPopup(provider)
       .then(() => {
         setErrorMessage("");
       })
@@ -66,9 +69,10 @@ const SignInPage = () => {
   );
 
   return (
-    <div>
+    <div className={style.container}>
+ 
       <h1>Sign In</h1>
-     
+
       <Form
         validated={userEmail || userPassword ? true : false}
         className="px-3 mx-3"
@@ -158,20 +162,30 @@ const SignInPage = () => {
       </Form>
       <hr />
       <p className="m-auto text-center py-3"> Or Login with: </p>
-      <div>
-        <GoogleLogin
-          clientid="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-          buttontext="Login"
-          cookiepolicy={"single_host_origin"}
+      <div className="d-flex justify-content-center border-top-0">
+        <div>
+          <GoogleLogin
+            clientid="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+            buttontext="Login"
+            cookiepolicy={"single_host_origin"}
+           
+            onClick={() => {
+              googleLogin();
+              Router.push("/");
+            }}
+          />
+        </div>
+      
+        <button
+          className={style.facebookButton}
           onClick={() => {
-            googleLogin();
+            facebookLogin();
             Router.push("/");
           }}
-        />
-      </div> 
-     <button onClick={()=>{
-       facebookLogin()
-       Router.push("/")}}>Facebook Login</button>
+        >
+          <img src="../ZW4QC.png" className={style.facebookImage} />
+        </button>
+      </div>
     </div>
   );
 };

@@ -2,16 +2,15 @@ import { useState } from "react";
 import Style from "../../styles/NavBar.module.css";
 import { BsSearch } from "react-icons/bs";
 
-const SearchPosts = ({ postsData, filteredSearchList }) => {
+const SearchPosts = ({ setSearchCriteria }) => {
   const [searchedValue, setSearchedValue] = useState("");
 
   const handleSearch = () => {
-    const searchList = postsData.filter((post) => post.title == searchedValue);
-    console.log("*** SearchList: " + JSON.stringify(searchList));
-    filteredSearchList(searchList);
-    //searchList.map((item) => <BlockPostPreview key={item.id} item={item} />);
+    console.log("******" + searchedValue);
+    setSearchCriteria(searchedValue);
     setSearchedValue(" ");
   };
+
   console.log(searchedValue);
 
   return (
@@ -22,7 +21,7 @@ const SearchPosts = ({ postsData, filteredSearchList }) => {
         className={Style.SearchBar}
         aria-label="Search"
         onChange={({ target }) => {
-          setSearchedValue(target.value);
+          setSearchedValue(target.value.toLowerCase());
         }}
       />
       <button className={Style.SearchButton} onClick={handleSearch}>
