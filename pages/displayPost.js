@@ -3,6 +3,7 @@ import { doc, onSnapshot, collection, getDoc} from "firebase/firestore";
 import useSWR, {mutate} from 'swr';
 import Content from "../components/Content";
 import Map from "../components/Map";
+import PhotoGallery from "../components/PhotoGallery";
 import { db, storage } from "../config/fire-config";
 
 
@@ -75,24 +76,42 @@ onSnapshot (collection(db, 'postsNatalia'), (snapshot) => {
 
 export default function displayPost ({details}) {
 
-const [postToDisplay, setPosttoDisplay] = useState(['Nothing to render']);
+const [postToDisplay, setPosttoDisplay] = useState([]);
+
+console.log({postToDisplay});
  useEffect( ( () => {
  const docRef = doc(db, "postsNatalia", 'ETz2WkKrFl04CjezSxH8');
- onSnapshot(docRef, (doc) => {
+    return (onSnapshot(docRef, (doc) => {
      const post = {...doc.data(), id: doc.id};
      console.log({post});
      setPosttoDisplay(post);
+    }))}
+), []) 
 
- })}
- ), []) 
- const postArray = Object.values(postToDisplay);
- console.log(postArray);
+
+    //  useEffect( ( () => {
+    //     const docRef = doc(db, "postsNatalia", 'ETz2WkKrFl04CjezSxH8');
+    //        onSnapshot(docRef, (doc) => {
+    //         const post = {...doc.data(), id: doc.id};
+    //         console.log({post});
+    //         setPosttoDisplay(post);
+// })}
+// ), []) 
+
+// const postToDisplay1 = postToDisplay;
+// delete postToDisplay1.imageUrls;
+// delete postToDisplay1.images;
+// delete postToDisplay1.postDate;
+//  const postArray = Object.values(postToDisplay1);
+//  console.log(postArray);
+
+ 
     // const { data, error } = useSWR('/api/user', fetcher)
 
     // if (error) return <div>failed to load</div>
     // if (!data) return <div>loading...</div>
     // return <div>hello {data.name}!</div>
-
+    // console.log(postToDisplay.imageUrls);
 
 return (
     <div>
@@ -103,6 +122,7 @@ return (
         </ul>
         <Content />
         <Map />
+        <PhotoGallery photos={postToDisplay.imageUrls} />
     </div>
 )
 }
