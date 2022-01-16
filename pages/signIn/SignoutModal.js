@@ -1,12 +1,13 @@
 import React from 'react'
-import { getAuth, signOut } from "../../config/fire-config"
+import { signOut } from "firebase/auth"
+import { auth } from '../../config/fire-config'
 import { Modal, Button, } from 'react-bootstrap'
 
-function SignoutModal({ show, onHide, setLoggedIn}) {
 
-    const logout = () => {
-        const auth = getAuth();
-        signOut(auth)
+const SignoutModal=({ show, onHide, setLoggedIn})=> {
+
+    const logout = async () => {
+        await signOut(auth)
         setLoggedIn(false)
         onHide()
     }

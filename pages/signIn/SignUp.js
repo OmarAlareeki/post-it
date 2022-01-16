@@ -1,9 +1,9 @@
 import  Router  from 'next/router'
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Row, Col } from 'react-bootstrap'
-import { auth } from "../../config/fire-config"
 import style from "../../styles/Home.module.css"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../config/fire-config'
+import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
 
 
 function SignUp() {
@@ -13,7 +13,7 @@ function SignUp() {
   const [password1, setPassword1] = useState('')
   const [password2, setPassword2] = useState('')
   const [passwordAlert, setPasswordAlert] = useState(false)
-  const [ profileUpdate, setUpdateProfile] = useState(false)
+  
   
 
   useEffect(() => {
@@ -24,19 +24,18 @@ function SignUp() {
     }
   }, [password1, password2])
 
+
   const signUp = async () => {
-    const auth = getAuth();
-    if (password1 === password2) {
-      createUserWithEmailAndPassword(auth, email, password1)
-      .then((userCredential)=>{
-        console.log(userCredential)
-      })
-      .then(()=>{
-        sendEmailVerification(auth, currentUser)
-        setUpdateProfile(true)
-      })
+      if (password1 === password2) {
+        await createUserWithEmailAndPassword(auth, email, password1).then((userCredential) => {updateProfile(userCredential.user, {
+          displayName: `${firstName} ${lastName}`
+        })})
+        .then(()=>{
+          sendEmailVerification(auth.currentUser)
+        })
       .catch((error)=>{
-        alert("sorry, we couldn't complete your requrest due to: ", error.message)
+        console.log(error)
+        // alert("sorry, we couldn't complete your requrest due to: ", error.message)
       })
     }}
 
