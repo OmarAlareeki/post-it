@@ -1,5 +1,7 @@
-import firebase from "firebase";
-import "firebase/storage";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 
 const firebaseConfig = {
@@ -12,14 +14,9 @@ const firebaseConfig = {
   measurementId: "${config.measurementId}",
 };
 
-try {
- firebase.initializeApp(firebaseConfig);
-} catch(err){
-  if (!/already exists/.test(err.message)) {
-    console.error("Firebase initialization error", err.stack);
-  }
-}
-const db = firebase.firestore();
-const storage = firebase.storage();
-const auth = firebase.auth();
+const app = initializeApp(firebaseConfig, )
+const db = getFirestore(app);
+const storage = getStorage(app);
+const auth = getAuth(app)
+
 export { db, storage, auth };

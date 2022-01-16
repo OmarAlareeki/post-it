@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "../components/NavBar/NavBar";
 import AllPostsList from "./AllPostsList";
 import SearchPostsList from "./SearchPostsList";
-import "firebase/storage";
+import {collection, getDocs } from 'firebase/firestore'
 import style from "../styles/Home.module.css";
 import { SideNavBar } from "./NavBar/SideNavBar";
 
@@ -45,14 +45,14 @@ const PostsListContainer = () => {
   //   });
   // }, []);
 
-  useEffect(() => {
-    db.collection("posts").onSnapshot(snap => {
-      const posts = snap.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setDisplayPosts(posts);
+  useEffect(async () => {
+    const item = []
+    const querySnapshot =  await getDocs(collection(db, "posts"))
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+     item.push({...doc.data(), "id": doc.id});  
     });
+    setDisplayPosts(item);
   }, []);
 
   const previewSearchResults = items => {

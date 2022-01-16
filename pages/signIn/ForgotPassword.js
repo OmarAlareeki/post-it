@@ -1,9 +1,9 @@
-import { sendPasswordResetEmail } from 'firebase/auth'
 import Router  from 'next/router'
 import React, { useState } from 'react'
 import { Modal, Button, Form, } from 'react-bootstrap'
 import { auth } from "../../config/fire-config"
 import style from "../../styles/Home.module.css"
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 
 
 function ForgotPassword( ) {
@@ -12,9 +12,10 @@ function ForgotPassword( ) {
   (false)
   const [ failedEmailSent, setFailedEmailSent ] = useState(false)
   const [errMsg, setErrMsg] = useState('')
- 
+
+  const auth = getAuth();
   const sendPasswordEmail=()=>{
-  auth.sendPasswordResetEmail( email)
+  sendPasswordResetEmail( email)
     .then(() => {
       setSuccessEmailSent(true)
     })

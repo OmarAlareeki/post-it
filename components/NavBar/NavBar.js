@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth } from "../../config/fire-config";
+import { onAuthStateChanged } from "firebase/auth";
 
 const NavBar = ({ postsData }) => {
   const [currentUser, setCurrentUser] = useState("");
@@ -15,7 +16,7 @@ const NavBar = ({ postsData }) => {
   };
   useEffect(
     () => {
-      auth.onAuthStateChanged(function(user) {
+      onAuthStateChanged( auth, (user)=> {
         if (user) {
           setCurrentUser(user);
           setLoggedIn(true);
