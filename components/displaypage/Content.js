@@ -3,6 +3,6 @@ import React from "react";
 export default function Content () {
 
     return (
-    <>I am content componet</>    
+    <>I am Content componet</>    
     )
 }

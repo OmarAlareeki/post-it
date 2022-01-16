@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { doc, onSnapshot, collection, getDoc} from "firebase/firestore";
-import useSWR, {mutate} from 'swr';
-import Content from "../components/Content";
-import Map from "../components/Map";
-import PhotoGallery from "../components/PhotoGallery";
+import { doc, onSnapshot, collection, getDoc } from "firebase/firestore";
+import useSWR, { mutate } from 'swr';
+
+import DisplayPost from "../components/displaypage/DisplayPost.js";
+import DisplayPageLayout from "../components/displaypage/DisplayPageLayout";
 import { db, storage } from "../config/fire-config";
 
 
@@ -29,29 +29,29 @@ import 'firebase/compat/firestore';
 // )
 
 //get raw collection with a lot of extra data
-onSnapshot (collection(db, 'postsNatalia'), (snapshot) => (
+onSnapshot(collection(db, 'postsNatalia'), (snapshot) => (
     console.log(snapshot.docs)
 ));
 
 //get array of data from postsNatalia collection
-onSnapshot (collection(db, 'postsNatalia'), (snapshot) => (
+onSnapshot(collection(db, 'postsNatalia'), (snapshot) => (
     console.log(snapshot.docs.map(doc => doc.data()))
 ));
 
 //get array of id's of docs in postsNatalia collection
-onSnapshot (collection(db, 'postsNatalia'), (snapshot) => (
+onSnapshot(collection(db, 'postsNatalia'), (snapshot) => (
     console.log(snapshot.docs.map(doc => doc.id))
 ));
 
 //get array of documents, which will include ID
-onSnapshot (collection(db, 'postsNatalia'), (snapshot) => (
-    console.log(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+onSnapshot(collection(db, 'postsNatalia'), (snapshot) => (
+    console.log(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
 ));
 
 //get array of documents, which will include ID, but need to be passed outside function by useState
-onSnapshot (collection(db, 'postsNatalia'), (snapshot) => {
-    
-    const allPosts = [...snapshot.docs.map(doc => ({...doc.data(), id: doc.id}))]
+onSnapshot(collection(db, 'postsNatalia'), (snapshot) => {
+
+    const allPosts = [...snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))]
     return allPosts
 });
 
@@ -74,19 +74,19 @@ onSnapshot (collection(db, 'postsNatalia'), (snapshot) => {
 
 
 
-export default function displayPost ({details}) {
+export default function DisplayPage({ details }) {
 
-const [postToDisplay, setPosttoDisplay] = useState([]);
+    const [postToDisplay, setPosttoDisplay] = useState(null);
 
-console.log({postToDisplay});
- useEffect( ( () => {
- const docRef = doc(db, "postsNatalia", 'ETz2WkKrFl04CjezSxH8');
-    return (onSnapshot(docRef, (doc) => {
-     const post = {...doc.data(), id: doc.id};
-     console.log({post});
-     setPosttoDisplay(post);
-    }))}
-), []) 
+    console.log({ postToDisplay });
+    useEffect(() => {
+        const docRef = doc(db, "postsNatalia", 'ETz2WkKrFl04CjezSxH8');
+        return onSnapshot(docRef, (doc) => {
+            const post = { ...doc.data(), id: doc.id };
+            console.log({ post });
+            setPosttoDisplay(post);
+        })
+    }, [])
 
 
     //  useEffect( ( () => {
@@ -95,17 +95,17 @@ console.log({postToDisplay});
     //         const post = {...doc.data(), id: doc.id};
     //         console.log({post});
     //         setPosttoDisplay(post);
-// })}
-// ), []) 
+    // })}
+    // ), []) 
 
-// const postToDisplay1 = postToDisplay;
-// delete postToDisplay1.imageUrls;
-// delete postToDisplay1.images;
-// delete postToDisplay1.postDate;
-//  const postArray = Object.values(postToDisplay1);
-//  console.log(postArray);
+    // const postToDisplay1 = postToDisplay;
+    // delete postToDisplay1.imageUrls;
+    // delete postToDisplay1.images;
+    // delete postToDisplay1.postDate;
+    //  const postArray = Object.values(postToDisplay1);
+    //  console.log(postArray);
 
- 
+
     // const { data, error } = useSWR('/api/user', fetcher)
 
     // if (error) return <div>failed to load</div>
@@ -113,16 +113,16 @@ console.log({postToDisplay});
     // return <div>hello {data.name}!</div>
     // console.log(postToDisplay.imageUrls);
 
-return (
-    <div>
-        <h1>I am displayPost page</h1>
-        <ul> 
-            {/* {postArray.map((post,i) =>
-            <li key={i}>{post}</li>)} */}
-        </ul>
-        <Content />
-        <Map />
-        <PhotoGallery photos={postToDisplay.imageUrls} />
-    </div>
-)
+    return (
+        <DisplayPageLayout>
+
+            <h1>I am displayPost page</h1>
+            {!!postToDisplay ? (
+                <DisplayPost post={postToDisplay}/>
+            ) : "Loading..."}
+
+            {/* <PhotoGallery photos={postToDisplay.imageUrls || []} /> */}
+
+        </DisplayPageLayout>
+    )
 }
