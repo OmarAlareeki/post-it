@@ -6,6 +6,8 @@ import CurrencyInput from "react-currency-input-field";
 import * as _ from 'lodash'
 import Router from 'next/router'
 import style from '../styles/Home.module.css'
+import {doc, setDoc } from 'firebase/firestore'
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage'
 
 
 const PostItem = () => {
@@ -39,11 +41,9 @@ const PostItem = () => {
   const agreeToTerms = () =>
     setAgreedtoTermsAndConditions(!agreedToTermsAndConditions);
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    db
-      .collection(`posts`).doc(postId)
-      .set({
+    await setDoc(doc(db, 'posts', postId),{
         title: data.title,
         zip: data.zip,
         email: data.email,
@@ -103,7 +103,8 @@ const PostItem = () => {
       if(data.category){ 
       const image = e.target.files[0]
       setImageTitles([...imageTitles, image.name])
-      const uploadImages = storage.ref(`postImages/${image.name}`).put(image);
+      const imageRef = ref(storage, `postImages/${image.name}`);
+      const uploadImages =uploadBytesResumable(imageRef, image)
       uploadImages.on(
         "state_changed",
         snapshot => {
@@ -115,7 +116,7 @@ const PostItem = () => {
           console.log("Encounter ", error);
         },
         () => {
-          storage.ref('postImages').child(image.name).getDownloadURL().then(url => {
+          getDownloadURL(ref(storage, `postImages/${image.name}`)).then(url => {
             setDisplayUrl([...displayUrl, url]);
             setProgress('uploaded')
           });
@@ -345,7 +346,8 @@ const PostItem = () => {
             <Col md="2">
               <Button variant="warning" onClick={()=>{
                 imageTitles.map( name=>{
-                storage.ref(postId).child(name).delete()
+                deleteRef = ref(storage, name)
+                deleteObject(deleteRef)
                .then(()=>{
                   console.log('picture deleted')
                 }). catch((error)=>{
