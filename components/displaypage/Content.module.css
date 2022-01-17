@@ -1,0 +1,16 @@
+.contactBtn {
+    border-radius: 2;
+    width: 100px;
+    height: 60px;
+    background-color: orangered;
+    border: 2px solid orange;
+    font-weight: bold;
+    color: white;
+    transition-duration: 0.4s;
+    font-size: 16px;
+}
+
+.contactBtn:hover {
+    background-color: gray;
+    font-size: 20px;
+}
