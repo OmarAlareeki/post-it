@@ -1,14 +1,28 @@
 import { useState, useEffect } from "react";
-import { db } from "../config/fire-config";
+import { db, storage, auth } from "../config/fire-config";
 import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
 import AllPostsList from "./AllPostsList";
-
 import SideNavBar from "./NavBar/SideNavBar";
 import { collection, query, where, onSnapshot, doc } from "firebase/firestore";
-
 import style from "../styles/Home.module.css";
+import { SideNavBar } from "./NavBar/SideNavBar";
+import { onAuthStateChanged } from "firebase/auth";
+
+
+const PostsListContainer = () => {
+  const [displayPosts, setDisplayPosts] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchCriteria, setSearchCriteria] = useState("");
+  const [currUser, setCurrUser] = useState('')
+  onAuthStateChanged(auth, (user) => user?setCurrUser(user):setCurrUser(""));
+
+  //const [categoryResults, setCategoryResults] = useState([]);
+  // useEffect(() => {
+  //   // const postsRef = collection(db, "posts");
+  //   // const q = query(postsRef, where("title", "==", "Car"));
+
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState([]);
@@ -29,6 +43,7 @@ const PostsListContainer = () => {
         }));
 
         console.log("posts:" + JSON.stringify(postsArray));
+
 
         setPosts(postsArray);
       });
@@ -65,7 +80,17 @@ const PostsListContainer = () => {
   }, [queryCriteria]);
 
 
-  console.log("Category: ****" + JSON.stringify(queryCriteria));
+
+  const postNewItem = () => {
+    currUser?
+      Router.push("/postItem"):
+      Router.push("/signIn/SignIn")
+  }
+
+  const previewSearchResults = items => {
+    console.log("***********items: " + JSON.stringify(items));
+    setSearchResults(items);
+  };
 
   return (
     <main>
@@ -84,9 +109,7 @@ const PostsListContainer = () => {
                 <option>zipCode</option>
               </select>
               <button
-                onClick={() => {
-                  Router.push("/postItem");
-                }}
+                onClick={() => postNewItem()}
               >
                 Add Post
               </button>

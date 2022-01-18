@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-
-import { auth } from "../../config/fire-config"
-import { Button} from "react-bootstrap";
-
-import { Form } from "react-bootstrap";
+import { auth } from "../../config/fire-config";
+import { Button, Form } from "react-bootstrap";
 import GoogleLogin from "react-google-button";
 import Router from "next/router";
 import style from "../../styles/Home.module.css";
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider  } from "firebase/auth";
-
-
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  signInWithRedirect,
+  inMemoryPersistence
+} from "firebase/auth";
 
 const SignInPage = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -19,47 +21,56 @@ const SignInPage = () => {
   const login = async () => {
     try {
 
-      const user = await signInWithEmailAndPassword(auth, userEmail, userPassword);
-      console.log(user)
-      setErrorMessage('')
+      const user = await signInWithEmailAndPassword(
+        auth,
+        userEmail,
+        userPassword
+      );
+      console.log(user);
+      setErrorMessage("");
+
     } catch (error) {
-      const errMsg = error.message
-      if ((errMsg).includes('invalid-email')) {
-        setErrorMessage("Invalid Email, Please provide email in 'example@domin.com' format")
-      } else if ((errMsg).includes('user-not-found')) {
-        setErrorMessage("User does not exist. Please sign up.")
-      } else if ((errMsg).includes('wrong-password')) {
-        setErrorMessage("The password you proivded does not match our records. Please check your password or click on 'Forgot password'.")
+      const errMsg = error.message;
+      if (errMsg.includes("invalid-email")) {
+        setErrorMessage(
+          "Invalid Email, Please provide email in 'example@domin.com' format"
+        );
+      } else if (errMsg.includes("user-not-found")) {
+        setErrorMessage("User does not exist. Please sign up.");
+      } else if (errMsg.includes("wrong-password")) {
+        setErrorMessage(
+          "The password you proivded does not match our records. Please check your password or click on 'Forgot password'."
+        );
       }
     }
-  }
+  };
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-  .then((result) => {
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
+      .then(result => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
 
-    const user = result.user;
-    console.log(user)
-  }).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    alert("sorry, try again. ", errorMessage);
-    const email = error.email;
-    const credential = GoogleAuthProvider.credentialFromError(error);
-  });
-}
+        const user = result.user;
+        console.log(user);
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert("sorry, try again. ", errorMessage);
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+      });
+  };
   const facebookLogin = () => {
     const provider = new FacebookAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(result => {
         setErrorMessage("");
         const user = result.user;
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const accessToken = credential.accessToken;
-
-        console.log(user)
+        console.log(user);
       })
       .catch(error => {
         console.log(error);
@@ -152,8 +163,7 @@ const SignInPage = () => {
                 login();
                 setUserEmail("");
                 setUserPassword("");
-                Router.push('/')
-
+                Router.push("/");
               }
             }}
           >
@@ -180,7 +190,7 @@ const SignInPage = () => {
           className={style.facebookButton}
           onClick={() => {
             facebookLogin();
-            console.log('facebook')
+            console.log("facebook");
             Router.push("/");
           }}
         >
