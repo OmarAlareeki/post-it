@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+
 import { auth } from "../../config/fire-config"
 import { Button} from "react-bootstrap";
+
 import { Form } from "react-bootstrap";
 import GoogleLogin from "react-google-button";
 import Router from "next/router";
@@ -16,6 +18,7 @@ const SignInPage = () => {
 
   const login = async () => {
     try {
+
       const user = await signInWithEmailAndPassword(auth, userEmail, userPassword);
       console.log(user)
       setErrorMessage('')
@@ -55,22 +58,19 @@ const SignInPage = () => {
         const user = result.user;
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const accessToken = credential.accessToken;
+
         console.log(user)
       })
       .catch(error => {
         console.log(error);
       });
   };
-  useEffect(
-    () => {
-      setErrorMessage("");
-    },
-    [userEmail, userPassword]
-  );
+  useEffect(() => {
+    setErrorMessage("");
+  }, [userEmail, userPassword]);
 
   return (
     <div className={style.container}>
- 
       <h1>Sign In</h1>
 
       <Form
@@ -91,7 +91,8 @@ const SignInPage = () => {
                   className="w-100"
                   onClick={() => Router.push("/signIn/SignUp")}
                 >
-                  {" "}Sign up{" "}
+                  {" "}
+                  Sign up{" "}
                 </span>
               </small>
             </div>
@@ -99,7 +100,7 @@ const SignInPage = () => {
           <Form.Control
             type="email"
             placeholder="name@example.com"
-            onChange={e => {
+            onChange={(e) => {
               setUserEmail(e.target.value);
               setErrorMessage("");
             }}
@@ -114,7 +115,7 @@ const SignInPage = () => {
           <Form.Control
             type="password"
             placeholder="Password"
-            onChange={e => {
+            onChange={(e) => {
               setUserPassword(e.target.value);
               setErrorMessage("");
             }}
@@ -125,9 +126,7 @@ const SignInPage = () => {
             Passwords must be at least six letters long.
           </Form.Control.Feedback>
         </Form.Group>
-        <small>
-          {" "}{errorMessage}{" "}
-        </small>
+        <small> {errorMessage} </small>
 
         <small className="">
           <u
@@ -154,6 +153,7 @@ const SignInPage = () => {
                 setUserEmail("");
                 setUserPassword("");
                 Router.push('/')
+
               }
             }}
           >
@@ -169,14 +169,13 @@ const SignInPage = () => {
             clientid="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
             buttontext="Login"
             cookiepolicy={"single_host_origin"}
-           
             onClick={() => {
               googleLogin();
               Router.push("/");
             }}
           />
         </div>
-      
+
         <button
           className={style.facebookButton}
           onClick={() => {

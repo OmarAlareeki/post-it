@@ -11,28 +11,28 @@ import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebas
 
 
 const PostItem = () => {
- 
   const [freeItem, setFreeItem] = useState(false);
-  const [postId, setPostId] = useState('')
+  const [postId, setPostId] = useState("");
   const [data, setData] = useState({
     title: "",
     category: "",
     zip: "",
     email: "",
     price: "",
-    userId:"",
+    userId: "",
     imageUrls: "",
-    description: ""
+    description: "",
   });
   const [phoneNumber, setPhoneNumber] = useState(undefined);
-  const [imageTitles, setImageTitles] = useState([])
+  const [imageTitles, setImageTitles] = useState([]);
   const [displayUrl, setDisplayUrl] = useState([]);
   const [progress, setProgress] = useState("getUpload");
-  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] = useState(false);
+  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] =
+    useState(false);
   useEffect(() => {
-    setPostId(_.uniqueId(data.category))
+    setPostId(_.uniqueId(data.category));
   }, [data.category]);
-  
+
   const toggleFree = () => {
     setFreeItem(!freeItem);
     setData({ ...data, price: "free" });
@@ -40,6 +40,7 @@ const PostItem = () => {
 
   const agreeToTerms = () =>
     setAgreedtoTermsAndConditions(!agreedToTermsAndConditions);
+
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -63,16 +64,15 @@ const PostItem = () => {
           email: "",
           phone: "",
           price: "",
-          description: ""
+          description: "",
         });
-        setDisplayUrl([])
-        setImageTitles([])
-        setPhoneNumber(undefined)
-        setProgress('getUpload')
+        setDisplayUrl([]);
+        setImageTitles([]);
+        setPhoneNumber(undefined);
+        setProgress("getUpload");
         console.log("document written: ", postId);
-      
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error adding Document: ", error);
       });
   };
@@ -84,17 +84,21 @@ const PostItem = () => {
         return <div>uploading...</div>;
       case "uploaded":
         return (
-          <div> {
-          displayUrl.map(srcUrl => {
-              return ( 
-          <Image
-            key={srcUrl}
-            src={srcUrl}
-            alt={srcUrl}
-            height={100}
-            width={100}
-            className={style.postImage}
-          /> )})}</div>
+          <div>
+            {" "}
+            {displayUrl.map((srcUrl) => {
+              return (
+                <Image
+                  key={srcUrl}
+                  src={srcUrl}
+                  alt={srcUrl}
+                  height={100}
+                  width={100}
+                  className={style.postImage}
+                />
+              );
+            })}
+          </div>
         );
       case "failedUpload":
         return <div> Upload failed </div>;
@@ -107,34 +111,34 @@ const PostItem = () => {
       const uploadImages =uploadBytesResumable(imageRef, image)
       uploadImages.on(
         "state_changed",
-        snapshot => {
-          const process = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+        (snapshot) => {
+          const process =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("uploading", process);
-          setProgress('uploading')
+          setProgress("uploading");
         },
-        error => {
+        (error) => {
           console.log("Encounter ", error);
         },
         () => {
+
           getDownloadURL(ref(storage, `postImages/${image.name}`)).then(url => {
             setDisplayUrl([...displayUrl, url]);
             setProgress('uploaded')
           });
+
         }
       );
-      }
-      else{
-        alert('Please provide post details first. Thank you')
-      }
-    };
+    } else {
+      alert("Please provide post details first. Thank you");
+    }
+  };
   return (
     <div className="m-auto p-3 w-75 m">
       <h1 className="d-flex justify-content-center mt-4">Post an Item</h1>
       {/* Post item form and validation */}
-      <Form  onSubmit={handleSubmit}>
-        <Form.Group
-          className="my-2 align-item-center"
-        >
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="my-2 align-item-center">
           <Row>
             <Col md="2" className="d-flex align-items-center">
               <Form.Label className="mb-0">Title:</Form.Label>
@@ -146,7 +150,7 @@ const PostItem = () => {
                 type="text"
                 placeholder="Title or Item name"
                 min-length={4}
-                onChange={e => setData({ ...data, title: e.target.value })}
+                onChange={(e) => setData({ ...data, title: e.target.value })}
               />
             </Col>
           </Row>
@@ -161,7 +165,7 @@ const PostItem = () => {
               <Form.Select
                 aria-label="item-category"
                 required
-                onChange={e => setData({ ...data, category: e.target.value })}
+                onChange={(e) => setData({ ...data, category: e.target.value })}
                 value={data.category}
               >
                 <option>Select a category</option>
@@ -197,7 +201,7 @@ const PostItem = () => {
                 minLength={5}
                 maxLength={10}
                 required
-                onChange={e => setData({ ...data, zip: e.target.value })}
+                onChange={(e) => setData({ ...data, zip: e.target.value })}
               />
             </Col>
           </Row>
@@ -213,7 +217,7 @@ const PostItem = () => {
                 value={data.email}
                 type="email"
                 placeholder="example@domain.com"
-                onChange={e => setData({ ...data, email: e.target.value })}
+                onChange={(e) => setData({ ...data, email: e.target.value })}
                 required
               />
             </Col>
@@ -254,8 +258,9 @@ const PostItem = () => {
                 prefix="$ "
                 decimalsLimit={2}
                 disabled={freeItem ? true : false}
-                onChange={e =>
-                  setData({ ...data, price: e.target.value.split(" ")[1] })}
+                onChange={(e) =>
+                  setData({ ...data, price: e.target.value.split(" ")[1] })
+                }
                 className="form-control"
               />
             </Col>
@@ -281,8 +286,9 @@ const PostItem = () => {
                   placeholder="Description"
                   rows={4}
                   area-describedby="descriptionHelp"
-                  onChange={e =>
-                    setData({ ...data, description: e.target.value })}
+                  onChange={(e) =>
+                    setData({ ...data, description: e.target.value })
+                  }
                 />
                 <Form.Text id="descriptionHelp" muted>
                   Providing description is optional. However, items with detaild
@@ -304,8 +310,8 @@ const PostItem = () => {
                 multiple
                 required
                 name="image"
-                onChange={e => {
-                  handleImageUpload(e)
+                onChange={(e) => {
+                  handleImageUpload(e);
                 }}
                 //   isInvalid={}
                 area-describedby="fileDescription"
@@ -324,10 +330,7 @@ const PostItem = () => {
         <Form.Group />
         <Row>
           <Col md="2" />
-          <Col md="10">
-            {imageContent()}
-
-          </Col>
+          <Col md="10">{imageContent()}</Col>
         </Row>
         <Form.Group className="d-flex flex-column justify-content-">
           <Row>
@@ -344,6 +347,7 @@ const PostItem = () => {
           <Row>
             <Col md="8" />
             <Col md="2">
+
               <Button variant="warning" onClick={()=>{
                 imageTitles.map( name=>{
                 deleteRef = ref(storage, name)
@@ -356,6 +360,7 @@ const PostItem = () => {
               })
                 Router.push('/')
               }}>Cancel</Button>
+
             </Col>
             <Col md="2">
               <Button type="submit">POST IT</Button>
