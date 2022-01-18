@@ -3,7 +3,6 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
-
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -15,24 +14,13 @@ const firebaseConfig = {
 };
 
 try {
-<<<<<<< HEAD
- firebase.initializeApp(firebaseConfig);
-} catch(err){
-=======
-  initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 } catch (err) {
->>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
   if (!/already exists/.test(err.message)) {
     console.error("Firebase initialization error", err.stack);
   }
 }
-<<<<<<< HEAD
-const db = firebase.firestore();
-const storage = firebase.storage();
-const auth = firebase.auth();
-=======
 const db = getFirestore();
 const storage = getStorage();
 const auth = getAuth();
->>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
 export { db, storage, auth };
