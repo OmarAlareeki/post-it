@@ -4,8 +4,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
 
 const Cards = ({ props }) => {
-  console.log(props);
-
   return (
     <Container className={style.PostsDisplay}>
       {props.map((prop) => (
@@ -55,10 +53,11 @@ const Cards = ({ props }) => {
   );
 };
 
-export default Cards;
+
 {
   /* </Link>
  onClick={() => {
   Router.push("DisplayPostPage");
  }} */
 }
+export default Cards;

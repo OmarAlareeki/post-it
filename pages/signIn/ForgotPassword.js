@@ -1,19 +1,17 @@
 import Router from 'next/router'
 import React, { useState } from 'react'
 import { Modal, Button, Form, } from 'react-bootstrap'
-import { auth } from "../../config/fire-config"
+
 import style from "../../styles/Home.module.css"
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
+import { sendPasswordResetEmail } from 'firebase/auth'
 
 
 function ForgotPassword() {
   const [email, setEmail] = useState("")
-  const [successEmailSent, setSuccessEmailSent] = useState
-    (false)
+  const [successEmailSent, setSuccessEmailSent] = useState(false)
   const [failedEmailSent, setFailedEmailSent] = useState(false)
   const [errMsg, setErrMsg] = useState('')
 
-  const auth = getAuth();
   const sendPasswordEmail = () => {
     sendPasswordResetEmail(email)
       .then(() => {
@@ -39,7 +37,6 @@ function ForgotPassword() {
   }
 
   return (
-    <>
       <div className={style.container}>
         {successEmailSent ?
           <div className='d-flex flex-column' style={{ padding: '20px' }}>
@@ -79,7 +76,6 @@ function ForgotPassword() {
               </div>
             </div>)}
       </div>
-    </>
   );
 }
 

@@ -46,16 +46,13 @@ const SignInPage = () => {
   };
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
       .then(result => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-
-        const user = result.user;
-        console.log(user);
+        console.log('Signed in Using google')
       })
       .catch(error => {
-        const errorCode = error.code;
         const errorMessage = error.message;
         alert("sorry, try again. ", errorMessage);
         const email = error.email;
@@ -67,10 +64,9 @@ const SignInPage = () => {
     signInWithPopup(auth, provider)
       .then(result => {
         setErrorMessage("");
-        const user = result.user;
         const credential = FacebookAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
-        console.log(user);
+        const accessToken = credential.accessToken;;
+        console.log('Signed in Using Facebook')
       })
       .catch(error => {
         console.log(error);
@@ -85,7 +81,7 @@ const SignInPage = () => {
       <h1>Sign In</h1>
 
       <Form
-        validated={userEmail || userPassword ? true : false}
+        validated={userEmail && userPassword }
         className="px-3 mx-3"
         onSubmit={() => {
           login();

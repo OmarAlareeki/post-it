@@ -37,3 +37,5 @@ const SignoutModal = ({ show, onHide, setLoggedIn }) => {
     </Modal>
   );
 };
+
+export default SignoutModal;

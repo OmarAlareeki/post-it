@@ -7,7 +7,6 @@ import AllPostsList from "./AllPostsList";
 import SideNavBar from "./NavBar/SideNavBar";
 import { collection, query, where, onSnapshot, doc } from "firebase/firestore";
 import style from "../styles/Home.module.css";
-import { SideNavBar } from "./NavBar/SideNavBar";
 import { onAuthStateChanged } from "firebase/auth";
 
 
@@ -23,8 +22,6 @@ const PostsListContainer = () => {
   //   // const postsRef = collection(db, "posts");
   //   // const q = query(postsRef, where("title", "==", "Car"));
 
-
-const PostsListContainer = () => {
   const [posts, setPosts] = useState([]);
   const [queryCriteria, setQueryCriteria] = useState({});
 
@@ -41,10 +38,6 @@ const PostsListContainer = () => {
           id: doc.id,
           ...doc.data(),
         }));
-
-        console.log("posts:" + JSON.stringify(postsArray));
-
-
         setPosts(postsArray);
       });
     } else if (queryCriteria.searchCriteria) {

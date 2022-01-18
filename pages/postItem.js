@@ -3,13 +3,17 @@ import { db, storage, auth } from "../config/fire-config";
 import { Form, Button, Col, Row, Image } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input/input";
 import CurrencyInput from "react-currency-input-field";
-import * as _ from 'lodash'
-import Router from 'next/router'
-import style from '../styles/Home.module.css'
-import {doc, setDoc } from 'firebase/firestore'
-import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage'
+import * as _ from "lodash";
+import Router from "next/router";
+import style from "../styles/Home.module.css";
+import { doc, setDoc } from "firebase/firestore";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject
+} from "firebase/storage";
 import { onAuthStateChanged } from "firebase/auth";
-
 
 const PostItem = () => {
   const [freeItem, setFreeItem] = useState(false);
@@ -22,49 +26,55 @@ const PostItem = () => {
     price: "",
     userId: "",
     imageUrls: "",
-    description: "",
+    description: ""
   });
   const [phoneNumber, setPhoneNumber] = useState(undefined);
   const [imageTitles, setImageTitles] = useState([]);
   const [displayUrl, setDisplayUrl] = useState([]);
   const [progress, setProgress] = useState("getUpload");
-  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] = useState(false);
-  const [ currUser, setCurrUser ] = useState("")
-  
-  onAuthStateChanged(auth, (user)=> user?setCurrUser(user):setCurrUser(''))
+  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] = useState(
+    false
+  );
+  const [currUser, setCurrUser] = useState("");
 
-  useEffect(() => {
-    setPostId(_.uniqueId(data.category));
-  }, [data.category]);
+  onAuthStateChanged(
+    auth,
+    user => (user ? setCurrUser(user) : setCurrUser(""))
+  );
+
+  useEffect(
+    () => {
+      setPostId(_.uniqueId(data.category));
+    },
+    [data.category]
+  );
 
   const toggleFree = () => {
     setFreeItem(!freeItem);
     setData({ ...data, price: 0 });
   };
 
-
   const agreeToTerms = () =>
     setAgreedtoTermsAndConditions(!agreedToTermsAndConditions);
 
-
   const handleSubmit = async event => {
     event.preventDefault();
-    await setDoc(doc(db, 'posts', postId),{
-        title: data.title,
-        zip: data.zip,
-        email: data.email,
-        phone: phoneNumber,
-        category: data.category,
-        price: data.price,
-        description: data.description,
-        imageUrls: displayUrl,
-        postDate: new Date(), 
-        userId: currUser.uid,
-        userName: currUser.displayName,
-        userImage: currUser.photoURL
-      })
-      .then( doc => {
-        Router.push('/posted')
+    await setDoc(doc(db, "posts", postId), {
+      title: data.title,
+      zip: data.zip,
+      email: data.email,
+      phone: phoneNumber,
+      category: data.category,
+      price: data.price,
+      description: data.description,
+      imageUrls: displayUrl,
+      postDate: new Date(),
+      userId: currUser.uid,
+      userName: currUser.displayName,
+      userImage: currUser.photoURL
+    })
+      .then(doc => {
+        Router.push("/posted");
         setData({
           title: "",
           category: "",
@@ -72,16 +82,15 @@ const PostItem = () => {
           email: "",
           phone: "",
           price: "",
-          description: "",
+          description: ""
         });
         setDisplayUrl([]);
         setImageTitles([]);
         setPhoneNumber(undefined);
         setProgress("getUpload");
         console.log("document written: ", postId);
-
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Error adding Document: ", error);
       });
   };
@@ -94,8 +103,7 @@ const PostItem = () => {
       case "uploaded":
         return (
           <div>
-            {" "}
-            {displayUrl.map((srcUrl) => {
+            {" "}{displayUrl.map(srcUrl => {
               return (
                 <Image
                   key={srcUrl}
@@ -111,31 +119,29 @@ const PostItem = () => {
         );
       case "failedUpload":
         return <div> Upload failed </div>;
-    }}
-    const handleImageUpload = (e) => {
-      if(data.category){ 
-      const image = e.target.files[0]
-      setImageTitles([...imageTitles, image.name])
+    }
+  };
+  const handleImageUpload = e => {
+    if (data.category) {
+      const image = e.target.files[0];
+      setImageTitles([...imageTitles, image.name]);
       const imageRef = ref(storage, `postImages/${image.name}`);
-      const uploadImages =uploadBytesResumable(imageRef, image)
+      const uploadImages = uploadBytesResumable(imageRef, image);
       uploadImages.on(
         "state_changed",
-        (snapshot) => {
-          const process =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        snapshot => {
+          const process = snapshot.bytesTransferred / snapshot.totalBytes * 100;
           console.log("uploading", process);
           setProgress("uploading");
         },
-        (error) => {
+        error => {
           console.log("Encounter ", error);
         },
         () => {
-
           getDownloadURL(ref(storage, `postImages/${image.name}`)).then(url => {
             setDisplayUrl([...displayUrl, url]);
-            setProgress('uploaded')
+            setProgress("uploaded");
           });
-
         }
       );
     } else {
@@ -146,8 +152,20 @@ const PostItem = () => {
     <div className="m-auto p-3 w-75 m">
       <h1 className="d-flex justify-content-center mt-4">Post an Item</h1>
       {/* Post item form and validation */}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="my-2 align-item-center">
+      <Form
+        onSubmit={handleSubmit}
+        validated={
+          data.title &&
+          data.category &&
+          data.zip &&
+          data.email &&
+          data.phone &&
+          data.price &&
+          data.description &&
+          agreedToTermsAndConditions
+        }
+      >
+        <Form.Group className="my-2 align-item-center" controlId="formTitle">
           <Row>
             <Col md="2" className="d-flex align-items-center">
               <Form.Label className="mb-0">Title:</Form.Label>
@@ -157,10 +175,13 @@ const PostItem = () => {
                 value={data.title}
                 required
                 type="text"
-                placeholder="Title or Item name"
+                placeholder="Item Name"
                 min-length={4}
-                onChange={(e) => setData({ ...data, title: e.target.value })}
+                onChange={e => setData({ ...data, title: e.target.value })}
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide item name.
+              </Form.Control.Feedback>
             </Col>
           </Row>
         </Form.Group>
@@ -174,7 +195,7 @@ const PostItem = () => {
               <Form.Select
                 aria-label="item-category"
                 required
-                onChange={(e) => setData({ ...data, category: e.target.value })}
+                onChange={e => setData({ ...data, category: e.target.value })}
                 value={data.category}
               >
                 <option>Select a category</option>
@@ -193,7 +214,9 @@ const PostItem = () => {
             </Col>
           </Row>
         </Form.Group>
-
+        <Form.Control.Feedback type="invalid">
+          Please choose a catagory.
+        </Form.Control.Feedback>
         <Form.Group
           controlId="itemOwnerZipValidation"
           className="my-2 justify-content-center"
@@ -210,12 +233,14 @@ const PostItem = () => {
                 minLength={5}
                 maxLength={10}
                 required
-                onChange={(e) => setData({ ...data, zip: e.target.value })}
+                onChange={e => setData({ ...data, zip: e.target.value })}
               />
             </Col>
           </Row>
         </Form.Group>
-
+        <Form.Control.Feedback type="invalid">
+          Please provide a valid zip of your address.
+        </Form.Control.Feedback>
         <Form.Group controlId="itemOwnerEmailValidation" className="my-2">
           <Row>
             <Col md="2" className="d-flex align-items-center">
@@ -226,12 +251,15 @@ const PostItem = () => {
                 value={data.email}
                 type="email"
                 placeholder="example@domain.com"
-                onChange={(e) => setData({ ...data, email: e.target.value })}
+                onChange={e => setData({ ...data, email: e.target.value })}
                 required
               />
             </Col>
           </Row>
         </Form.Group>
+        <Form.Control.Feedback type="invalid">
+          Please provide a valid Email.
+        </Form.Control.Feedback>
 
         <Form.Group controlId="itemOwnerPhoneValidation" className="my-2">
           <Row>
@@ -253,7 +281,9 @@ const PostItem = () => {
             </Col>
           </Row>
         </Form.Group>
-
+        <Form.Control.Feedback type="invalid">
+          Please provide a valid Phone number.
+        </Form.Control.Feedback>
         <Form.Group controlId="itemPriceValidation" className="my-2">
           <Row>
             <Col md="2" className="d-flex align-items-center">
@@ -267,9 +297,8 @@ const PostItem = () => {
                 prefix="$ "
                 decimalsLimit={2}
                 disabled={freeItem ? true : false}
-                onChange={(e) =>
-                  setData({ ...data, price: e.target.value.split(" ")[1] })
-                }
+                onChange={e =>
+                  setData({ ...data, price: e.target.value.split(" ")[1] })}
                 className="form-control"
               />
             </Col>
@@ -295,9 +324,8 @@ const PostItem = () => {
                   placeholder="Description"
                   rows={4}
                   area-describedby="descriptionHelp"
-                  onChange={(e) =>
-                    setData({ ...data, description: e.target.value })
-                  }
+                  onChange={e =>
+                    setData({ ...data, description: e.target.value })}
                 />
                 <Form.Text id="descriptionHelp" muted>
                   Providing description is optional. However, items with detaild
@@ -319,7 +347,7 @@ const PostItem = () => {
                 multiple
                 required
                 name="image"
-                onChange={(e) => {
+                onChange={e => {
                   handleImageUpload(e);
                 }}
                 //   isInvalid={}
@@ -339,7 +367,9 @@ const PostItem = () => {
         <Form.Group />
         <Row>
           <Col md="2" />
-          <Col md="10">{imageContent()}</Col>
+          <Col md="10">
+            {imageContent()}
+          </Col>
         </Row>
         <Form.Group className="d-flex flex-column justify-content-">
           <Row>
@@ -356,20 +386,24 @@ const PostItem = () => {
           <Row>
             <Col md="8" />
             <Col md="2">
-
-              <Button variant="warning" onClick={()=>{
-                imageTitles.map( name=>{
-                deleteRef = ref(storage, name)
-                deleteObject(deleteRef)
-               .then(()=>{
-                  console.log('picture deleted')
-                }). catch((error)=>{
-                  console.error('error occurd: ', error)
-                })
-              })
-                Router.push('/')
-              }}>Cancel</Button>
-
+              <Button
+                variant="warning"
+                onClick={() => {
+                  imageTitles.map(name => {
+                    deleteRef = ref(storage, name);
+                    deleteObject(deleteRef)
+                      .then(() => {
+                        console.log("picture deleted");
+                      })
+                      .catch(error => {
+                        console.error("error occurd: ", error);
+                      });
+                  });
+                  Router.push("/");
+                }}
+              >
+                Cancel
+              </Button>
             </Col>
             <Col md="2">
               <Button type="submit">POST IT</Button>
