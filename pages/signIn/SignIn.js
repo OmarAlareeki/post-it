@@ -1,76 +1,84 @@
 import React, { useState, useEffect } from "react";
-import { Button, Image } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import firebase from "firebase";
 import { auth } from "../../config/fire-config";
+import { Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import GoogleLogin from "react-google-button";
 import Router from "next/router";
 import style from "../../styles/Home.module.css";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+} from "firebase/auth";
 
 const SignInPage = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("Error message");
 
-  const login = () => {
-    auth
-      .signInWithEmailAndPassword(userEmail, userPassword)
-      .then(userCredential => {
-        console.log(userCredential.user);
-        setErrorMessage("");
-        Router.push("/");
-      })
-      .catch(error => {
-        const errMsg = error.message;
-        if (errMsg.includes("invalid-email")) {
-          setErrorMessage(
-            "Invalid Email, Please provide email in 'example@domin.com' format"
-          );
-        } else if (errMsg.includes("user-not-found")) {
-          setErrorMessage("User does not exist. Please sign up.");
-        } else if (errMsg.includes("INVALID-PASSWORD")) {
-          setErrorMessage(
-            "The password you proivded does not match our records. Please check your password or click on 'Forgot password'."
-          );
-        }
-      });
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        userEmail,
+        userPassword
+      );
+      console.log(user);
+      setErrorMessage("");
+    } catch (error) {
+      const errMsg = error.message;
+      if (errMsg.includes("invalid-email")) {
+        setErrorMessage(
+          "Invalid Email, Please provide email in 'example@domin.com' format"
+        );
+      } else if (errMsg.includes("user-not-found")) {
+        setErrorMessage("User does not exist. Please sign up.");
+      } else if (errMsg.includes("wrong-password")) {
+        setErrorMessage(
+          "The password you proivded does not match our records. Please check your password or click on 'Forgot password'."
+        );
+      }
+    }
   };
   const googleLogin = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth
-      .signInWithPopup(provider)
-      .then(result => {
-        var credential = result.credential;
-        var token = credential.accessToken;
-        var user = result.user;
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+
+        const user = result.user;
         console.log(user);
-        setErrorMessage("");
       })
-      .catch(error => {
-        alert("sorry, try again. ", error.code);
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert("sorry, try again. ", errorMessage);
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
       });
   };
   const facebookLogin = () => {
-    const provider = new firebase.auth.FacebookAuthProvider();
-    auth
-      .signInWithPopup(provider)
-      .then(() => {
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
         setErrorMessage("");
+        const user = result.user;
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        console.log(user);
       })
-      .catch(error => {
-        console.log(error.code);
+      .catch((error) => {
+        console.log(error);
       });
   };
-  useEffect(
-    () => {
-      setErrorMessage("");
-    },
-    [userEmail, userPassword]
-  );
+  useEffect(() => {
+    setErrorMessage("");
+  }, [userEmail, userPassword]);
 
   return (
     <div className={style.container}>
- 
       <h1>Sign In</h1>
 
       <Form
@@ -91,7 +99,8 @@ const SignInPage = () => {
                   className="w-100"
                   onClick={() => Router.push("/signIn/SignUp")}
                 >
-                  {" "}Sign up{" "}
+                  {" "}
+                  Sign up{" "}
                 </span>
               </small>
             </div>
@@ -99,7 +108,7 @@ const SignInPage = () => {
           <Form.Control
             type="email"
             placeholder="name@example.com"
-            onChange={e => {
+            onChange={(e) => {
               setUserEmail(e.target.value);
               setErrorMessage("");
             }}
@@ -114,7 +123,7 @@ const SignInPage = () => {
           <Form.Control
             type="password"
             placeholder="Password"
-            onChange={e => {
+            onChange={(e) => {
               setUserPassword(e.target.value);
               setErrorMessage("");
             }}
@@ -125,9 +134,7 @@ const SignInPage = () => {
             Passwords must be at least six letters long.
           </Form.Control.Feedback>
         </Form.Group>
-        <small>
-          {" "}{errorMessage}{" "}
-        </small>
+        <small> {errorMessage} </small>
 
         <small className="">
           <u
@@ -153,6 +160,7 @@ const SignInPage = () => {
                 login();
                 setUserEmail("");
                 setUserPassword("");
+                Router.push("/");
               }
             }}
           >
@@ -168,18 +176,18 @@ const SignInPage = () => {
             clientid="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
             buttontext="Login"
             cookiepolicy={"single_host_origin"}
-           
             onClick={() => {
               googleLogin();
               Router.push("/");
             }}
           />
         </div>
-      
+
         <button
           className={style.facebookButton}
           onClick={() => {
             facebookLogin();
+            console.log("facebook");
             Router.push("/");
           }}
         >

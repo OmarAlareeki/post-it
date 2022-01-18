@@ -3,7 +3,7 @@
 }
 
 .PostsContainer {
-  padding:  0;
+  padding-top: 40px;
   width: calc(100vw - 400px);
 }
 
@@ -19,7 +19,7 @@
 .listOrders {
   text-align: center;
   list-style: inside;
-  color:blue
+  color: blue;
 }
 
 .postImage {
@@ -27,7 +27,7 @@
   width: 200px;
   height: auto;
 }
-.postImage:hover{
+.postImage:hover {
   cursor: pointer;
 }
 
@@ -37,9 +37,8 @@
   justify-content: center;
   align-items: center;
   margin-top: 100px;
-
 }
-.mainContainer{
+.mainContainer {
   display: flex;
   flex-direction: row;
 }
@@ -47,14 +46,21 @@
   width: 70vw;
   padding: 10px;
   padding-top: 60px;
-  margin: auto
+  margin: auto;
 }
-.facebookButton{
+.facebookButton {
   border: none;
   background-color: none;
   fill: none;
-
 }
-.facebookImage{
+.facebookImage {
   height: 50px;
+}
+
+.SortDiv {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: flex-end;
+  align-items: center;
 }
