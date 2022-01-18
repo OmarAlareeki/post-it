@@ -1,3 +1,4 @@
+
 import React from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/fire-config";
@@ -36,5 +37,3 @@ const SignoutModal = ({ show, onHide, setLoggedIn }) => {
     </Modal>
   );
 };
-
-export default SignoutModal;

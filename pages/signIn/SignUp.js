@@ -1,21 +1,22 @@
-import Router from "next/router";
-import React, { useState, useEffect } from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
-import style from "../../styles/Home.module.css";
-import { auth } from "../../config/fire-config";
-import {
-  createUserWithEmailAndPassword,
-  updateProfile,
-  sendEmailVerification,
-} from "firebase/auth";
+
+import  Router  from 'next/router'
+import React, { useState, useEffect } from 'react'
+import { Button, Form, Row, Col } from 'react-bootstrap'
+import style from "../../styles/Home.module.css"
+import { auth } from '../../config/fire-config'
+import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
+
 
 function SignUp() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [passwordAlert, setPasswordAlert] = useState(false);
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password1, setPassword1] = useState('')
+  const [password2, setPassword2] = useState('')
+  const [passwordAlert, setPasswordAlert] = useState(false)
+  
+  
+
 
   useEffect(() => {
     if (password1 !== password2) {
@@ -25,23 +26,23 @@ function SignUp() {
     }
   }, [password1, password2]);
 
+
   const signUp = async () => {
-    if (password1 === password2) {
-      await createUserWithEmailAndPassword(auth, email, password1)
-        .then((userCredential) => {
-          updateProfile(userCredential.user, {
-            displayName: `${firstName} ${lastName}`,
-          });
+
+      if (password1 === password2) {
+        await createUserWithEmailAndPassword(auth, email, password1).then((userCredential) => {updateProfile(userCredential.user, {
+          displayName: `${firstName} ${lastName}`
+        })})
+        .then(()=>{
+          sendEmailVerification(auth.currentUser)
         })
-        .then(() => {
-          sendEmailVerification(auth.currentUser);
-        })
-        .catch((error) => {
-          console.log(error);
-          // alert("sorry, we couldn't complete your requrest due to: ", error.message)
-        });
-    }
-  };
+      .catch((error)=>{
+        console.log(error)
+        // alert("sorry, we couldn't complete your requrest due to: ", error.message)
+      })
+    }}
+
+
 
   return (
     <>

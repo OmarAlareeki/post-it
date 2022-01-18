@@ -3,6 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -13,9 +14,11 @@ const firebaseConfig = {
   measurementId: "${config.measurementId}",
 };
 
-const app = initializeApp(firebaseConfig);
+
+const app = initializeApp(firebaseConfig, )
 const db = getFirestore(app);
 const storage = getStorage(app);
-const auth = getAuth(app);
+const auth = getAuth(app)
+
 
 export { db, storage, auth };

@@ -4,8 +4,10 @@ import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
 import AllPostsList from "./AllPostsList";
+
 import SideNavBar from "./NavBar/SideNavBar";
 import { collection, query, where, onSnapshot, doc } from "firebase/firestore";
+
 import style from "../styles/Home.module.css";
 
 const PostsListContainer = () => {
@@ -50,6 +52,7 @@ const PostsListContainer = () => {
         q = query(postsRef, where("price", "==", queryCriteria.price));
       }
 
+
       onSnapshot(q, (snap) => {
         const queryList = snap.docs.map((doc) => ({
           id: doc.id,
@@ -60,6 +63,7 @@ const PostsListContainer = () => {
       // setQueryCriteria({});
     }
   }, [queryCriteria]);
+
 
   console.log("Category: ****" + JSON.stringify(queryCriteria));
 

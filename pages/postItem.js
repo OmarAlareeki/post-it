@@ -3,16 +3,12 @@ import { db, storage } from "../config/fire-config";
 import { Form, Button, Col, Row, Image } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input/input";
 import CurrencyInput from "react-currency-input-field";
-import * as _ from "lodash";
-import Router from "next/router";
-import style from "../styles/Home.module.css";
-import { doc, setDoc } from "firebase/firestore";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
+import * as _ from 'lodash'
+import Router from 'next/router'
+import style from '../styles/Home.module.css'
+import {doc, setDoc } from 'firebase/firestore'
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage'
+
 
 const PostItem = () => {
   const [freeItem, setFreeItem] = useState(false);
@@ -45,21 +41,22 @@ const PostItem = () => {
   const agreeToTerms = () =>
     setAgreedtoTermsAndConditions(!agreedToTermsAndConditions);
 
-  const handleSubmit = async (event) => {
+
+  const handleSubmit = async event => {
     event.preventDefault();
-    await setDoc(doc(db, "posts", postId), {
-      title: data.title,
-      zip: data.zip,
-      email: data.email,
-      phone: phoneNumber,
-      category: data.category,
-      price: data.price,
-      description: data.description,
-      imageUrls: displayUrl,
-      postDate: new Date(),
-    })
-      .then((doc) => {
-        Router.push("/posted");
+    await setDoc(doc(db, 'posts', postId),{
+        title: data.title,
+        zip: data.zip,
+        email: data.email,
+        phone: phoneNumber,
+        category: data.category,
+        price: data.price,
+        description: data.description,
+        imageUrls: displayUrl,
+        postDate: new Date()
+      })
+      .then( doc => {
+        Router.push('/posted')
         setData({
           title: "",
           category: "",
@@ -105,14 +102,13 @@ const PostItem = () => {
         );
       case "failedUpload":
         return <div> Upload failed </div>;
-    }
-  };
-  const handleImageUpload = (e) => {
-    if (data.category) {
-      const image = e.target.files[0];
-      setImageTitles([...imageTitles, image.name]);
+    }}
+    const handleImageUpload = (e) => {
+      if(data.category){ 
+      const image = e.target.files[0]
+      setImageTitles([...imageTitles, image.name])
       const imageRef = ref(storage, `postImages/${image.name}`);
-      const uploadImages = uploadBytesResumable(imageRef, image);
+      const uploadImages =uploadBytesResumable(imageRef, image)
       uploadImages.on(
         "state_changed",
         (snapshot) => {
@@ -125,12 +121,12 @@ const PostItem = () => {
           console.log("Encounter ", error);
         },
         () => {
-          getDownloadURL(ref(storage, `postImages/${image.name}`)).then(
-            (url) => {
-              setDisplayUrl([...displayUrl, url]);
-              setProgress("uploaded");
-            }
-          );
+
+          getDownloadURL(ref(storage, `postImages/${image.name}`)).then(url => {
+            setDisplayUrl([...displayUrl, url]);
+            setProgress('uploaded')
+          });
+
         }
       );
     } else {
@@ -351,24 +347,20 @@ const PostItem = () => {
           <Row>
             <Col md="8" />
             <Col md="2">
-              <Button
-                variant="warning"
-                onClick={() => {
-                  imageTitles.map((name) => {
-                    deleteRef = ref(storage, name);
-                    deleteObject(deleteRef)
-                      .then(() => {
-                        console.log("picture deleted");
-                      })
-                      .catch((error) => {
-                        console.error("error occurd: ", error);
-                      });
-                  });
-                  Router.push("/");
-                }}
-              >
-                Cancel
-              </Button>
+
+              <Button variant="warning" onClick={()=>{
+                imageTitles.map( name=>{
+                deleteRef = ref(storage, name)
+                deleteObject(deleteRef)
+               .then(()=>{
+                  console.log('picture deleted')
+                }). catch((error)=>{
+                  console.error('error occurd: ', error)
+                })
+              })
+                Router.push('/')
+              }}>Cancel</Button>
+
             </Col>
             <Col md="2">
               <Button type="submit">POST IT</Button>
