@@ -1,15 +1,19 @@
-
-.TopNavBar {
+.Nav {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   align-content: center;
   padding: 15px;
-  position: fixed;
   width: 100%;
-  background-color: #fff;
+  background: transparent;
   z-index: 1;
 }
+
+.Logo {
+  height: 80px;
+  width: auto;
+}
+
 .SearchContainer {
   display: flex;
   flex-direction: row;
@@ -47,15 +51,27 @@
   display: flex;
   align-items: center;
   background-color: transparent;
-  border: none;
-
+  border: bold;
+  padding: 0;
 }
 
 .SideBar {
   list-style: none;
   width: 300px;
-  margin:auto;
-  line-height: 2.5rem;
+  margin-top: 120px;
+  line-height: 3rem;
   padding-right: 70px;
-  padding-left: 40px;
+  padding-left: 80px;
+  font-size: 18px;
+}
+
+.SideBar:hover {
+  cursor: pointer;
+}
+
+.CategoryList {
+  font-size: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: bold;
 }

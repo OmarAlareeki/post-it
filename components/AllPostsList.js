@@ -2,11 +2,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import Cards from "./Cards.js";
 
 const AllPostsList = ({ posts }) => {
-  return(
+  return (
     <>
-     <Cards props={posts} />
+      <Cards props={posts} />
     </>
-  )
+  );
 };
 
 export default AllPostsList;

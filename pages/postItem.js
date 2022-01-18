@@ -1,61 +1,80 @@
 import React, { useState, useEffect } from "react";
-import { db, storage } from "../config/fire-config";
+import { db, storage, auth } from "../config/fire-config";
 import { Form, Button, Col, Row, Image } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input/input";
 import CurrencyInput from "react-currency-input-field";
-import * as _ from 'lodash'
-import Router from 'next/router'
-import style from '../styles/Home.module.css'
-
+import * as _ from "lodash";
+import Router from "next/router";
+import style from "../styles/Home.module.css";
+import { doc, setDoc } from "firebase/firestore";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject
+} from "firebase/storage";
+import { onAuthStateChanged } from "firebase/auth";
 
 const PostItem = () => {
- 
   const [freeItem, setFreeItem] = useState(false);
-  const [postId, setPostId] = useState('')
+  const [postId, setPostId] = useState("");
   const [data, setData] = useState({
     title: "",
     category: "",
     zip: "",
     email: "",
     price: "",
-    userId:"",
+    userId: "",
     imageUrls: "",
     description: ""
   });
   const [phoneNumber, setPhoneNumber] = useState(undefined);
-  const [imageTitles, setImageTitles] = useState([])
+  const [imageTitles, setImageTitles] = useState([]);
   const [displayUrl, setDisplayUrl] = useState([]);
   const [progress, setProgress] = useState("getUpload");
-  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] = useState(false);
-  useEffect(() => {
-    setPostId(_.uniqueId(data.category))
-  }, [data.category]);
-  
+  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] = useState(
+    false
+  );
+  const [currUser, setCurrUser] = useState("");
+
+  onAuthStateChanged(
+    auth,
+    user => (user ? setCurrUser(user) : setCurrUser(""))
+  );
+
+  useEffect(
+    () => {
+      setPostId(_.uniqueId(data.category));
+    },
+    [data.category]
+  );
+
   const toggleFree = () => {
     setFreeItem(!freeItem);
-    setData({ ...data, price: "free" });
+    setData({ ...data, price: 0 });
   };
 
   const agreeToTerms = () =>
     setAgreedtoTermsAndConditions(!agreedToTermsAndConditions);
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    db
-      .collection(`posts`).doc(postId)
-      .set({
-        title: data.title,
-        zip: data.zip,
-        email: data.email,
-        phone: phoneNumber,
-        category: data.category,
-        price: data.price,
-        description: data.description,
-        imageUrls: displayUrl,
-        postDate: new Date()
-      })
-      .then( doc => {
-        Router.push('/posted')
+    await setDoc(doc(db, "posts", postId), {
+      title: data.title,
+      zip: data.zip,
+      email: data.email,
+      phone: phoneNumber,
+      category: data.category,
+      price: data.price,
+      description: data.description,
+      imageUrls: displayUrl,
+      postDate: new Date(),
+      userId: currUser.uid,
+      userName: currUser.displayName,
+      userImage: currUser.photoURL
+    })
+      .then(doc => {
+        Router.push("/posted");
         setData({
           title: "",
           category: "",
@@ -65,12 +84,11 @@ const PostItem = () => {
           price: "",
           description: ""
         });
-        setDisplayUrl([])
-        setImageTitles([])
-        setPhoneNumber(undefined)
-        setProgress('getUpload')
+        setDisplayUrl([]);
+        setImageTitles([]);
+        setPhoneNumber(undefined);
+        setProgress("getUpload");
         console.log("document written: ", postId);
-      
       })
       .catch(error => {
         console.error("Error adding Document: ", error);
@@ -84,56 +102,70 @@ const PostItem = () => {
         return <div>uploading...</div>;
       case "uploaded":
         return (
-          <div> {
-          displayUrl.map(srcUrl => {
-              return ( 
-          <Image
-            key={srcUrl}
-            src={srcUrl}
-            alt={srcUrl}
-            height={100}
-            width={100}
-            className={style.postImage}
-          /> )})}</div>
+          <div>
+            {" "}{displayUrl.map(srcUrl => {
+              return (
+                <Image
+                  key={srcUrl}
+                  src={srcUrl}
+                  alt={srcUrl}
+                  height={100}
+                  width={100}
+                  className={style.postImage}
+                />
+              );
+            })}
+          </div>
         );
       case "failedUpload":
         return <div> Upload failed </div>;
-    }}
-    const handleImageUpload = (e) => {
-      if(data.category){ 
-      const image = e.target.files[0]
-      setImageTitles([...imageTitles, image.name])
-      const uploadImages = storage.ref(`postImages/${image.name}`).put(image);
+    }
+  };
+  const handleImageUpload = e => {
+    if (data.category) {
+      const image = e.target.files[0];
+      setImageTitles([...imageTitles, image.name]);
+      const imageRef = ref(storage, `postImages/${image.name}`);
+      const uploadImages = uploadBytesResumable(imageRef, image);
       uploadImages.on(
         "state_changed",
         snapshot => {
-          const process = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+          const process = snapshot.bytesTransferred / snapshot.totalBytes * 100;
           console.log("uploading", process);
-          setProgress('uploading')
+          setProgress("uploading");
         },
         error => {
           console.log("Encounter ", error);
         },
         () => {
-          storage.ref('postImages').child(image.name).getDownloadURL().then(url => {
+          getDownloadURL(ref(storage, `postImages/${image.name}`)).then(url => {
             setDisplayUrl([...displayUrl, url]);
-            setProgress('uploaded')
+            setProgress("uploaded");
           });
         }
       );
-      }
-      else{
-        alert('Please provide post details first. Thank you')
-      }
-    };
+    } else {
+      alert("Please provide post details first. Thank you");
+    }
+  };
   return (
     <div className="m-auto p-3 w-75 m">
       <h1 className="d-flex justify-content-center mt-4">Post an Item</h1>
       {/* Post item form and validation */}
-      <Form  onSubmit={handleSubmit}>
-        <Form.Group
-          className="my-2 align-item-center"
-        >
+      <Form
+        onSubmit={handleSubmit}
+        validated={
+          data.title &&
+          data.category &&
+          data.zip &&
+          data.email &&
+          data.phone &&
+          data.price &&
+          data.description &&
+          agreedToTermsAndConditions
+        }
+      >
+        <Form.Group className="my-2 align-item-center" controlId="formTitle">
           <Row>
             <Col md="2" className="d-flex align-items-center">
               <Form.Label className="mb-0">Title:</Form.Label>
@@ -143,10 +175,13 @@ const PostItem = () => {
                 value={data.title}
                 required
                 type="text"
-                placeholder="Title or Item name"
+                placeholder="Item Name"
                 min-length={4}
                 onChange={e => setData({ ...data, title: e.target.value })}
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide item name.
+              </Form.Control.Feedback>
             </Col>
           </Row>
         </Form.Group>
@@ -179,7 +214,9 @@ const PostItem = () => {
             </Col>
           </Row>
         </Form.Group>
-
+        <Form.Control.Feedback type="invalid">
+          Please choose a catagory.
+        </Form.Control.Feedback>
         <Form.Group
           controlId="itemOwnerZipValidation"
           className="my-2 justify-content-center"
@@ -201,7 +238,9 @@ const PostItem = () => {
             </Col>
           </Row>
         </Form.Group>
-
+        <Form.Control.Feedback type="invalid">
+          Please provide a valid zip of your address.
+        </Form.Control.Feedback>
         <Form.Group controlId="itemOwnerEmailValidation" className="my-2">
           <Row>
             <Col md="2" className="d-flex align-items-center">
@@ -218,6 +257,9 @@ const PostItem = () => {
             </Col>
           </Row>
         </Form.Group>
+        <Form.Control.Feedback type="invalid">
+          Please provide a valid Email.
+        </Form.Control.Feedback>
 
         <Form.Group controlId="itemOwnerPhoneValidation" className="my-2">
           <Row>
@@ -239,7 +281,9 @@ const PostItem = () => {
             </Col>
           </Row>
         </Form.Group>
-
+        <Form.Control.Feedback type="invalid">
+          Please provide a valid Phone number.
+        </Form.Control.Feedback>
         <Form.Group controlId="itemPriceValidation" className="my-2">
           <Row>
             <Col md="2" className="d-flex align-items-center">
@@ -304,7 +348,7 @@ const PostItem = () => {
                 required
                 name="image"
                 onChange={e => {
-                  handleImageUpload(e)
+                  handleImageUpload(e);
                 }}
                 //   isInvalid={}
                 area-describedby="fileDescription"
@@ -325,7 +369,6 @@ const PostItem = () => {
           <Col md="2" />
           <Col md="10">
             {imageContent()}
-
           </Col>
         </Row>
         <Form.Group className="d-flex flex-column justify-content-">
@@ -343,17 +386,24 @@ const PostItem = () => {
           <Row>
             <Col md="8" />
             <Col md="2">
-              <Button variant="warning" onClick={()=>{
-                imageTitles.map( name=>{
-                storage.ref(postId).child(name).delete()
-               .then(()=>{
-                  console.log('picture deleted')
-                }). catch((error)=>{
-                  console.error('error occurd: ', error)
-                })
-              })
-                Router.push('/')
-              }}>Cancel</Button>
+              <Button
+                variant="warning"
+                onClick={() => {
+                  imageTitles.map(name => {
+                    deleteRef = ref(storage, name);
+                    deleteObject(deleteRef)
+                      .then(() => {
+                        console.log("picture deleted");
+                      })
+                      .catch(error => {
+                        console.error("error occurd: ", error);
+                      });
+                  });
+                  Router.push("/");
+                }}
+              >
+                Cancel
+              </Button>
             </Col>
             <Col md="2">
               <Button type="submit">POST IT</Button>

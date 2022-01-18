@@ -4,8 +4,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
 
 const Cards = ({ props }) => {
-  console.log(props);
-
   return (
     <Container className={style.PostsDisplay}>
       {props.map((prop) => (
@@ -27,6 +25,7 @@ const Cards = ({ props }) => {
               style={{
                 borderTopRightRadius: "28px",
                 borderTopLeftRadius: "28px",
+                height: "179px",
               }}
             />
             <Card.Body>
@@ -38,18 +37,27 @@ const Cards = ({ props }) => {
                   prop.postDate.toDate().toLocaleTimeString()}
               </Card.Text>
               <Card.Link
-                onClick={() => {
-                  Router.push("DisplayPostPage");
-                }}
+              // href="/DisplayPage/[id]"
+              // as={"/DisplayPage/" + prop.id}
               >
-                Details
+                <a>Details</a>
               </Card.Link>
             </Card.Body>
           </Card>
+          <button type="button" onClick={() => {}} style={{ display: "none" }}>
+            Delete
+          </button>
         </div>
       ))}
     </Container>
   );
 };
 
+
+{
+  /* </Link>
+ onClick={() => {
+  Router.push("DisplayPostPage");
+ }} */
+}
 export default Cards;

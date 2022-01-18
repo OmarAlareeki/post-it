@@ -1,38 +1,56 @@
 import style from "../../styles/NavBar.module.css";
+import { useState } from "react";
 
-export const SideNavBar = () => {
-  const listings = ["All Posts", "Saved Posts", "My Posts", "Free"];
-  const categories = [
-    "Appliance",
-    "Baby and Kids",
-    "Clothing",
-    "Electronics",
-    "Garden",
-    "Home Decore",
-    "Tools",
-    "Toys and Games",
-    "Vehicles",
-    "Others",
-  ];
+const SideNavBar = ({ setQueryCriteria }) => {
+  // let collectionName = "";
+  // let queryCriteriaName = {};
+
+  const categories = new Map([
+    ["Appliance", "appliance"],
+    ["Baby and Kids", "babyAndKids"],
+    ["Clothing", "clothing"],
+    ["Electronics", "electronics"],
+    ["Furniture", "furniture"],
+    ["Garden", "garden"],
+    ["Home Decor", "homeDecor"],
+    ["Tools", "tools"],
+    ["Toys and Games", "toysAndGames"],
+    ["Vehicles", "vehicles"],
+    ["Others", "others"],
+  ]);
+
+  const handleClick = (newQueryCriteria) => {
+    //queryCriteriaName = newQueryCriteria;
+    return () => {
+      setQueryCriteria(newQueryCriteria);
+      console.log("ListName:  " + newQueryCriteria);
+      //queryCriteriaName = {};
+    };
+  };
+
   return (
     <div>
       <ul className={style.SideBar}>
-        <li value="All Posts"> All Posts </li>
-        <li value="Saved Posts"> Saved Posts</li>
-        <li value="My Posts"> My Posts </li>
-        <li value="Free"> Free </li>
-        <li style={{ fontSize: "20px", paddingTop:"10px", paddingBottom: "10px", fontWeight: "bold" }}>
+        <li onClick={handleClick({})}>All Posts</li>
 
-        {listings.map((list, i) => (
-          <li key={i}> {list} </li>
-        ))}
+        <li>Saved Posts</li>
+        <li>My Posts</li>
 
-          Categories:
-        </li>
-        {categories.map((category, i) => (
-          <li key={i}> {category} </li>
+        <li onClick={handleClick({ price: "free" })}>Free</li>
+
+        <li className={style.CategoryList}>Categories:</li>
+
+        {[...categories.keys()].map((categoryName, i) => (
+          <li
+            key={i}
+            onClick={handleClick({ category: categories.get(categoryName) })}
+          >
+            {categoryName}
+          </li>
         ))}
       </ul>
     </div>
   );
 };
+
+export default SideNavBar;
