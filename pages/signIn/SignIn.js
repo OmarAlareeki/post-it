@@ -20,6 +20,7 @@ const SignInPage = () => {
 
   const login = async () => {
     try {
+
       const user = await signInWithEmailAndPassword(
         auth,
         userEmail,
@@ -27,6 +28,7 @@ const SignInPage = () => {
       );
       console.log(user);
       setErrorMessage("");
+
     } catch (error) {
       const errMsg = error.message;
       if (errMsg.includes("invalid-email")) {
@@ -74,12 +76,9 @@ const SignInPage = () => {
         console.log(error);
       });
   };
-  useEffect(
-    () => {
-      setErrorMessage("");
-    },
-    [userEmail, userPassword]
-  );
+  useEffect(() => {
+    setErrorMessage("");
+  }, [userEmail, userPassword]);
 
   return (
     <div className={style.container}>
@@ -103,7 +102,8 @@ const SignInPage = () => {
                   className="w-100"
                   onClick={() => Router.push("/signIn/SignUp")}
                 >
-                  {" "}Sign up{" "}
+                  {" "}
+                  Sign up{" "}
                 </span>
               </small>
             </div>
@@ -111,7 +111,7 @@ const SignInPage = () => {
           <Form.Control
             type="email"
             placeholder="name@example.com"
-            onChange={e => {
+            onChange={(e) => {
               setUserEmail(e.target.value);
               setErrorMessage("");
             }}
@@ -126,7 +126,7 @@ const SignInPage = () => {
           <Form.Control
             type="password"
             placeholder="Password"
-            onChange={e => {
+            onChange={(e) => {
               setUserPassword(e.target.value);
               setErrorMessage("");
             }}
@@ -137,9 +137,7 @@ const SignInPage = () => {
             Passwords must be at least six letters long.
           </Form.Control.Feedback>
         </Form.Group>
-        <small>
-          {" "}{errorMessage}{" "}
-        </small>
+        <small> {errorMessage} </small>
 
         <small className="">
           <u

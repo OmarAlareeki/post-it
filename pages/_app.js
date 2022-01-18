@@ -1,20 +1,21 @@
-import '../styles/globals.css'
-import Head from 'next/head'
-
-
+import "../styles/globals.css";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
-  console.log()
+  console.log();
   return (
     <>
       <Head>
         <title>Post It </title>
-        <meta name='description' content='This app helps to keep track of orders' />
+        <meta
+          name="description"
+          content="This app helps to keep track of orders"
+        />
         <link rel="icon" href="/post_it.png" />
       </Head>
-      <Component {...pageProps} />  
+      <Component {...pageProps} />
     </>
-  )
+  );
 }
 
 export default MyApp;
