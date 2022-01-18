@@ -5,6 +5,7 @@
 .PostsContainer {
   padding:  0;
   width: calc(100vw - 400px);
+
 }
 
 .PostsDisplay {
@@ -58,3 +59,4 @@
 .facebookImage{
   height: 50px;
 }
+

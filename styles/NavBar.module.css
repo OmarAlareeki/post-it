@@ -1,11 +1,13 @@
-.nav {
+
+.TopNavBar {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   align-content: center;
   padding: 15px;
+  position: fixed;
   width: 100%;
-  background: transparent;
+  background-color: #fff;
   z-index: 1;
 }
 .SearchContainer {
@@ -45,8 +47,8 @@
   display: flex;
   align-items: center;
   background-color: transparent;
-  border: bold;
-  padding: 0;
+  border: none;
+
 }
 
 .SideBar {

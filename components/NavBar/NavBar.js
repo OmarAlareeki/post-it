@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth } from "../../config/fire-config";
+import SideNavBar  from "./sideNavBar";
 
-<<<<<<< HEAD
 const NavBar = ({ postsData }) => {
   const [currentUser, setCurrentUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
@@ -31,34 +31,10 @@ const NavBar = ({ postsData }) => {
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
 
   return (
-    <nav className={style.nav}>
-      <div>
-        <img src="../Logo3.png" style={{ height: "100px", width: "auto" }} />
-      </div>
-      <div>
-        <SearchPosts
-          postsData={postsData}
-          filteredSearchList={filteredSearchList}
-        />
-=======
-const NavBar = ({ setSearchCriteria }) => {
-  return (
     <nav>
       <div className={style.TopNavBar}>
         <img src="../New-Logo1.png" style={{ height: "80px", width: "auto" }} />
         <SearchPosts setSearchCriteria={setSearchCriteria} />
-        <button type="button" className={style.UserButton}>
-          <FaUserCircle
-            style={{
-              width: "auto",
-              height: "60px",
-              margin: "10px",
-              padding: "10px",
-              fill: "#ef9d06",
-            }}
-          />
-        </button>
->>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
       </div>
       <div className="d-flex justify-content-center align-items-center">
         <p className="mb-0 mx-2">
@@ -93,6 +69,10 @@ const NavBar = ({ setSearchCriteria }) => {
         onHide={toggleSignOutModal}
         setLoggedIn={setLoggedIn}
       />
+
+      </div>
+      <SideNavBar />
+
     </nav>
   );
 };

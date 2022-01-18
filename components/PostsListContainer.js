@@ -1,22 +1,13 @@
 import { useState, useEffect } from "react";
-<<<<<<< HEAD
 import { db, storage } from "../config/fire-config";
 import Router from "next/router";
-=======
-import { db, dbQuery } from "../config/fire-config";
 import Style from "../styles/Home.module.css";
->>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "../components/NavBar/NavBar";
 import AllPostsList from "./AllPostsList";
 import SearchPostsList from "./SearchPostsList";
-<<<<<<< HEAD
-import "firebase/storage";
-import style from "../styles/Home.module.css";
-import { SideNavBar } from "./NavBar/SideNavBar";
-=======
+import SideNavBar from "./NavBar/SideNavBar";
 import { collection, getDocs, query, where } from "firebase/firestore";
->>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
 
 const PostsListContainer = () => {
   const [displayPosts, setDisplayPosts] = useState([]);
@@ -34,6 +25,7 @@ const PostsListContainer = () => {
   //   //   ...doc.data(),
   //   // }));
   //   // setPosts(posts);
+
 
   //   // db.firestore()
   //   //   .collection("posts")
@@ -55,7 +47,6 @@ const PostsListContainer = () => {
   // }, []);
 
   useEffect(() => {
-<<<<<<< HEAD
     db.collection("posts").onSnapshot(snap => {
       const posts = snap.docs.map(doc => ({
         id: doc.id,
@@ -70,13 +61,6 @@ const PostsListContainer = () => {
     setSearchResults(items);
   };
 
-  return (
-    <main>
-      <NavBar
-        postsData={displayPosts}
-        previewSearchResults={previewSearchResults}
-      />
-=======
     const searchFilteredList = posts.filter((post) =>
       post.title.toLowerCase().includes(searchCriteria)
     );
@@ -87,8 +71,6 @@ const PostsListContainer = () => {
   return (
     <main>
       <NavBar setSearchCriteria={setSearchCriteria} />
->>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
-
       <div className={style.mainContainer}>
         <div>
           <SideNavBar />
@@ -110,16 +92,6 @@ const PostsListContainer = () => {
               ? <AllPostsList posts={displayPosts} />
               : <SearchPostsList searchResults={searchResults} />}
           </div>
-        </div>
-<<<<<<< HEAD
-=======
-
-        {searchResults && searchResults.length <= 0 ? (
-          <AllPostsList posts={posts} />
-        ) : (
-          <SearchPostsList searchResults={searchResults} />
-        )}
->>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
       </div>
     </main>
   );

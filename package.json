@@ -8,18 +8,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
+
     "@chakra-ui/core": "^0.8.0",
     "bootstrap": "^5.1.3",
     "css-loader": "^6.5.1",
     "firebase": "^8.10.0",
     "https": "^1.0.0",
     "install": "^0.13.0",
-=======
     "9": "^0.0.1",
-    "bootstrap": "^5.1.3",
     "firebase": "^9.6.3",
->>>>>>> f59c940aac843bdd09bd1f2e5ca8861bfc67b2ad
+
     "moment": "^2.29.1",
     "next": "12.0.7",
     "nookies": "^2.5.2",
