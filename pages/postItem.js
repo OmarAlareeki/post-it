@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db, storage } from "../config/fire-config";
+import { db, storage, auth } from "../config/fire-config";
 import { Form, Button, Col, Row, Image } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input/input";
 import CurrencyInput from "react-currency-input-field";
@@ -8,6 +8,7 @@ import Router from 'next/router'
 import style from '../styles/Home.module.css'
 import {doc, setDoc } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage'
+import { onAuthStateChanged } from "firebase/auth";
 
 
 const PostItem = () => {
@@ -29,14 +30,19 @@ const PostItem = () => {
   const [displayUrl, setDisplayUrl] = useState([]);
   const [progress, setProgress] = useState("getUpload");
   const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] = useState(false);
+  const [ currUser, setCurrUser ] = useState("")
+  
+  onAuthStateChanged(auth, (user)=> user?setCurrUser(user):setCurrUser(''))
+
   useEffect(() => {
     setPostId(_.uniqueId(data.category))
   }, [data.category]);
   
   const toggleFree = () => {
     setFreeItem(!freeItem);
-    setData({ ...data, price: "free" });
+    setData({ ...data, price: 0 });
   };
+
 
   const agreeToTerms = () =>
     setAgreedtoTermsAndConditions(!agreedToTermsAndConditions);
@@ -52,7 +58,10 @@ const PostItem = () => {
         price: data.price,
         description: data.description,
         imageUrls: displayUrl,
-        postDate: new Date()
+        postDate: new Date(), 
+        userId: currUser.uid,
+        userName: currUser.displayName,
+        userImage: currUser.photoURL
       })
       .then( doc => {
         Router.push('/posted')
@@ -70,6 +79,7 @@ const PostItem = () => {
         setPhoneNumber(undefined)
         setProgress('getUpload')
         console.log("document written: ", postId);
+
       
       })
       .catch(error => {

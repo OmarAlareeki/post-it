@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { db, storage } from "../config/fire-config";
+import { db, storage, auth } from "../config/fire-config";
 import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "../components/NavBar/NavBar";
@@ -8,13 +8,18 @@ import SearchPostsList from "./SearchPostsList";
 import {collection, getDocs } from 'firebase/firestore'
 import style from "../styles/Home.module.css";
 import { SideNavBar } from "./NavBar/SideNavBar";
+import { onAuthStateChanged } from "firebase/auth";
 
 const PostsListContainer = () => {
   const [displayPosts, setDisplayPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  //const [categoryResults, setCategoryResults] = useState([]);
   const [searchCriteria, setSearchCriteria] = useState("");
+  const [currUser, setCurrUser] = useState('')
 
+
+  onAuthStateChanged(auth, (user) => user?setCurrUser(user):setCurrUser(""));
+
+  //const [categoryResults, setCategoryResults] = useState([]);
   // useEffect(() => {
   //   // const postsRef = collection(db, "posts");
   //   // const q = query(postsRef, where("title", "==", "Car"));
@@ -55,6 +60,12 @@ const PostsListContainer = () => {
     setDisplayPosts(item);
   }, []);
 
+  const postNewItem = () => {
+    currUser?
+      Router.push("/postItem"):
+      Router.push("/signIn/SignIn")
+  }
+
   const previewSearchResults = items => {
     console.log("***********items: " + JSON.stringify(items));
     setSearchResults(items);
@@ -77,9 +88,7 @@ const PostsListContainer = () => {
               <span> Sort </span>
               <span>Filter</span>
               <button
-                onClick={() => {
-                  Router.push("/postItem");
-                }}
+                onClick={() => postNewItem()}
               >
                 Add Post
               </button>
