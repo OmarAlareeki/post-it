@@ -1,0 +1,27 @@
+.mainField {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 2fr, 1fr;
+    grid-gap:10px;
+    grid-template-areas:
+        "photoGallery content"
+        "map content"
+}
+
+.photoGallery {
+    grid-area: photoGallery;
+
+}
+
+.content {
+    grid-area: content
+}
+
+.map {
+    grid-area: map
+}
+
+
+@media (max-width:769px) {
+    
+}
