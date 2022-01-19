@@ -15,9 +15,7 @@ function SignUp() {
   const [password1, setPassword1] = useState('')
   const [password2, setPassword2] = useState('')
   const [passwordAlert, setPasswordAlert] = useState(false)
-  
-  
-
+  const [zipCode, setZipCode] = useState('')
 
   useEffect(() => {
     if (password1 !== password2) {
@@ -33,8 +31,10 @@ function SignUp() {
       if (password1 === password2) {
         await createUserWithEmailAndPassword(auth, email, password1).then((userCredential) => {
           setDoc(doc(db, "users", userCredential.user.uid), {
-            photoUrl: "",
-            zipcode: ""
+            firstName: setFirstName,
+            lastName: setLastName,
+            email: setEmail,
+            zipCode: setZipCode
           })
           updateProfile(userCredential.user, {
           displayName: `${firstName} ${lastName}`
