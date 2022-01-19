@@ -11,19 +11,12 @@ import { onAuthStateChanged } from "firebase/auth";
 
 
 const PostsListContainer = () => {
-  const [displayPosts, setDisplayPosts] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchCriteria, setSearchCriteria] = useState("");
-  const [currUser, setCurrUser] = useState('')
-  onAuthStateChanged(auth, (user) => user?setCurrUser(user):setCurrUser(""));
-
-  //const [categoryResults, setCategoryResults] = useState([]);
-  // useEffect(() => {
-  //   // const postsRef = collection(db, "posts");
-  //   // const q = query(postsRef, where("title", "==", "Car"));
-
   const [posts, setPosts] = useState([]);
   const [queryCriteria, setQueryCriteria] = useState({});
+  const [currUser, setCurrUser] = useState('')
+  
+  
+  onAuthStateChanged(auth, (user) => user?setCurrUser(user):setCurrUser(""));
 
   useEffect(() => {
     const postsRef = collection(db, "posts");
@@ -31,7 +24,6 @@ const PostsListContainer = () => {
     if (
       !queryCriteria ||
       Object.values(queryCriteria).every((value) => value === undefined)
-      //((value) => value == undefined)
     ) {
       onSnapshot(postsRef, (snap) => {
         const postsArray = snap.docs.map((doc) => ({
