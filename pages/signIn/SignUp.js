@@ -3,7 +3,8 @@ import  Router  from 'next/router'
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import style from "../../styles/Home.module.css"
-import { auth } from '../../config/fire-config'
+import { auth , db } from '../../config/fire-config'
+import { doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
 
 
@@ -30,7 +31,12 @@ function SignUp() {
   const signUp = async () => {
 
       if (password1 === password2) {
-        await createUserWithEmailAndPassword(auth, email, password1).then((userCredential) => {updateProfile(userCredential.user, {
+        await createUserWithEmailAndPassword(auth, email, password1).then((userCredential) => {
+          setDoc(doc(db, "users", userCredential.user.uid), {
+            photoUrl: "",
+            zipcode: ""
+          })
+          updateProfile(userCredential.user, {
           displayName: `${firstName} ${lastName}`
         })})
         .then(()=>{
