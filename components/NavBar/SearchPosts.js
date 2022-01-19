@@ -2,16 +2,11 @@ import { useState } from "react";
 import Style from "../../styles/NavBar.module.css";
 import { BsSearch } from "react-icons/bs";
 
-const SearchPosts = ({ setSearchCriteria }) => {
+const SearchPosts = ({ setQueryCriteria }) => {
   const [searchedValue, setSearchedValue] = useState("");
-
-  const handleSearch = () => {
-    console.log("******" + searchedValue);
-    setSearchCriteria(searchedValue);
-    setSearchedValue(" ");
-  };
-
-  console.log(searchedValue);
+  const handleSearch = () => {;
+    setQueryCriteria({ searchCriteria: searchedValue });
+  };;
 
   return (
     <div className={Style.SearchContainer}>
