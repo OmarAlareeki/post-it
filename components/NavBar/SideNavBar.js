@@ -2,9 +2,6 @@ import style from "../../styles/NavBar.module.css";
 import { useState } from "react";
 
 const SideNavBar = ({ setQueryCriteria }) => {
-  // let collectionName = "";
-  // let queryCriteriaName = {};
-
   const categories = new Map([
     ["Appliance", "appliance"],
     ["Baby and Kids", "babyAndKids"],
@@ -20,11 +17,9 @@ const SideNavBar = ({ setQueryCriteria }) => {
   ]);
 
   const handleClick = (newQueryCriteria) => {
-    //queryCriteriaName = newQueryCriteria;
     return () => {
       setQueryCriteria(newQueryCriteria);
       console.log("ListName:  " + newQueryCriteria);
-      //queryCriteriaName = {};
     };
   };
 
