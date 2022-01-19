@@ -37,8 +37,8 @@ const Cards = ({ props }) => {
                   prop.postDate.toDate().toLocaleTimeString()}
               </Card.Text>
               <Card.Link
-              // href="/DisplayPage/[id]"
-              // as={"/DisplayPage/" + prop.id}
+                href="/displaypage/[prop.id]"
+                // as={"/DisplayPage/" + prop.id}
               >
                 <a>Details</a>
               </Card.Link>
@@ -52,7 +52,6 @@ const Cards = ({ props }) => {
     </Container>
   );
 };
-
 
 {
   /* </Link>

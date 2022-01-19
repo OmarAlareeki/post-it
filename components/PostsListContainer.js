@@ -5,18 +5,25 @@ import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
 import AllPostsList from "./AllPostsList";
 import SideNavBar from "./NavBar/SideNavBar";
-import { collection, query, where, onSnapshot, doc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  orderBy,
+  doc,
+} from "firebase/firestore";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
-
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState([]);
   const [queryCriteria, setQueryCriteria] = useState({});
-  const [currUser, setCurrUser] = useState('')
-  
-  
-  onAuthStateChanged(auth, (user) => user?setCurrUser(user):setCurrUser(""));
+  const [currUser, setCurrUser] = useState("");
+
+  onAuthStateChanged(auth, (user) =>
+    user ? setCurrUser(user) : setCurrUser("")
+  );
 
   useEffect(() => {
     const postsRef = collection(db, "posts");
@@ -25,7 +32,7 @@ const PostsListContainer = () => {
       !queryCriteria ||
       Object.values(queryCriteria).every((value) => value === undefined)
     ) {
-      onSnapshot(postsRef, (snap) => {
+      onSnapshot(postsRef, orderBy("postDate", "desc"), (snap) => {
         const postsArray = snap.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -33,7 +40,7 @@ const PostsListContainer = () => {
         setPosts(postsArray);
       });
     } else if (queryCriteria.searchCriteria) {
-      onSnapshot(postsRef, (snap) => {
+      onSnapshot(postsRef, orderBy("postDate", "desc"), (snap) => {
         const searchPosts = snap.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -45,13 +52,30 @@ const PostsListContainer = () => {
         );
         console.log(queryCriteria.searchCriteria);
       });
-    } else if (queryCriteria.category || queryCriteria.price) {
+    } else if (
+      queryCriteria.category ||
+      queryCriteria.price ||
+      queryCriteria.userID
+    ) {
       if (queryCriteria.category) {
-        q = query(postsRef, where("category", "==", queryCriteria.category));
+        q = query(
+          postsRef,
+          orderBy("postDate", "desc"),
+          where("category", "==", queryCriteria.category)
+        );
       } else if (queryCriteria.price) {
-        q = query(postsRef, where("price", "==", queryCriteria.price));
+        q = query(
+          postsRef,
+          orderBy("postDate", "desc"),
+          where("price", "==", queryCriteria.price)
+        );
+      } else if (queryCriteria.userID) {
+        q = query(
+          postsRef,
+          orderBy("postDate", "desc"),
+          where("userId", "==", queryCriteria.userID)
+        );
       }
-
 
       onSnapshot(q, (snap) => {
         const queryList = snap.docs.map((doc) => ({
@@ -60,21 +84,11 @@ const PostsListContainer = () => {
         }));
         setPosts(queryList);
       });
-      // setQueryCriteria({});
     }
   }, [queryCriteria]);
 
-
-
   const postNewItem = () => {
-    currUser?
-      Router.push("/postItem"):
-      Router.push("/signIn/SignIn")
-  }
-
-  const previewSearchResults = items => {
-    console.log("***********items: " + JSON.stringify(items));
-    setSearchResults(items);
+    currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
   };
 
   return (
@@ -93,12 +107,9 @@ const PostsListContainer = () => {
                 <option>Title</option>
                 <option>zipCode</option>
               </select>
-              <button
-                onClick={() => postNewItem()}
-              >
-                Add Post
-              </button>
+              <button onClick={() => postNewItem()}>Add Post</button>
             </div>
+
             {posts.length <= 0 ? (
               <div
                 style={{
@@ -112,7 +123,7 @@ const PostsListContainer = () => {
                 No results found
               </div>
             ) : (
-              <AllPostsList posts={posts} />
+              <AllPostsList posts={posts} myposts={queryCriteria.userID} />
             )}
           </div>
         </div>
