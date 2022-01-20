@@ -12,6 +12,7 @@ import {
   onSnapshot,
   orderBy,
   doc,
+  getDoc,
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
@@ -52,6 +53,18 @@ const PostsListContainer = () => {
         );
         console.log(queryCriteria.searchCriteria);
       });
+    } else if (queryCriteria.saved) {
+      const [savedPosts, setSavedPosts] = useState([]);
+      const docRef = doc(
+        db,
+        "posts",
+        queryCriteria.saved.values().next().value
+      );
+      const getdoc = getDoc(docRef);
+      getdoc.then((doc) => {
+        setSavedPosts();
+        console.log(getdoc.data());
+      });
     } else if (
       queryCriteria.category ||
       queryCriteria.price ||
@@ -75,6 +88,12 @@ const PostsListContainer = () => {
           orderBy("postDate", "desc"),
           where("userId", "==", queryCriteria.userID)
         );
+      } else if (queryCriteria.saved) {
+        // q = query(
+        //   postsRef,
+        //   orderBy("postDate", "desc"),
+        //   where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
+        // );
       }
 
       onSnapshot(q, (snap) => {

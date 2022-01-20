@@ -26,15 +26,15 @@ const SideNavBar = ({ setQueryCriteria }) => {
   // );
 
   useEffect(async () => {
-    const userRef = doc(db, "users", "7hqkVuE26F2qZx6noZhB");
-    const docSnap = await getDoc(userRef);
+    const docRef = doc(db, "users", "7hqkVuE26F2qZx6noZhB");
+    const docSnap = await getDoc(docRef);
+    console.log(docSnap);
 
     if (docSnap.exists()) {
-      const savedArray = docSnap.data().savedPosts;
-      console.log("**data: " + JSON.stringify(docSnap.data().savedPosts));
+      const savedArray = docSnap.data().savedPost;
+      console.log("**data: " + savedArray);
       setSavedPosts(savedArray);
     } else {
-      //   // doc.data() will be undefined in this case
       setSavedPosts("No such document!");
       return;
     }
@@ -46,7 +46,7 @@ const SideNavBar = ({ setQueryCriteria }) => {
       console.log("ListName:  " + newQueryCriteria);
     };
   };
-
+  //"7hqkVuE26F2qZx6noZhB"
   return (
     <div>
       <ul className={style.SideBar}>
