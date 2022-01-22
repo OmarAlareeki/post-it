@@ -47,9 +47,6 @@ const Cards = ({ props }) => {
           <button type="delete" onClick={() => {}} style={{ display: "none" }}>
             Delete
           </button>
-          <button type="button" onClick={() => {}} style={{ display: "none" }}>
-            Delete
-          </button>
         </div>
       ))}
     </Container>
