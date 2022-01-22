@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { db, storage, auth } from "../config/fire-config";
+import { db, auth } from "../config/fire-config";
 import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
@@ -16,11 +16,13 @@ import {
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
+import { Spinner, Button } from "react-bootstrap";
 
 const PostsListContainer = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(["Loading..."]);
   const [queryCriteria, setQueryCriteria] = useState({});
   const [currUser, setCurrUser] = useState("");
+  const [deleteBtnStatus, setDeleteBtnStatus] = useState(false);
 
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
@@ -28,7 +30,9 @@ const PostsListContainer = () => {
 
   useEffect(() => {
     const postsRef = collection(db, "posts");
+    //const userRef = collection(db, "posts");
     let q;
+
     if (
       !queryCriteria ||
       Object.values(queryCriteria).every((value) => value === undefined)
@@ -51,20 +55,17 @@ const PostsListContainer = () => {
             post.title.toLowerCase().includes(queryCriteria.searchCriteria)
           )
         );
-        console.log(queryCriteria.searchCriteria);
       });
     } else if (queryCriteria.saved) {
-      const [savedPosts, setSavedPosts] = useState([]);
-      const docRef = doc(
-        db,
-        "posts",
-        queryCriteria.saved.values().next().value
-      );
-      const getdoc = getDoc(docRef);
-      getdoc.then((doc) => {
-        setSavedPosts();
-        console.log(getdoc.data());
-      });
+      const docRef = doc(db, "users", "7hqkVuE26F2qZx6noZhB");
+      const docSnap = getDoc(docRef);
+      if (docSnap.exists()) {
+        const savedArray = docSnap.data().savedPost;
+        console.log("**data: " + savedArray);
+        setPosts(savedArray);
+      } else {
+        return;
+      }
     } else if (
       queryCriteria.category ||
       queryCriteria.price ||
@@ -88,13 +89,13 @@ const PostsListContainer = () => {
           orderBy("postDate", "desc"),
           where("userId", "==", queryCriteria.userID)
         );
-      } else if (queryCriteria.saved) {
-        // q = query(
-        //   postsRef,
-        //   orderBy("postDate", "desc"),
-        //   where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
-        // );
-      }
+      } //else if (queryCriteria.saved) {
+      // q = query(
+      //   postsRef,
+      //   orderBy("postDate", "desc"),
+      //   where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
+      // );
+      //}
 
       onSnapshot(q, (snap) => {
         const queryList = snap.docs.map((doc) => ({
@@ -115,7 +116,10 @@ const PostsListContainer = () => {
       <NavBar setQueryCriteria={setQueryCriteria} />
       <div className={style.mainContainer}>
         <div>
-          <SideNavBar setQueryCriteria={setQueryCriteria} />
+          <SideNavBar
+            setQueryCriteria={setQueryCriteria}
+            setDeleteBtnStatus={setDeleteBtnStatus}
+          />
         </div>
         <div>
           <div className={style.PostsContainer}>
@@ -126,10 +130,18 @@ const PostsListContainer = () => {
                 <option>Title</option>
                 <option>zipCode</option>
               </select>
-              <button onClick={() => postNewItem()}>Add Post</button>
+
+              <Button variant="warning" onClick={() => postNewItem()}>
+                Add Post
+              </Button>
             </div>
 
-            {posts.length <= 0 ? (
+            {posts[0] === "Loading..." ? (
+              <Spinner
+                animation="border"
+                className="position-absolute top-50 start-50 translate-middle"
+              />
+            ) : posts.length <= 0 ? (
               <div
                 style={{
                   textAlign: "center",
@@ -142,7 +154,7 @@ const PostsListContainer = () => {
                 No results found
               </div>
             ) : (
-              <AllPostsList posts={posts} myposts={queryCriteria.userID} />
+              <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
             )}
           </div>
         </div>
