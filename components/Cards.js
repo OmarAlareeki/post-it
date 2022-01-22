@@ -15,7 +15,7 @@ const Cards = ({ props }) => {
               backgroundColor: "#E0E0E0",
               border: "1px solid",
               margin: "20px",
-              height: "346px",
+              height: "350px",
             }}
           >
             <Card.Img
@@ -37,14 +37,14 @@ const Cards = ({ props }) => {
                   prop.postDate.toDate().toLocaleTimeString()}
               </Card.Text>
               <Card.Link
-              // href="/DisplayPage/[id]"
-              // as={"/DisplayPage/" + prop.id}
+                href="/displaypage/[prop.id]"
+                // as={"/DisplayPage/" + prop.id}
               >
                 <a>Details</a>
               </Card.Link>
             </Card.Body>
           </Card>
-          <button type="button" onClick={() => {}} style={{ display: "none" }}>
+          <button type="delete" onClick={() => {}} style={{ display: "none" }}>
             Delete
           </button>
         </div>
@@ -52,7 +52,6 @@ const Cards = ({ props }) => {
     </Container>
   );
 };
-
 
 {
   /* </Link>
