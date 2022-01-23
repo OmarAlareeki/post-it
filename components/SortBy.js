@@ -1,6 +1,6 @@
 import React from "react";
 
-const SortBy = ({ setSortValue }) => {
+const SortBy = ({ setSortValue, setSortBy }) => {
   return (
     <>
       <select
@@ -9,15 +9,26 @@ const SortBy = ({ setSortValue }) => {
           setSortValue(e.target.value);
         }}
       >
-        <option>Sort By...</option>
-        <option value="'price', 'asc'">Price Asc</option>
-        <option value="'price', 'desc'">Price Desc</option>
+        <option>Sort On...</option>
+        <option value="'price', 'asc'">Price</option>
+        <option value="'price', 'desc'">Price</option>
         <option value="'title', 'asc'">Title Asc</option>
         <option value="'title', 'desc'">Title Desc</option>
         <option value="'postDate', 'asc'">Post Date Asc</option>
         <option value="'postDate', 'desc'">Post Date Desc</option>
 
         <option value="'zip', 'desc'">Location</option>
+      </select>
+
+      <select
+        style={{ marginRight: "30px", border: "solid 2px" }}
+        onChange={(e) => {
+          setSortBy(e.target.value);
+        }}
+      >
+        <option>Sort By...</option>
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
       </select>
     </>
   );

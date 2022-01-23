@@ -24,9 +24,10 @@ const PostsListContainer = () => {
   const [queryCriteria, setQueryCriteria] = useState({});
   const [currUser, setCurrUser] = useState("");
   const [deleteBtnStatus, setDeleteBtnStatus] = useState(false);
-  const [sortValue, setSortValue] = useState("postDate", "desc");
+  const [sortValue, setSortValue] = useState("postDate");
+  const [sortBy, setSortBy] = useState("desc");
 
-  console.log(sortValue);
+  console.log(sortValue, sortBy);
 
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
@@ -54,7 +55,7 @@ const PostsListContainer = () => {
       } else if (queryCriteria.category) {
         q = query(
           postsRef,
-          orderBy(sortValue),
+          orderBy(sortValue, sortBy),
           where("category", "==", queryCriteria.category)
         );
       } else if (queryCriteria.price) {
@@ -131,7 +132,7 @@ const PostsListContainer = () => {
         </div>
         <div className={style.PostsContainer}>
           <div className={style.SortDiv}>
-            <SortBy setSortValue={setSortValue} />
+            <SortBy setSortValue={setSortValue} setSortBy={setSortBy} />
             <Button variant="warning" onClick={() => postNewItem()}>
               Add Post
             </Button>
