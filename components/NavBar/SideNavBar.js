@@ -1,6 +1,6 @@
 import style from "../../styles/NavBar.module.css";
 
-const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus }) => {
+const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
   const categories = new Map([
     ["Appliance", "appliance"],
     ["Baby and Kids", "babyAndKids"],
@@ -19,6 +19,7 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus }) => {
     <div>
       <ul className={style.SideBar}>
         <li
+          className={style.Li}
           onClick={() => {
             setQueryCriteria({});
             setDeleteBtnStatus(false);
@@ -38,7 +39,7 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus }) => {
 
         <li
           onClick={() => {
-            setQueryCriteria({ userID: "uH9b7YXgqPauH7Lq6tTdWSCWEnw2" });
+            setQueryCriteria({ userID: currUser.uid });
             setDeleteBtnStatus(true);
           }}
         >
@@ -47,7 +48,7 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus }) => {
 
         <li
           onClick={() => {
-            setQueryCriteria({ price: "0" });
+            setQueryCriteria({ price: 1 });
             setDeleteBtnStatus(false);
           }}
         >

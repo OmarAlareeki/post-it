@@ -24,18 +24,51 @@ const PostsListContainer = () => {
   const [queryCriteria, setQueryCriteria] = useState({});
   const [currUser, setCurrUser] = useState("");
   const [deleteBtnStatus, setDeleteBtnStatus] = useState(false);
-  const [sortValue, setSortValue] = useState("postDate");
-  const [sortBy, setSortBy] = useState("desc");
-
-  console.log(sortValue, sortBy);
+  const [sortBy, setSortBy] = useState("");
+  // const [sortValue, setSortValue] = useState("");
+  // const [sortType, setSortType] = useState("");
 
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
   );
 
-  function handleSort() {}
+  console.log(sortBy);
+  console.log(queryCriteria);
+  // console.log(sortValue);
+  // console.log(sortType);
 
-  useEffect(() => {
+  //let sortValue;
+  //let sortType;
+
+  // let neworderBy;
+
+  // switch (sortBy) {
+  //   case sortBy == "price , sc":
+  //     // setSortValue("price");
+  //     // setSortType("asc");
+  //     neworderBy = `price , asc`;
+  //     break;
+  // case sortBy == "priceDesc":
+  //   sortValue = "price";
+  //   sortType = "desc";
+  //   break;
+  // case sortBy == "titleAsc":
+  //   sortValue = "title";
+  //   sortType = "asc";
+  //   break;
+  // case sortBy == "titleDesc":
+  //   sortValue = "title";
+  //   sortType = "desc";
+  //   break;
+  // default:
+  //   //   sortValue;
+  //   //   sortType;
+  //   neworderBy = "postDate" + " " + "," + " " + "desc";
+  // }
+
+  // console.log(neworderBy);
+
+  useEffect(async () => {
     const postsRef = collection(db, "posts");
     //const userRef = collection(db, "posts");
     let q;
@@ -55,15 +88,17 @@ const PostsListContainer = () => {
       } else if (queryCriteria.category) {
         q = query(
           postsRef,
-          orderBy(sortValue, sortBy),
+          orderBy("postDate", "desc"),
           where("category", "==", queryCriteria.category)
         );
       } else if (queryCriteria.price) {
         q = query(
           postsRef,
+          orderBy("price", "desc"),
           orderBy("postDate", "desc"),
-          where("price", "==", queryCriteria.price)
+          where("price", "<", queryCriteria.price)
         );
+        console.log(q);
       } else if (queryCriteria.userID) {
         q = query(
           postsRef,
@@ -83,9 +118,15 @@ const PostsListContainer = () => {
           ...doc.data(),
         }));
         setPosts(queryList);
+        console.log(queryList);
       });
     } else if (queryCriteria.searchCriteria) {
-      q = query(postsRef, orderBy("postDate", "desc"));
+      if (sortBy) {
+        q = query(postsRef, orderBy(sortBy));
+        console.log(q);
+      } else {
+        q = query(postsRef, orderBy("postDate", "desc"));
+      }
       onSnapshot(q, (snap) => {
         const searchPosts = snap.docs.map((doc) => ({
           id: doc.id,
@@ -99,22 +140,22 @@ const PostsListContainer = () => {
       });
     } else if (queryCriteria.saved) {
       const docRef = doc(db, "users", "7hqkVuE26F2qZx6noZhB");
-      const docSnap = getDoc(docRef);
+      const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        const savedArray = docSnap.data().savedPost;
-        onSnapshot(savedArray, orderBy("postDate", "desc"), (snap) => {
-          const savedPosts = snap.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setPosts(savedPosts);
-          console.log("**data: " + savedArray);
-        });
+        if (docSnap.data().savedPost) {
+          const savedArray = docSnap
+            .data()
+            .savedPost.map((arr) => ({ id: arr.postId, ...arr }));
+          console.log(savedArray);
+          setPosts(savedArray);
+        } else {
+          alert("You have not saved any Posts");
+        }
       } else {
-        return;
+        console.log(error);
       }
     }
-  }, [queryCriteria]);
+  }, [queryCriteria, sortBy]);
 
   const postNewItem = () => {
     currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
@@ -128,11 +169,12 @@ const PostsListContainer = () => {
           <SideNavBar
             setQueryCriteria={setQueryCriteria}
             setDeleteBtnStatus={setDeleteBtnStatus}
+            currUser={currUser}
           />
         </div>
         <div className={style.PostsContainer}>
           <div className={style.SortDiv}>
-            <SortBy setSortValue={setSortValue} setSortBy={setSortBy} />
+            <SortBy setSortBy={setSortBy} />
             <Button variant="warning" onClick={() => postNewItem()}>
               Add Post
             </Button>

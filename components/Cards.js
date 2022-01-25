@@ -11,44 +11,43 @@ const Cards = ({ props, deleteBtnStatus }) => {
     <Container className={style.PostsDisplay}>
       {props.map((prop) => (
         <div key={prop.id}>
-          <Card
-            style={{
-              width: "15rem",
-              borderRadius: "28px",
-              backgroundColor: "#E0E0E0",
-              border: "1px solid",
-              margin: "20px",
-              height: "340px",
-            }}
-          >
-            <Card.Img
-              variant="top"
-              src={prop.imageUrls}
-              alt={prop.title}
+          <Card className={style.Cards}>
+            <Card.Link
+              href={`/displaypage/${prop.id}`}
               style={{
-                borderTopRightRadius: "28px",
-                borderTopLeftRadius: "28px",
-                height: "160px",
+                color: "black",
+                textDecoration: "none",
               }}
-            />
-            <Card.Body>
-              <Card.Title
+            >
+              <Card.Img
+                variant="top"
+                src={prop.imageUrls}
+                alt={prop.title}
                 style={{
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
+                  borderTopRightRadius: "28px",
+                  borderTopLeftRadius: "28px",
+                  height: "150px",
                 }}
-              >
-                {prop.title}
-              </Card.Title>
-              <Card.Text>$ {prop.price}</Card.Text>
-              <Card.Text>
-                {prop.postDate.toDate().toLocaleDateString() +
-                  " " +
-                  prop.postDate.toDate().toLocaleTimeString()}
-              </Card.Text>
-              <Card.Link href={`/displaypage/${prop.id}`}>Details</Card.Link>
-            </Card.Body>
+              />
+              <Card.Body>
+                <Card.Title
+                  style={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    textDecoration: "none",
+                  }}
+                >
+                  {prop.title}
+                </Card.Title>
+                <Card.Text>$ {prop.price}</Card.Text>
+                <Card.Text>
+                  {prop.postDate.toDate().toLocaleDateString() +
+                    " " +
+                    prop.postDate.toDate().toLocaleTimeString()}
+                </Card.Text>
+              </Card.Body>
+            </Card.Link>
           </Card>
           <button
             onClick={async () => {

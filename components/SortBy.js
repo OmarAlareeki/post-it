@@ -1,34 +1,23 @@
 import React from "react";
 
-const SortBy = ({ setSortValue, setSortBy }) => {
+const SortBy = ({ setSortBy }) => {
   return (
     <>
       <select
         style={{ marginRight: "30px", border: "solid 2px" }}
         onChange={(e) => {
-          setSortValue(e.target.value);
+          setSortBy(e.target.value);
+          console.log(e.target.value);
         }}
       >
         <option>Sort On...</option>
-        <option value="'price', 'asc'">Price</option>
-        <option value="'price', 'desc'">Price</option>
-        <option value="'title', 'asc'">Title Asc</option>
-        <option value="'title', 'desc'">Title Desc</option>
-        <option value="'postDate', 'asc'">Post Date Asc</option>
-        <option value="'postDate', 'desc'">Post Date Desc</option>
-
-        <option value="'zip', 'desc'">Location</option>
-      </select>
-
-      <select
-        style={{ marginRight: "30px", border: "solid 2px" }}
-        onChange={(e) => {
-          setSortBy(e.target.value);
-        }}
-      >
-        <option>Sort By...</option>
-        <option value="asc">Ascending</option>
-        <option value="desc">Descending</option>
+        <option value="price , asc">Price </option>
+        <option value="priceDesc">Price Desc</option>
+        <option value="titleAsc">Title</option>
+        <option value="titleDesc">Title Desc</option>
+        <option value="postDateAsc">Post Date </option>
+        <option value="postDateDesc">Post Date Desc</option>
+        <option value="zipDesc">Location</option>
       </select>
     </>
   );
