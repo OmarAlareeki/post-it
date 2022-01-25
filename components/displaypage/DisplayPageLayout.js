@@ -7,7 +7,7 @@ export default function DisplayPageLayout ({children}) {
         <div>NavBar</div>
         <div className="d-flex">
             <div>SideBar</div>
-            <div>{children}</div>
+            <div style={{flex:1}}>{children}</div>
             
         </div>
     </div>    

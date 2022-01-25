@@ -1,0 +1,38 @@
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(155, 100, 18, 0.5);
+    z-index: 1100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup {
+    width: 600px;
+    height: 400px;
+    background-color: white;
+    position: relative;
+
+}
+
+.content {
+    padding: 50px;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    border: 1px solid green;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
