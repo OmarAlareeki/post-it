@@ -1,11 +1,12 @@
 
-import  Router  from 'next/router'
+import Router from 'next/router'
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import style from "../../styles/Home.module.css"
-import { auth } from '../../config/fire-config'
-import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
-
+import { auth, db } from '../../config/fire-config'
+import { doc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 
 function SignUp() {
   const [firstName, setFirstName] = useState("")
@@ -13,10 +14,7 @@ function SignUp() {
   const [email, setEmail] = useState("")
   const [password1, setPassword1] = useState('')
   const [password2, setPassword2] = useState('')
-  const [passwordAlert, setPasswordAlert] = useState(false)
-  
-  
-
+  const [passwordAlert, setPasswordAlert] = useState(false);
 
   useEffect(() => {
     if (password1 !== password2) {
@@ -29,18 +27,25 @@ function SignUp() {
 
   const signUp = async () => {
 
-      if (password1 === password2) {
-        await createUserWithEmailAndPassword(auth, email, password1).then((userCredential) => {updateProfile(userCredential.user, {
+    if (password1 === password2) {
+      await createUserWithEmailAndPassword(auth, email, password1).then((userCredential) => {
+        setDoc(doc(db, "users", userCredential.user.uid), {
+          userName: `${firstName} ${lastName}`,
+          email: `${email}`,
+        })
+        updateProfile(userCredential.user, {
           displayName: `${firstName} ${lastName}`
-        })})
-        .then(()=>{
+        })
+      })
+        .then(() => {
           sendEmailVerification(auth.currentUser)
         })
-      .catch((error)=>{
-        console.log(error)
-        // alert("sorry, we couldn't complete your requrest due to: ", error.message)
-      })
-    }}
+        .catch((error) => {
+          console.log(error)
+          // alert("sorry, we couldn't complete your requrest due to: ", error.message)
+        })
+    }
+  }
 
 
 
