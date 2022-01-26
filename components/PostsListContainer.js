@@ -34,6 +34,16 @@ const PostsListContainer = () => {
     user ? setCurrUser(user) : setCurrUser("")
   );
 
+  useEffect(async () => {
+    if (currUser) {
+      await setDoc(doc(db, "users", currUser.uid), {
+        name: currUser.displayName,
+        email: currUser.email,
+        uid: currUser.uid,
+      });
+    }
+  }, [currUser]);
+
   console.log(sortBy);
   console.log(queryCriteria);
   // console.log(sortValue);
