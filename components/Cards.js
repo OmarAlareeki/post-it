@@ -31,7 +31,7 @@ const Cards = ({ props, deleteBtnStatus }) => {
                 color: "black",
                 textDecoration: "none",
               }}
-            >
+            />
            <Card.Img
                 variant="top"
                 src={prop.imageUrls}
