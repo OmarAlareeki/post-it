@@ -58,6 +58,7 @@
 .SideBar {
   list-style: none;
   width: 300px;
+  margin-top: 120px;
   line-height: 3rem;
   padding-right: 70px;
   padding-left: 80px;
