@@ -28,11 +28,31 @@ const Cards = ({ props, deleteBtnStatus }) => {
               src={prop.imageUrls}
               alt={prop.title}
               style={{
-                minHeight: "180px",
+                color: "black",
+                textDecoration: "none",
               }}
-            />
+            >
+           <Card.Img
+                variant="top"
+                src={prop.imageUrls}
+                alt={prop.title}
+                style={{
+                  borderTopRightRadius: "28px",
+                  borderTopLeftRadius: "28px",
+                  height: "150px",
+                }}
+              />
             <Card.Body>
-              <Card.Title>{prop.title}</Card.Title>
+              <Card.Title
+                  style={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    textDecoration: "none",
+                  }}
+                >
+                  {prop.title}
+                </Card.Title>
               <Card.Text>$ {prop.price}</Card.Text>
               <Card.Text>
                 {prop.postDate.toDate().toLocaleDateString() +
