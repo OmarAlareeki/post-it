@@ -120,7 +120,14 @@ const PostsListContainer = () => {
         <div>
           <div className={style.PostsContainer}>
             <div className={style.SortDiv}>
-              <select style={{ marginRight: "30px", border: "solid 2px" }}>
+              <select style={{ 
+                marginRight: '30px',
+                background: '#ffc107',
+                border: '1px solid #dde4ea',
+                borderRadius: '5px',
+                color: '#161100',
+                textAlign: 'center',
+}}>
                 <option>Sort By...</option>
                 <option>Price</option>
                 <option>Title</option>
