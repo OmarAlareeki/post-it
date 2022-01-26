@@ -17,8 +17,8 @@ const Cards = ({ props, deleteBtnStatus }) => {
                 color: "black",
                 textDecoration: "none",
               }}
-            >
-              <Card.Img
+            />
+           <Card.Img
                 variant="top"
                 src={prop.imageUrls}
                 alt={prop.title}
