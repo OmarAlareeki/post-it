@@ -4,7 +4,13 @@ const SortBy = ({ setSortBy }) => {
   return (
     <>
       <select
-        style={{ marginRight: "30px", border: "solid 2px" }}
+        style={{
+          marginRight: '40px',
+          border: 'solid 1px #f0f8ff',
+          textAlign: 'center',
+          fontSize: '.8rem',
+          background: '#fff',
+        }}
         onChange={(e) => {
           setSortBy(e.target.value);
           console.log(e.target.value);
