@@ -75,6 +75,17 @@
   align-content: center;
   justify-content: flex-end;
   align-items: center;
+  padding: 30px;
+}
+
+.Cards {
+  width: 15rem;
+  border-radius: 28px;
+  background-color: #e0e0e0;
+  border: 1px solid;
+  margin: 20px;
+  height: 285px;
+  text-decoration: none;
 }
 
 .loader {
