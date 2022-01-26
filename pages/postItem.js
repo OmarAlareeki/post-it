@@ -386,7 +386,7 @@ const PostItem = () => {
             <Col md="8" />
             <Col md="2">
               <Button
-                variant="warning"
+                variant="danger"
                 onClick={() => {
                   imageTitles.map((name) => {
                     deleteRef = ref(storage, name);
@@ -405,7 +405,13 @@ const PostItem = () => {
               </Button>
             </Col>
             <Col md="2">
-              <Button type="submit">POST IT</Button>
+              <Button type="submit"
+              style={{                 
+              border: 'none',
+              background: '#e38a17',
+              color: '#fff',
+              marginRight: '20px',}}
+              >POST IT</Button>
             </Col>
           </Row>
         </Form.Group>

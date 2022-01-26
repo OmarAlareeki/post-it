@@ -12,27 +12,42 @@ const Cards = ({ props, deleteBtnStatus }) => {
       {props.map((prop) => (
         <div key={prop.id}>
           <Card className={style.Cards}>
-            <Card.Link
+           <Card.Link
               href={`/displaypage/${prop.id}`}
               style={{
                 color: "black",
                 textDecoration: "none",
               }}
             />
+           <Card.Img
+                variant="top"
+                src={prop.imageUrls}
+                alt={prop.title}
+                style={{
+                  borderTopRightRadius: "28px",
+                  borderTopLeftRadius: "28px",
+                  height: "150px",
+                }}
+              />
             <Card.Body>
-              <Card.Title>{prop.title}</Card.Title>
+              <Card.Title
+                  style={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    textDecoration: "none",
+                  }}
+                >
+                  {prop.title}
+                </Card.Title>
               <Card.Text>$ {prop.price}</Card.Text>
               <Card.Text>
                 {prop.postDate.toDate().toLocaleDateString() +
                   " " +
                   prop.postDate.toDate().toLocaleTimeString()}
               </Card.Text>
-              <Card.Link
-              href={`/displaypage/${prop.id}`}
-              >
-                <a>Details</a>
-              </Card.Link>
             </Card.Body>
+            </Card.Link>
           </Card>
           <button
             onClick={async () => {

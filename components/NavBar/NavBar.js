@@ -40,7 +40,7 @@ const NavBar = ({ setQueryCriteria }) => {
         <SearchPosts setQueryCriteria={setQueryCriteria} />
       </div>
       <div className="d-flex justify-content-center align-items-center">
-        <p className="mb-0 mx-2">
+        <p>
           Hi,
           {currentUser.displayName
             ? currentUser.displayName.split(" ")[0]
