@@ -20,6 +20,9 @@ const Cards = ({ props, deleteBtnStatus }) => {
               background: "aliceblue"
             }}
           >
+            <Card.Link
+              href={`/displaypage/${prop.id}`}
+              >
             <Card.Img
               variant="top"
               src={prop.imageUrls}
@@ -36,12 +39,8 @@ const Cards = ({ props, deleteBtnStatus }) => {
                   " " +
                   prop.postDate.toDate().toLocaleTimeString()}
               </Card.Text>
-              <Card.Link
-              href={`/displaypage/${prop.id}`}
-              >
-                <a>Details</a>
-              </Card.Link>
             </Card.Body>
+            </Card.Link>
           </Card>
           <button
             onClick={async () => {
