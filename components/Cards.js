@@ -11,11 +11,10 @@ const Cards = ({ props }) => {
           <Card
             style={{
               width: "15rem",
-              borderRadius: "28px",
-              backgroundColor: "#E0E0E0",
-              border: "1px solid",
-              margin: "20px",
+              borderRadius: "5px",
+              margin: "10px",
               height: "350px",
+              background: "aliceblue"
             }}
           >
             <Card.Img
@@ -23,9 +22,7 @@ const Cards = ({ props }) => {
               src={prop.imageUrls}
               alt={prop.title}
               style={{
-                borderTopRightRadius: "28px",
-                borderTopLeftRadius: "28px",
-                height: "179px",
+                minHeight: "180px",
               }}
             />
             <Card.Body>

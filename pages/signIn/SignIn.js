@@ -10,7 +10,8 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   signInWithRedirect,
-  inMemoryPersistence
+  inMemoryPersistence,
+  signInWithCredential
 } from "firebase/auth";
 
 const SignInPage = () => {
@@ -44,6 +45,13 @@ const SignInPage = () => {
       }
     }
   };
+
+  // signInWithCredential(auth, newCredential).then((result) => {
+  //   console.log("Sign In Success", result);
+  //   const currentUser = result.user;
+  //   const currentUserData = repo.get(currentUser);
+  // })
+
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithRedirect(auth, provider)

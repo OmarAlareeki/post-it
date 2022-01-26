@@ -120,13 +120,31 @@ const PostsListContainer = () => {
         <div>
           <div className={style.PostsContainer}>
             <div className={style.SortDiv}>
-              <select style={{ marginRight: "30px", border: "solid 2px" }}>
+              <select style={{ 
+                  padding: '10px',
+                  fontSize: '16px',
+                  border: 'none',
+                  borderRadius: '5px',
+                  background: '#e38a17',
+                  color: 'aliceblue',
+                  marginRight: '20px',
+                }}>
                 <option>Sort By...</option>
                 <option>Price</option>
                 <option>Title</option>
                 <option>zipCode</option>
               </select>
-              <button onClick={() => postNewItem()}>Add Post</button>
+              <button 
+              onClick={() => postNewItem()} 
+              style={{
+                  padding: '10px',
+                  fontSize: '16px',
+                  border: 'none',
+                  borderRadius: '5px',
+                  background: '#e38a17',
+                  color: 'aliceblue',
+                  marginRight: '20px',
+             }}>Add Post</button>
             </div>
 
             {posts.length <= 0 ? (
