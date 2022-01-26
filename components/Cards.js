@@ -2,8 +2,11 @@ import React from "react";
 import { Container, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from "../config/fire-config";
 
-const Cards = ({ props }) => {
+const Cards = ({ props, deleteBtnStatus }) => {
   return (
     <Container className={style.PostsDisplay}>
       {props.map((prop) => (
@@ -34,15 +37,27 @@ const Cards = ({ props }) => {
                   prop.postDate.toDate().toLocaleTimeString()}
               </Card.Text>
               <Card.Link
-                href="/displaypage/[prop.id]"
-                // as={"/DisplayPage/" + prop.id}
+              href={`/displaypage/${prop.id}`}
               >
                 <a>Details</a>
               </Card.Link>
             </Card.Body>
           </Card>
-          <button type="delete" onClick={() => {}} style={{ display: "none" }}>
-            Delete
+          <button
+            onClick={async () => {
+              await deleteDoc(doc(db, "posts", prop.id));
+            }}
+            style={{
+              display: deleteBtnStatus ? "block" : "none",
+              position: "relative",
+              top: "-77px",
+              right: "-204px",
+              backgroundColor: "transparent",
+              border: "none",
+              fontSize: "25px",
+            }}
+          >
+            <RiDeleteBin6Line />
           </button>
         </div>
       ))}
@@ -50,10 +65,4 @@ const Cards = ({ props }) => {
   );
 };
 
-{
-  /* </Link>
- onClick={() => {
-  Router.push("DisplayPostPage");
- }} */
-}
 export default Cards;

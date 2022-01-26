@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.PostsContainer {
+.PostsContainer, .inputContainer {
   padding-top: 40px;
   width: calc(100vw - 400px);
 
@@ -22,14 +22,26 @@
   list-style: inside;
   color: blue;
 }
-
+.imageContainer{
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.imageDiv{
+  position: relative;
+}
+.deleteImageButton{
+  fill:#ef9d06;
+}
 .postImage {
   padding: 5px 15px;
   width: 200px;
   height: auto;
+
 }
 .postImage:hover {
   cursor: pointer;
+  opacity: 0.3;
 }
 
 .postedMain {
