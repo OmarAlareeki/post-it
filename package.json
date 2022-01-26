@@ -16,6 +16,10 @@
     "https": "^1.0.0",
     "install": "^0.13.0",
     "leaflet": "^1.7.1",
+<<<<<<< HEAD
+=======
+    "lodash.uniqueid": "^4.0.1",
+>>>>>>> master
     "moment": "^2.29.1",
     "next": "12.0.7",
     "nookies": "^2.5.2",
@@ -27,6 +31,10 @@
     "react-icon": "^1.0.0",
     "react-icons": "^4.3.1",
     "react-leaflet": "^3.2.5",
+<<<<<<< HEAD
+=======
+    "react-loader-spinner": "^5.1.0",
+>>>>>>> master
     "react-lodash": "^0.1.2"
   },
   "devDependencies": {

@@ -16,6 +16,7 @@ import {
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
+<<<<<<< HEAD
 import { Spinner, Button } from "react-bootstrap";
 import SortBy from "./SortBy";
 
@@ -27,6 +28,15 @@ const PostsListContainer = () => {
   const [sortBy, setSortBy] = useState("");
   // const [sortValue, setSortValue] = useState("");
   // const [sortType, setSortType] = useState("");
+=======
+import PostItem from "./PostItem";
+
+const PostsListContainer = () => {
+  const [ posts, setPosts ] = useState([]);
+  const [ queryCriteria, setQueryCriteria ] = useState({});
+  const [ currUser, setCurrUser ] = useState("");
+  const [ showPostItem, setShowPostItem ] = useState(false)
+>>>>>>> master
 
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
@@ -158,7 +168,8 @@ const PostsListContainer = () => {
   }, [queryCriteria, sortBy]);
 
   const postNewItem = () => {
-    currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
+    // currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
+    currUser? setShowPostItem(true): Router.push("/signIn/SignIn")
   };
 
   return (
@@ -172,12 +183,45 @@ const PostsListContainer = () => {
             currUser={currUser}
           />
         </div>
+<<<<<<< HEAD
         <div className={style.PostsContainer}>
           <div className={style.SortDiv}>
             <SortBy setSortBy={setSortBy} />
             <Button variant="warning" onClick={() => postNewItem()}>
               Add Post
             </Button>
+=======
+    {
+        showPostItem?
+        <PostItem back={setShowPostItem}/>:(
+        <div>
+          <div className={style.PostsContainer}>
+            <div className={style.SortDiv}>
+              <select style={{ marginRight: "30px", border: "solid 2px" }}>
+                <option>Sort By...</option>
+                <option>Price</option>
+                <option>Title</option>
+                <option>zipCode</option>
+              </select>
+              <button onClick={() => postNewItem()}>Add Post</button>
+            </div>
+
+            {posts.length <= 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "110px",
+                  fontSize: "50px",
+                }}
+              >
+                OOPS!
+                <br />
+                No results found
+              </div>
+            ) : (
+              <AllPostsList posts={posts} myposts={queryCriteria.userID} />
+            )}
+>>>>>>> master
           </div>
 
           {posts[0] === "Loading..." ? (
@@ -201,6 +245,7 @@ const PostsListContainer = () => {
             <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
           )}
         </div>
+        )}
       </div>
     </main>
   );
