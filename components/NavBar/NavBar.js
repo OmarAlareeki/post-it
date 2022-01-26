@@ -12,7 +12,6 @@ const NavBar = ({ setQueryCriteria }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
 
-
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -24,14 +23,13 @@ const NavBar = ({ setQueryCriteria }) => {
     });
   }, [loggedIn]);
 
-
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
 
   return (
     <nav className={style.Nav}>
       <div>
         <img
-          src="../New-Logo1.png"
+          src="../Logo3.png"
           className={style.Logo}
           onClick={() => {
             Router.push("/");
@@ -42,7 +40,7 @@ const NavBar = ({ setQueryCriteria }) => {
         <SearchPosts setQueryCriteria={setQueryCriteria} />
       </div>
       <div className="d-flex justify-content-center align-items-center">
-        <p className="mb-0 mx-2">
+        <p>
           Hi,
           {currentUser.displayName
             ? currentUser.displayName.split(" ")[0]

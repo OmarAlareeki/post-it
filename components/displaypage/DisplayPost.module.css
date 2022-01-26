@@ -1,7 +1,8 @@
 .mainField {
     display: grid;
     width: 100%;
-    grid-template-columns: 2fr, 1fr;
+    grid-template-columns: 2fr 1fr !important; 
+    /* grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); */
     grid-gap:10px;
     grid-template-areas:
         "photoGallery content"
@@ -10,7 +11,7 @@
 
 .photoGallery {
     grid-area: photoGallery;
-
+    min-width: 0;
 }
 
 .content {

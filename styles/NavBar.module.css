@@ -10,7 +10,7 @@
 }
 
 .Logo {
-  height: 80px;
+  height: 60px;
   width: auto;
 }
 
@@ -28,17 +28,16 @@
   font-size: 16px;
   font-weight: 300;
   color: #333;
-  background-color: #fff;
-  border-color: #e0e0e0;
   border: none;
-  border-bottom: 1px solid #9e9e9e;
   box-shadow: none;
   box-sizing: content-box;
-  border-radius: 0;
-  width: 600px;
   padding: 15px;
   cursor: pointer;
   margin-left: 80px;
+  width: 400px;
+  background: aliceblue;
+  border-radius: 20px;
+  text-align: center
 }
 
 .SearchButton {
@@ -57,16 +56,17 @@
 
 .SideBar {
   list-style: none;
-  width: 300px;
-  margin-top: 120px;
-  line-height: 3rem;
-  padding-right: 70px;
-  padding-left: 80px;
-  font-size: 18px;
+  width: 220px;
+  margin-top: 30px;
+  line-height: 2.5rem;
 }
 
 .SideBar:hover {
   cursor: pointer;
+}
+
+.Li:active {
+  font-weight: bold;
 }
 
 .CategoryList {
