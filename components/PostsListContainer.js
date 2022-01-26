@@ -16,11 +16,13 @@ import {
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
+import PostItem from "./PostItem";
 
 const PostsListContainer = () => {
-  const [posts, setPosts] = useState([]);
-  const [queryCriteria, setQueryCriteria] = useState({});
-  const [currUser, setCurrUser] = useState("");
+  const [ posts, setPosts ] = useState([]);
+  const [ queryCriteria, setQueryCriteria ] = useState({});
+  const [ currUser, setCurrUser ] = useState("");
+  const [ showPostItem, setShowPostItem ] = useState(false)
 
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
@@ -107,7 +109,8 @@ const PostsListContainer = () => {
   }, [queryCriteria]);
 
   const postNewItem = () => {
-    currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
+    // currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
+    currUser? setShowPostItem(true): Router.push("/signIn/SignIn")
   };
 
   return (
@@ -117,6 +120,9 @@ const PostsListContainer = () => {
         <div>
           <SideNavBar setQueryCriteria={setQueryCriteria} />
         </div>
+    {
+        showPostItem?
+        <PostItem back={setShowPostItem}/>:(
         <div>
           <div className={style.PostsContainer}>
             <div className={style.SortDiv}>
@@ -146,6 +152,7 @@ const PostsListContainer = () => {
             )}
           </div>
         </div>
+        )}
       </div>
     </main>
   );
