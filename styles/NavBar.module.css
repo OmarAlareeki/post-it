@@ -69,6 +69,10 @@
   cursor: pointer;
 }
 
+.Li:active {
+  font-weight: bold;
+}
+
 .CategoryList {
   font-size: 20px;
   padding-top: 10px;

@@ -4,9 +4,10 @@ import { BsSearch } from "react-icons/bs";
 
 const SearchPosts = ({ setQueryCriteria }) => {
   const [searchedValue, setSearchedValue] = useState("");
-  const handleSearch = () => {;
+
+  const handleSearch = () => {
     setQueryCriteria({ searchCriteria: searchedValue });
-  };;
+  };
 
   return (
     <div className={Style.SearchContainer}>

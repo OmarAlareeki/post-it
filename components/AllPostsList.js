@@ -1,10 +1,10 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Cards from "./Cards.js";
 
-const AllPostsList = ({ posts }) => {
+const AllPostsList = ({ posts, deleteBtnStatus }) => {
   return (
     <>
-      <Cards props={posts} />
+      <Cards props={posts} deleteBtnStatus={deleteBtnStatus} />
     </>
   );
 };
