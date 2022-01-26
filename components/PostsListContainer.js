@@ -202,7 +202,6 @@ const PostsListContainer = () => {
             <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
           )}
         </div>
-        )}
       </div>
     </main>
   );
