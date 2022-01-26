@@ -173,12 +173,40 @@ const PostsListContainer = () => {
             currUser={currUser}
           />
         </div>
-        <div className={style.PostsContainer}>
-          <div className={style.SortDiv}>
-            <SortBy setSortBy={setSortBy} />
-            <Button variant="warning" onClick={() => postNewItem()}>
-              Add Post
-            </Button>
+        <div>
+          <div className={style.PostsContainer}>
+            <div className={style.SortDiv}>
+              <select style={{ 
+                marginRight: '30px',
+                background: '#ffc107',
+                border: '1px solid #dde4ea',
+                borderRadius: '5px',
+                color: '#161100',
+                textAlign: 'center',
+}}>
+                <option>Sort By...</option>
+                <option>Price</option>
+                <option>Title</option>
+                <option>zipCode</option>
+              </select>
+              <button onClick={() => postNewItem()}>Add Post</button>
+            </div>
+
+            {posts.length <= 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "110px",
+                  fontSize: "50px",
+                }}
+              >
+                OOPS!
+                <br />
+                No results found
+              </div>
+            ) : (
+              <AllPostsList posts={posts} myposts={queryCriteria.userID} />
+            )}
           </div>
 
           {posts[0] === "Loading..." ? (
