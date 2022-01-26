@@ -15,10 +15,3 @@ a {
 * {
   box-sizing: border-box;
 }
-.card {
-  width: "15rem";
-  border-radius: "5px";
-  margin: "10px";
-  height: "350px";
-  background: "aliceblue";
-}
