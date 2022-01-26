@@ -31,17 +31,7 @@ const Cards = ({ props, deleteBtnStatus }) => {
                 color: "black",
                 textDecoration: "none",
               }}
-            >
-           <Card.Img
-                variant="top"
-                src={prop.imageUrls}
-                alt={prop.title}
-                style={{
-                  borderTopRightRadius: "28px",
-                  borderTopLeftRadius: "28px",
-                  height: "150px",
-                }}
-              />
+            />
             <Card.Body>
               <Card.Title
                   style={{
