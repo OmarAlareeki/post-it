@@ -28,7 +28,7 @@ const PostsListContainer = () => {
   const [sortBy, setSortBy] = useState("");
   // const [sortValue, setSortValue] = useState("");
   // const [sortType, setSortType] = useState("");
-  const [ showPostItem, setShowPostItem ] = useState(false)
+  const [showPostItem, setShowPostItem] = useState(false);
 
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
@@ -161,7 +161,7 @@ const PostsListContainer = () => {
 
   const postNewItem = () => {
     // currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
-    currUser? setShowPostItem(true): Router.push("/signIn/SignIn")
+    currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
   };
 
   return (
@@ -175,42 +175,43 @@ const PostsListContainer = () => {
             currUser={currUser}
           />
         </div>
-        {
-        showPostItem?
-            <PostItem back={setShowPostItem} /> : (
-        <div>
-        <div className={style.PostsContainer}>
-          <div className={style.SortDiv}>
-            <SortBy setSortBy={setSortBy} />
-            <Button variant="warning" onClick={() => postNewItem()}>
-              Add Post
-            </Button>
-                    {
-                      posts[0] === "Loading..." ? (
-            <Spinner
-              animation="border"
-              className="position-absolute top-50 start-50 translate-middle"
-            />
-          ) : posts.length <= 0 ? (
-            <div
-              style={{
-                textAlign: "center",
-                padding: "110px",
-                fontSize: "50px",
-              }}
-            >
-              OOPS!
-              <br />
-              No results found
+        {showPostItem ? (
+          <PostItem back={setShowPostItem} />
+        ) : (
+          <div>
+            <div className={style.PostsContainer}>
+              <div className={style.SortDiv}>
+                <SortBy setSortBy={setSortBy} />
+                <Button variant="warning" onClick={() => postNewItem()}>
+                  Add Post
+                </Button>
+                {posts[0] === "Loading..." ? (
+                  <Spinner
+                    animation="border"
+                    className="position-absolute top-50 start-50 translate-middle"
+                  />
+                ) : posts.length <= 0 ? (
+                  <div
+                    style={{
+                      textAlign: "center",
+                      padding: "110px",
+                      fontSize: "50px",
+                    }}
+                  >
+                    OOPS!
+                    <br />
+                    No results found
+                  </div>
+                ) : (
+                  <AllPostsList
+                    posts={posts}
+                    deleteBtnStatus={deleteBtnStatus}
+                  />
+                )}
+              </div>
             </div>
-          ) : (
-            <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
-                      )
-                    }
-        </div>
-      </div>
-      </div>
-      )}
+          </div>
+        )}
       </div>
     </main>
   );
