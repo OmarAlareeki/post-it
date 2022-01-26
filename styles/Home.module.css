@@ -5,6 +5,7 @@
 .PostsContainer, .inputContainer {
   padding-top: 40px;
   width: calc(100vw - 400px);
+
 }
 
 .PostsDisplay {
@@ -70,27 +71,76 @@
 }
 
 .SortDiv {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
+  display:flex;
+  flex-direction: row-reverse;
   justify-content: flex-end;
-  align-items: center;
-  padding: 30px;
+  padding-bottom: 20px;
+  margin-left: 40px;
 }
 
-.Cards {
-  width: 15rem;
-  border-radius: 28px;
-  background-color: #e0e0e0;
-  border: 1px solid;
-  margin: 20px;
-  height: 285px;
-  text-decoration: none;
+/* Media queries for responsive design */
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+  
+  /* CSS */
+  
 }
 
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 50px;
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  
+  /* CSS */
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  /* CSS */
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  /* CSS */
+  
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  
+  /* CSS */
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+  /* CSS */
+  
 }
