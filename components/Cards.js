@@ -11,28 +11,35 @@ const Cards = ({ props, deleteBtnStatus }) => {
     <Container className={style.PostsDisplay}>
       {props.map((prop) => (
         <div key={prop.id}>
-          <Card
-            style={{
-              width: "15rem",
-              borderRadius: "5px",
-              margin: "10px",
-              height: "350px",
-              background: "aliceblue"
-            }}
-          >
-            <Card.Link
+          <Card className={style.Cards}>
+           <Card.Link
               href={`/displaypage/${prop.id}`}
-              >
-            <Card.Img
-              variant="top"
-              src={prop.imageUrls}
-              alt={prop.title}
               style={{
-                minHeight: "180px",
+                color: "black",
+                textDecoration: "none",
               }}
             />
+           <Card.Img
+                variant="top"
+                src={prop.imageUrls}
+                alt={prop.title}
+                style={{
+                  borderTopRightRadius: "28px",
+                  borderTopLeftRadius: "28px",
+                  height: "150px",
+                }}
+              />
             <Card.Body>
-              <Card.Title>{prop.title}</Card.Title>
+              <Card.Title
+                  style={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    textDecoration: "none",
+                  }}
+                >
+                  {prop.title}
+                </Card.Title>
               <Card.Text>$ {prop.price}</Card.Text>
               <Card.Text>
                 {prop.postDate.toDate().toLocaleDateString() +
