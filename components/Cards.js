@@ -11,15 +11,7 @@ const Cards = ({ props, deleteBtnStatus }) => {
     <Container className={style.PostsDisplay}>
       {props.map((prop) => (
         <div key={prop.id}>
-          <Card
-            style={{
-              width: "15rem",
-              borderRadius: "5px",
-              margin: "10px",
-              height: "350px",
-              background: "aliceblue"
-            }}
-          >
+          <Card className="card">
             <Card.Link
               href={`/displaypage/${prop.id}`}
               >
