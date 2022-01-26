@@ -11,10 +11,7 @@ import {
   FacebookAuthProvider,
   signInWithRedirect,
   inMemoryPersistence,
-<<<<<<< HEAD
   signInWithCredential
-=======
->>>>>>> f7ce8aa38bf14db189796346a2946316016650a0
 } from "firebase/auth";
 
 const SignInPage = () => {
