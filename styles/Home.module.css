@@ -1,12 +1,12 @@
 .mainHeader {
   text-align: center;
 }
-
+/* 
 .PostsContainer, .inputContainer {
   padding-top: 40px;
   width: calc(100vw - 400px);
 
-}
+} */
 
 .PostsDisplay {
   display: flex;
@@ -15,6 +15,7 @@
   align-content: space-around;
   justify-content: space-evenly;
   align-items: flex-start;
+  margin-top: 20px;
 }
 
 .listOrders {
@@ -78,6 +79,17 @@
   margin-left: 40px;
 }
 
+.Cards {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  width: 220px;
+  margin-top: 10px;
+  background: #fef2eb;
+}
 /* Media queries for responsive design */
 /* 
   ##Device = Desktops
