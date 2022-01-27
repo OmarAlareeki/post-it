@@ -23,8 +23,6 @@ const Cards = ({ props, deleteBtnStatus }) => {
                 src={prop.imageUrls}
                 alt={prop.title}
                 style={{
-                  borderTopRightRadius: "28px",
-                  borderTopLeftRadius: "28px",
                   height: "150px",
                 }}
               />
