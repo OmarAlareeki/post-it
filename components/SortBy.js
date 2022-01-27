@@ -16,7 +16,7 @@ const SortBy = ({ setSortBy }) => {
           console.log(e.target.value);
         }}
       >
-        <option>Sort by</option>
+        <option>Sort On...</option>
         <option value="price , asc">Price </option>
         <option value="priceDesc">Price Desc</option>
         <option value="titleAsc">Title</option>
