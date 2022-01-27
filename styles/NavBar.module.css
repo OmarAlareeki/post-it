@@ -37,7 +37,7 @@
   width: 400px;
   background: aliceblue;
   border-radius: 20px;
-  text-align: center
+  text-align: center;
 }
 
 .SearchButton {
@@ -63,10 +63,6 @@
 
 .SideBar:hover {
   cursor: pointer;
-}
-
-.Li:active {
-  font-weight: bold;
 }
 
 .CategoryList {
