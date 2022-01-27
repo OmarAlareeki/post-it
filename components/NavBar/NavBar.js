@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth } from "../../config/fire-config";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, setDoc } from "firebase/auth";
+import { Container } from "react-bootstrap"
+
 
 const NavBar = ({ setQueryCriteria }) => {
   const [currentUser, setCurrentUser] = useState("");
@@ -26,7 +28,8 @@ const NavBar = ({ setQueryCriteria }) => {
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
 
   return (
-    <nav className={style.Nav}>
+    <Container>
+       <nav className={style.Nav}>
       <div>
         <img
           src="../Logo3.png"
@@ -77,6 +80,8 @@ const NavBar = ({ setQueryCriteria }) => {
         setLoggedIn={setLoggedIn}
       />
     </nav>
+    </Container>
+   
   );
 };
 
