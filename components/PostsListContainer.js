@@ -17,9 +17,10 @@ import {
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
-import { Spinner, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import SortBy from "./SortBy";
 import PostItem from "./PostItem";
+import { Rings } from 'react-loader-spinner'
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
@@ -118,13 +119,15 @@ const PostsListContainer = () => {
           orderBy("postDate", "desc"),
           where("userId", "==", queryCriteria.userID)
         );
-      } //else if (queryCriteria.saved) {
-      // q = query(
-      //   postsRef,
-      //   orderBy("postDate", "desc"),
-      //   where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
-      // );
-      //}
+      } 
+      else if (queryCriteria.saved) {
+        const docRef = doc(db, "users", currUser.uid);
+        q = query(
+          docRef,
+          orderBy("postDate", "desc"),
+          where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
+      );
+      }
       onSnapshot(q, (snap) => {
         const queryList = snap.docs.map((doc) => ({
           id: doc.id,
@@ -196,11 +199,15 @@ const PostsListContainer = () => {
                 <Button variant="warning" onClick={() => postNewItem()}>
                   Add Post
                 </Button>
+                </div>
                 {posts[0] === "Loading..." ? (
-                  <Spinner
-                    animation="border"
-                    className="position-absolute top-50 start-50 translate-middle"
-                  />
+                  <div className={style.mainScreenLoader} >
+                  <Rings 
+                    color="#ef9d06" 
+                    height={140} 
+                    width={140} 
+                    />
+                    </div>
                 ) : posts.length <= 0 ? (
                   <div
                     style={{
@@ -221,7 +228,6 @@ const PostsListContainer = () => {
                 )}
               </div>
             </div>
-          </div>
         )}
       </div>
     </main>

@@ -18,8 +18,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: flex-end;
-  align-content: center;
+  align-items: center;
   max-width: 90%;
 }
 
@@ -37,7 +36,7 @@
   width: 400px;
   background: aliceblue;
   border-radius: 20px;
-  text-align: center;
+  text-align: center
 }
 
 .SearchButton {
@@ -53,7 +52,15 @@
   border: bold;
   padding: 0;
 }
-
+.userIcon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.userIcon p {
+  margin-bottom: 0;
+  margin-right: 1rem;
+}
 .SideBar {
   list-style: none;
   width: 220px;
@@ -65,9 +72,83 @@
   cursor: pointer;
 }
 
+.Li:active {
+  font-weight: bold;
+}
+
 .CategoryList {
   font-size: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
   font-weight: bold;
+}
+
+/* Media queries for responsive design */
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+  
+  /* CSS */
+  
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  
+  /* CSS */
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  /* CSS */
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  /* CSS */
+  
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  
+  .SearchBar {
+    width: 180px
+  }
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+  .SearchBar {
+    width: 100px
+  }
+  
 }

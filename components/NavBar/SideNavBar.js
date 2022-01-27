@@ -41,7 +41,10 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
 
         <li
           onClick={() => {
-            setQueryCriteria({ saved: "7hqkVuE26F2qZx6noZhB" });
+            setQueryCriteria({ saved: currUser.uid });
+            currUser.uid === undefined
+              ? alert("You Don't have any Saved Posts or You are not Logged-In")
+              : "";
             setDeleteBtnStatus(false);
           }}
         >
@@ -51,7 +54,10 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
         <li
           onClick={() => {
             setQueryCriteria({ userID: currUser.uid });
-            setDeleteBtnStatus(true);
+            currUser.uid ? setDeleteBtnStatus(true) : setDeleteBtnStatus(false);
+            currUser.uid === undefined
+              ? alert("You have not created any Posts or You are not Logged-In")
+              : "";
           }}
         >
           My Posts
