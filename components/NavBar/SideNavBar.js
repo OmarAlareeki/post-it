@@ -1,6 +1,9 @@
 import style from "../../styles/NavBar.module.css";
+import { useState } from "react";
 
 const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
+  const [clickStatus, setclcikStatus] = useState(false);
+
   const categories = new Map([
     ["Appliance", "appliance"],
     ["Baby and Kids", "babyAndKids"],
@@ -15,14 +18,22 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
     ["Others", "others"],
   ]);
 
+  let bgColor;
+
+  // function handleColor() {
+  //   clickStatus ? bgColor === "orange" : "transparent";
+  //   setclcikStatus(false);
+  // }
+
   return (
     <div>
       <ul className={style.SideBar}>
         <li
-          className={style.Li}
+          className={`${bgColor === "orange" && clickStatus ? "active" : ""}`}
           onClick={() => {
             setQueryCriteria({});
             setDeleteBtnStatus(false);
+            setclcikStatus(true);
           }}
         >
           All Posts

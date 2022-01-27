@@ -12,6 +12,7 @@ import {
   onSnapshot,
   orderBy,
   doc,
+  setDoc,
   getDoc,
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
