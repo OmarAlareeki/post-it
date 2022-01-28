@@ -20,7 +20,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Button } from "react-bootstrap";
 import SortBy from "./SortBy";
 import PostItem from "./PostItem";
-import { Rings } from 'react-loader-spinner'
+import { Rings } from "react-loader-spinner";
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
@@ -84,7 +84,7 @@ const PostsListContainer = () => {
 
   useEffect(async () => {
     const postsRef = collection(db, "posts");
-    //const userRef = collection(db, "posts");
+
     let q;
 
     if (
@@ -119,14 +119,6 @@ const PostsListContainer = () => {
           orderBy("postDate", "desc"),
           where("userId", "==", queryCriteria.userID)
         );
-      } 
-      else if (queryCriteria.saved) {
-        const docRef = doc(db, "users", currUser.uid);
-        q = query(
-          docRef,
-          orderBy("postDate", "desc"),
-          where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
-      );
       }
       onSnapshot(q, (snap) => {
         const queryList = snap.docs.map((doc) => ({
@@ -155,7 +147,7 @@ const PostsListContainer = () => {
         );
       });
     } else if (queryCriteria.saved) {
-      const docRef = doc(db, "users", "7hqkVuE26F2qZx6noZhB");
+      const docRef = doc(db, "users", currUser.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         if (docSnap.data().savedPost) {
@@ -174,7 +166,6 @@ const PostsListContainer = () => {
   }, [queryCriteria, sortBy]);
 
   const postNewItem = () => {
-    // currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
     currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
   };
 
@@ -199,35 +190,28 @@ const PostsListContainer = () => {
                 <Button variant="warning" onClick={() => postNewItem()}>
                   Add Post
                 </Button>
-                </div>
-                {posts[0] === "Loading..." ? (
-                  <div className={style.mainScreenLoader} >
-                  <Rings 
-                    color="#ef9d06" 
-                    height={140} 
-                    width={140} 
-                    />
-                    </div>
-                ) : posts.length <= 0 ? (
-                  <div
-                    style={{
-                      textAlign: "center",
-                      padding: "110px",
-                      fontSize: "50px",
-                    }}
-                  >
-                    OOPS!
-                    <br />
-                    No results found
-                  </div>
-                ) : (
-                  <AllPostsList
-                    posts={posts}
-                    deleteBtnStatus={deleteBtnStatus}
-                  />
-                )}
               </div>
+              {posts[0] === "Loading..." ? (
+                <div className={style.mainScreenLoader}>
+                  <Rings color="#ef9d06" height={140} width={140} />
+                </div>
+              ) : posts.length <= 0 ? (
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "110px",
+                    fontSize: "50px",
+                  }}
+                >
+                  OOPS!
+                  <br />
+                  No results found
+                </div>
+              ) : (
+                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
+              )}
             </div>
+          </div>
         )}
       </div>
     </main>
