@@ -36,7 +36,7 @@
   width: 400px;
   background: aliceblue;
   border-radius: 20px;
-  text-align: center
+  text-align: center;
 }
 
 .SearchButton {
@@ -52,7 +52,7 @@
   border: bold;
   padding: 0;
 }
-.userIcon{
+.userIcon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,9 +90,7 @@
 */
 
 @media (min-width: 1281px) {
-  
   /* CSS */
-  
 }
 
 /* 
@@ -101,9 +99,7 @@
 */
 
 @media (min-width: 1025px) and (max-width: 1280px) {
-  
   /* CSS */
-  
 }
 
 /* 
@@ -112,9 +108,7 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  
   /* CSS */
-  
 }
 
 /* 
@@ -123,9 +117,7 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  
   /* CSS */
-  
 }
 
 /* 
@@ -134,9 +126,8 @@
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
-  
   .SearchBar {
-    width: 180px
+    width: 180px;
   }
 }
 
@@ -146,9 +137,7 @@
 */
 
 @media (min-width: 320px) and (max-width: 480px) {
-  
   .SearchBar {
-    width: 100px
+    width: 100px;
   }
-  
 }

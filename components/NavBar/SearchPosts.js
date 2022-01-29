@@ -9,6 +9,14 @@ const SearchPosts = ({ setQueryCriteria }) => {
     setQueryCriteria({ searchCriteria: searchedValue });
   };
 
+  console.log(searchedValue);
+
+  const onkeypressed = (e) => {
+    if (e.key === "Enter") {
+      setQueryCriteria({ searchCriteria: searchedValue });
+    }
+  };
+
   return (
     <div className={Style.SearchContainer}>
       <input
@@ -19,6 +27,7 @@ const SearchPosts = ({ setQueryCriteria }) => {
         onChange={({ target }) => {
           setSearchedValue(target.value.toLowerCase());
         }}
+        onKeyUp={onkeypressed}
       />
       <button className={Style.SearchButton} onClick={handleSearch}>
         <BsSearch />
@@ -26,5 +35,4 @@ const SearchPosts = ({ setQueryCriteria }) => {
     </div>
   );
 };
-
 export default SearchPosts;
