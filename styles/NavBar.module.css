@@ -34,8 +34,7 @@
   cursor: pointer;
   margin-left: 80px;
   width: 400px;
-  background: aliceblue;
-  border-radius: 20px;
+  border-bottom: 1px solid black;
   text-align: center;
 }
 
