@@ -32,7 +32,7 @@ const NavBar = ({ setQueryCriteria }) => {
        <nav className={style.Nav}>
       <div>
         <img
-          src="../Logo3.png"
+          src="../new_logo.png"
           className={style.Logo}
           onClick={() => {
             Router.push("/");
