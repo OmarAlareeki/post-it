@@ -19,7 +19,7 @@ import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { Button } from "react-bootstrap";
 import PostItem from "./PostItem";
-import { Rings } from 'react-loader-spinner'
+import { Rings } from "react-loader-spinner";
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
@@ -78,14 +78,6 @@ const PostsListContainer = () => {
           postsRef,
           orderBy(sortValue, sortType),
           where("userId", "==", queryCriteria.userID)
-        );
-      }
-      else if (queryCriteria.saved) {
-        const docRef = doc(db, "users", currUser.uid);
-        q = query(
-          docRef,
-          orderBy(sortValue, sortType),
-          where("savedPosts", "array-contains", currUser.uid)
         );
       }
       onSnapshot(q, (snap) => {
@@ -153,6 +145,7 @@ const PostsListContainer = () => {
           <div>
             <div className={style.PostsContainer}>
               <div className={style.SortDiv}>
+
                 <>
                   <select
                     style={{
@@ -178,11 +171,13 @@ const PostsListContainer = () => {
                     <option value="zip,desc" >Location</option>
                   </select>
                 </>
+
                 <Button variant="warning" onClick={() => postNewItem()}>
                   Add Post
                 </Button>
               </div>
               {posts[0] === "Loading..." ? (
+
                 <div className={style.mainScreenLoader} >
                   <Rings
                     color="#ef9d06"
@@ -203,6 +198,7 @@ const PostsListContainer = () => {
                   No results found
                 </div>
               ) : (
+
                 <AllPostsList
                   posts={posts}
                   deleteBtnStatus={deleteBtnStatus}
