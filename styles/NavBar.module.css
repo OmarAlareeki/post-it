@@ -28,13 +28,13 @@
   font-weight: 300;
   color: #333;
   border: none;
+  border-bottom: 1px solid;
   box-shadow: none;
   box-sizing: content-box;
   padding: 15px;
   cursor: pointer;
   margin-left: 80px;
   width: 400px;
-  background: aliceblue;
   border-radius: 20px;
   text-align: center
 }
