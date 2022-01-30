@@ -1,12 +1,13 @@
 
 import Router from 'next/router'
 import React, { useState, useEffect } from 'react'
-import { Button, Form, Row, Col } from 'react-bootstrap'
+import { Container, Button, Form, Row, Col } from 'react-bootstrap'
 import style from "../../styles/Home.module.css"
 import { auth, db } from '../../config/fire-config'
 import { doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
+import Logo from "../../components/NavBar/Logo"
 
 function SignUp() {
   const [firstName, setFirstName] = useState("")
@@ -50,8 +51,10 @@ function SignUp() {
 
 
   return (
-    <>
+    <Container>
+      <Logo />
       <div className={style.container}>
+      
         <h1 className="m-4">Sign Up</h1>
 
         <div className="mx-4">
@@ -136,6 +139,7 @@ function SignUp() {
         </div>
         <div className="d-flex justify-content-center ">
           <Button
+          style={{ background: 'red', color: 'white', border: 'none'}}
             variant="light"
             className="w-25 mt-5 mx-2"
             onClick={() => {
@@ -145,6 +149,7 @@ function SignUp() {
             Cancel
           </Button>
           <Button
+          style={{ background: '#ffc107', border: 'none', color: '#00243D'}}
             variant="primary"
             className="w-25 mt-5 mx-2"
             onClick={() => {
@@ -156,7 +161,7 @@ function SignUp() {
           </Button>
         </div>
       </div>
-    </>
+    </Container>
   );
 }
 

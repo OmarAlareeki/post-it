@@ -1,12 +1,6 @@
 .mainHeader {
   text-align: center;
 }
-/* 
-.PostsContainer, .inputContainer {
-  padding-top: 40px;
-  width: calc(100vw - 400px);
-
-} */
 
 .PostsDisplay {
   display: flex;
@@ -57,10 +51,10 @@
   flex-direction: row;
 }
 .container {
-  width: 70vw;
+  width: 40vw;
   padding: 10px;
-  padding-top: 60px;
   margin: auto;
+  text-align: center
 }
 .facebookButton {
   border: none;
@@ -95,6 +89,24 @@
   justify-content: center;
   align-items: center;
 }
+
+.providerButtons {
+  display: flex;
+  flex-direction: row
+}
+
+.providerButtons > * {
+  background: none;
+  border: none;
+  font-size: 2.5rem
+
+}
+
+/* .formContainer {
+  width: 80%;
+  margin: auto
+} */
+
 /* Media queries for responsive design */
 /* 
   ##Device = Desktops
@@ -146,9 +158,11 @@
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
-  
-  /* CSS */
-  
+
+  .container {
+    width: 80vw;
+  }
+
 }
 
 /* 
@@ -158,6 +172,8 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   
-  /* CSS */
+  .container {
+    width: 90vw;
+  }
   
 }

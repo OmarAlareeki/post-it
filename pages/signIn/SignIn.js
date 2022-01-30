@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../config/fire-config";
-import { Button, Form } from "react-bootstrap";
+import { Container, Button, Form } from "react-bootstrap";
 import GoogleLogin from "react-google-button";
 import Router from "next/router";
 import style from "../../styles/Home.module.css";
+import { FcGoogle } from "react-icons/fc"
+import { AiFillFacebook } from "react-icons/ai"
+import Logo from "../../components/NavBar/Logo"
+
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -84,123 +88,129 @@ const SignInPage = () => {
   }, [userEmail, userPassword]);
 
   return (
-    <div className={style.container}>
-      <h1>Sign In</h1>
+    <Container>
+      <Logo />
+      <div className={style.container}>
+        <h1>Sign In</h1>
 
-      <Form
-        validated={userEmail && userPassword}
-        className="px-3 mx-3"
-        onSubmit={() => {
-          login();
-        }}
-      >
-        <Form.Group className="mb-3" controlId="validateUserEmail">
-          <Form.Label className="d-flex align-item-center justify-content-between">
-            Email address{" "}
-            <div>
-              <small style={{ justifyContent: "flex-start" }}>
-                Need an account?
-                <span
-                  style={{ cursor: "pointer", color: "blue" }}
-                  className="w-100"
-                  onClick={() => Router.push("/signIn/SignUp")}
-                >
-                  {" "}
-                  Sign up{" "}
-                </span>
-              </small>
-            </div>
-          </Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="name@example.com"
-            onChange={(e) => {
-              setUserEmail(e.target.value);
-              setErrorMessage("");
-            }}
-            required
-          />
-          <Form.Control.Feedback type="invalid">
-            Please provide a valid Email.
+        <Form
+          validated={userEmail && userPassword}
+          className={style.formContainer}
+          onSubmit={() => {
+            login();
+          }}
+        >
+          <Form.Group className="mb-3" controlId="validateUserEmail">
+            <Form.Label className="d-flex align-item-center justify-content-between">
+              Email address{" "}
+            </Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="name@example.com"
+              onChange={(e) => {
+                setUserEmail(e.target.value);
+                setErrorMessage("");
+              }}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid Email.
           </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            onChange={(e) => {
-              setUserPassword(e.target.value);
-              setErrorMessage("");
-            }}
-            required
-            minLength={6}
-          />
-          <Form.Control.Feedback type="invalid">
-            Passwords must be at least six letters long.
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label className="d-flex align-item-center justify-content-between">Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={(e) => {
+                setUserPassword(e.target.value);
+                setErrorMessage("");
+              }}
+              required
+              minLength={6}
+            />
+            <Form.Control.Feedback type="invalid">
+              Passwords must be at least six letters long.
           </Form.Control.Feedback>
-        </Form.Group>
-        <small> {errorMessage} </small>
+          </Form.Group>
+          <small> {errorMessage} </small>
 
-        <small className="">
-          <u
-            onClick={() => {
-              Router.push("/signIn/ForgotPassword");
-            }}
-            style={{ cursor: "pointer", color: "blue" }}
-          >
-            Forgot password
+          <small className="">
+            <u
+              onClick={() => {
+                Router.push("/signIn/ForgotPassword");
+              }}
+              style={{ cursor: "pointer", color: "blue" }}
+            >
+              Forgot password
           </u>
-        </small>
+          </small>
 
-        <div className="d-flex w-100 justify-content-center mt-3">
-          <Button
-            variant="primary"
-            className="w-50"
-            onClick={() => {
-              if (userEmail === "" || userPassword === "") {
-                //do nothing
-              } else if (errorMessage !== "") {
-                //do nothing
-              } else {
-                login();
-                setUserEmail("");
-                setUserPassword("");
-                Router.push("/");
-              }
-            }}
-          >
-            Sign In
+          <div>
+            <small style={{ justifyContent: "flex-start" }}>
+              Need an account?
+                <span
+                style={{ cursor: "pointer", color: "blue" }}
+                className="w-100"
+                onClick={() => Router.push("/signIn/SignUp")}
+              >
+                {" "}
+                Sign up{" "}
+              </span>
+            </small>
+          </div>
+
+          <div className="d-flex w-100 justify-content-center mt-3">
+            <Button style={{
+                background: '#ffc107',
+                border: 'none',
+                color: 'black',
+                width: '60%'
+              }}
+              onClick={() => {
+                if (userEmail === "" || userPassword === "") {
+                  //do nothing
+                } else if (errorMessage !== "") {
+                  //do nothing
+                } else {
+                  login();
+                  setUserEmail("");
+                  setUserPassword("");
+                  Router.push("/");
+                }
+              }}
+            >
+              Sign In
           </Button>
-        </div>
-      </Form>
-      <hr />
-      <p className="m-auto text-center py-3"> Or Login with: </p>
-      <div className="d-flex justify-content-center border-top-0">
-        <div>
-          <GoogleLogin
-            clientid="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-            buttontext="Login"
-            cookiepolicy={"single_host_origin"}
-            onClick={() => {
+          </div>
+        </Form>
+        <hr />
+        <p className="m-auto text-center py-3"> Or Login with: </p>
+        <div className="d-flex justify-content-center border-top-0">
+          <div className={style.providerButtons}>
+            <button onClick={() => {
               googleLogin();
               Router.push("/");
             }}
-          />
-        </div>
+            >
+              <FcGoogle />
+            </button>
 
-        <button
-          className={style.facebookButton}
-          onClick={() => {
-            facebookLogin();
-            console.log("facebook");
-            Router.push("/");
-          }}
-        >
-          <img src="../ZW4QC.png" className={style.facebookImage} />
-        </button>
+
+            <button style={{ color: "#13315f" }}
+              className={style.facebookButton}
+              onClick={() => {
+                facebookLogin();
+                console.log("facebook");
+                Router.push("/");
+              }}
+            >
+              <AiFillFacebook />
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

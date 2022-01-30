@@ -1,9 +1,9 @@
+
 .Nav {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   align-content: center;
-  padding: 15px;
   width: 100%;
   background: transparent;
   z-index: 1;
@@ -20,7 +20,13 @@
   justify-content: center;
   align-items: center;
   max-width: 90%;
+
 }
+
+.SearchContainer > input:focus {
+  outline: 1px solid #ffc107
+}
+
 
 .SearchBar {
   display: flex;
@@ -40,8 +46,13 @@
 }
 
 .SearchButton {
-  display: flex;
-  background-color: transparent;
+  padding: 15px;
+  border-radius: 0% 35% 35% 0%;
+  color: black;
+  position: relative;
+  left: -48px;
+  background: #ffc107;
+  font-size: 1rem;
   border: none;
 }
 

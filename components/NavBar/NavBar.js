@@ -6,7 +6,8 @@ import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth } from "../../config/fire-config";
 import { onAuthStateChanged, setDoc } from "firebase/auth";
-import { Container } from "react-bootstrap"
+import { Container } from "react-bootstrap";
+import Logo from "./Logo"
 
 
 const NavBar = ({ setQueryCriteria }) => {
@@ -15,6 +16,7 @@ const NavBar = ({ setQueryCriteria }) => {
   const [signoutModal, setSignoutModal] = useState(false);
 
   useEffect(() => {
+    console.log(currentUser)
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
@@ -30,15 +32,7 @@ const NavBar = ({ setQueryCriteria }) => {
   return (
     <Container>
        <nav className={style.Nav}>
-      <div>
-        <img
-          src="../Logo3.png"
-          className={style.Logo}
-          onClick={() => {
-            Router.push("/");
-          }}
-        />
-      </div>
+       <Logo />
       <div>
         <SearchPosts setQueryCriteria={setQueryCriteria} />
       </div>
