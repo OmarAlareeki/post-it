@@ -1,9 +1,11 @@
 import style from "../../styles/NavBar.module.css";
 import { useState } from "react";
 import { MdFilterList } from "react-icons/md";
+import Router from "next/router";
 
 const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
   const [clickStatus, setclcikStatus] = useState(false);
+  const [liValue, setLiValue] = useState("");
 
   const categories = new Map([
     ["Appliance", "appliance"],
@@ -19,58 +21,62 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
     ["Others", "others"],
   ]);
 
-  let bgColor;
-
   return (
     <div>
       <span className={style.Menu}>
         <MdFilterList className={style.FilterIcon} />
         <ul className={style.SideBar}>
           <li
-            className={`${bgColor === "orange" && clickStatus ? "active" : ""}`}
+            className={
+              clickStatus && liValue === "AllPosts" ? style.Active : ""
+            }
             onClick={() => {
               setQueryCriteria({});
               setDeleteBtnStatus(false);
               setclcikStatus(true);
+              setLiValue("AllPosts");
             }}
           >
             All Posts
           </li>
 
           <li
+            className={
+              clickStatus && liValue === "SavedPosts" ? style.Active : ""
+            }
             onClick={() => {
               setQueryCriteria({ saved: currUser.uid });
-              currUser.uid === undefined
-                ? alert(
-                    "You Don't have any Saved Posts or You are not Logged-In"
-                  )
-                : "";
+              currUser.uid === undefined ? Router.push("/signIn/SignIn") : "";
               setDeleteBtnStatus(false);
+              setclcikStatus(true);
+              setLiValue("SavedPosts");
             }}
           >
             Saved Posts
           </li>
 
           <li
+            className={clickStatus && liValue === "MyPosts" ? style.Active : ""}
             onClick={() => {
+              setLiValue("MyPosts");
+              setclcikStatus(true);
               setQueryCriteria({ userID: currUser.uid });
               currUser.uid
                 ? setDeleteBtnStatus(true)
                 : setDeleteBtnStatus(false);
-              currUser.uid === undefined
-                ? alert(
-                    "You have not created any Posts or You are not Logged-In"
-                  )
-                : "";
+              currUser.uid === undefined ? Router.push("/signIn/SignIn") : "";
             }}
           >
             My Posts
           </li>
 
           <li
+            className={clickStatus && liValue === "Free" ? style.Active : ""}
             onClick={() => {
               setQueryCriteria({ price: 1 });
               setDeleteBtnStatus(false);
+              setclcikStatus(true);
+              setLiValue("Free");
             }}
           >
             Free
@@ -80,10 +86,15 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
 
           {[...categories.keys()].map((categoryName, i) => (
             <li
+              className={
+                clickStatus && liValue === categoryName ? style.Active : ""
+              }
               key={i}
               onClick={() => {
                 setQueryCriteria({ category: categories.get(categoryName) });
                 setDeleteBtnStatus(false);
+                setLiValue(categoryName);
+                setclcikStatus(true);
               }}
             >
               {categoryName}

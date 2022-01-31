@@ -116,7 +116,7 @@ const PostsListContainer = () => {
             .savedPost.map((arr) => ({ id: arr.postId, ...arr }));
           setPosts(savedArray);
         } else {
-          alert("You have not saved any Posts");
+          setPosts([]);
         }
       } else {
         console.log(error);

@@ -83,7 +83,7 @@
   cursor: pointer;
 }
 
-.Li:active {
+.Active {
   font-weight: bold;
 }
 
