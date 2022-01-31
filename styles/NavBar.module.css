@@ -67,7 +67,12 @@
   margin-right: 1rem;
 }
 
+.FilterIcon {
+  display: none;
+}
+
 .SideBar {
+  display: block;
   list-style: none;
   width: 220px;
   margin-top: 30px;
@@ -135,6 +140,34 @@
   .SearchBar {
     width: 180px;
   }
+
+  .SideBar {
+    display: none;
+  }
+
+  .FilterIcon {
+    display: block;
+    font-size: 30px;
+    position: absolute;
+    right: 88px;
+  }
+
+  .Menu:hover > .SideBar {
+    display: block;
+    position: absolute;
+    top: 123px;
+    right: 26px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 1;
+    margin-top: 0px;
+    padding: 15px;
+    background-color: #fff;
+  }
+
+  .CategoryList {
+    font-size: 13px;
+  }
 }
 
 /* 
@@ -145,5 +178,33 @@
 @media (min-width: 320px) and (max-width: 480px) {
   .SearchBar {
     width: 100px;
+  }
+
+  .SideBar {
+    display: none;
+  }
+
+  .FilterIcon {
+    display: block;
+    font-size: 30px;
+    position: absolute;
+    right: 20px;
+  }
+
+  .Menu:hover > .SideBar {
+    display: block;
+    position: absolute;
+    top: 123px;
+    right: 26px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 1;
+    margin-top: 0px;
+    padding: 15px;
+    background-color: #fff;
+  }
+
+  .CategoryList {
+    font-size: 10px;
   }
 }

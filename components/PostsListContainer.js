@@ -69,6 +69,7 @@ const PostsListContainer = () => {
       } else if (queryCriteria.price) {
         q = query(
           postsRef,
+          orderBy("price", "asc"),
           orderBy(sortValue, sortType),
           where("price", "<", queryCriteria.price)
         );
