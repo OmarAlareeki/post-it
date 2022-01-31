@@ -1,5 +1,6 @@
 import style from "../../styles/NavBar.module.css";
 import { useState } from "react";
+import { IoFilterOutline } from "react-icons/io";
 
 const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
   const [clickStatus, setclcikStatus] = useState(false);
@@ -27,6 +28,9 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
 
   return (
     <div>
+      <>
+        <IoFilterOutline />
+      </>
       <ul className={style.SideBar}>
         <li
           className={`${bgColor === "orange" && clickStatus ? "active" : ""}`}
