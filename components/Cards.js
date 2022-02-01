@@ -28,6 +28,7 @@ const Cards = ({ props, deleteBtnStatus }) => {
               />
               <Card.Body>
                 <Card.Title
+                className="h6"
                   style={{
                     overflow: "hidden",
                     whiteSpace: "nowrap",

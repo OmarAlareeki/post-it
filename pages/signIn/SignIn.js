@@ -95,7 +95,7 @@ const SignInPage = () => {
 
         <Form
           validated={userEmail && userPassword}
-          className={style.formContainer}
+          className="formContainer"
           onSubmit={() => {
             login();
           }}

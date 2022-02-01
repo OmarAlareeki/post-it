@@ -24,7 +24,7 @@
 }
 
 .SearchContainer > input:focus {
-  outline: 1px solid #ffc107
+  outline: none
 }
 
 
