@@ -193,7 +193,7 @@ const PostsListContainer = () => {
           <PostItem back={setShowPostItem} />
         ) : (
           <div>
-            <div className={style.PostsContainer}>
+            <div className={style.PostsContainer} style={{marginTop: '35px'}}>
               <div className={style.SortDiv}>
                 <SortBy setSortBy={setSortBy} />
                 <Button variant="warning" onClick={() => postNewItem()}>
