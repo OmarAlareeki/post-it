@@ -40,6 +40,8 @@ const PostsListContainer = () => {
         name: currUser.displayName,
         email: currUser.email,
         uid: currUser.uid,
+        provider: currUser.providerData[0].providerId,
+        photo: currUser.photoURL,
       });
     }
   }, [currUser]);
