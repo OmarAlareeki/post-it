@@ -69,6 +69,7 @@ const PostsListContainer = () => {
       } else if (queryCriteria.price) {
         q = query(
           postsRef,
+          orderBy("price", "asc"),
           orderBy(sortValue, sortType),
           where("price", "<", queryCriteria.price)
         );
@@ -86,7 +87,6 @@ const PostsListContainer = () => {
           ...doc.data(),
         }));
         setPosts(queryList);
-        console.log(queryList);
       });
     } else if (queryCriteria.searchCriteria) {
       if (sortValue && sortType) {
@@ -116,7 +116,7 @@ const PostsListContainer = () => {
             .savedPost.map((arr) => ({ id: arr.postId, ...arr }));
           setPosts(savedArray);
         } else {
-          alert("You have not saved any Posts");
+          setPosts([]);
         }
       } else {
         console.log(error);
@@ -145,30 +145,28 @@ const PostsListContainer = () => {
           <div>
             <div className={style.PostsContainer}>
               <div className={style.SortDiv}>
-
                 <>
                   <select
                     style={{
-                      marginRight: '40px',
-                      border: 'solid 1px #f0f8ff',
-                      textAlign: 'center',
-                      fontSize: '.8rem',
-                      background: '#fff',
+                      marginRight: "40px",
+                      border: "solid 1px #f0f8ff",
+                      textAlign: "center",
+                      fontSize: ".8rem",
+                      background: "#fff",
                     }}
                     onChange={(e) => {
-                      setSortValue(e.target.value.split(",")[0])
-                      setSortType(e.target.value.split(",")[1])
-                      console.log(e.target.value);
+                      setSortValue(e.target.value.split(",")[0]);
+                      setSortType(e.target.value.split(",")[1]);
                     }}
                   >
-                    <option value="postDate,asc" >Sort by</option>
-                    <option value="price,asc" >Price </option>
-                    <option value="price,desc" >Price Desc</option>
-                    <option value="title,asc" >Title</option>
-                    <option value="title,desc" >Title Desc</option>
-                    <option value="postDate,asc" >Post Date </option>
-                    <option value="postDate,desc" >Post Date Desc</option>
-                    <option value="zip,desc" >Location</option>
+                    <option value="postDate,asc">Sort by</option>
+                    <option value="price,asc">Price </option>
+                    <option value="price,desc">Price Desc</option>
+                    <option value="title,asc">Title</option>
+                    <option value="title,desc">Title Desc</option>
+                    <option value="postDate,asc">Post Date </option>
+                    <option value="postDate,desc">Post Date Desc</option>
+                    <option value="zip,desc">Location</option>
                   </select>
                 </>
 
@@ -177,13 +175,8 @@ const PostsListContainer = () => {
                 </Button>
               </div>
               {posts[0] === "Loading..." ? (
-
-                <div className={style.mainScreenLoader} >
-                  <Rings
-                    color="#ef9d06"
-                    height={140}
-                    width={140}
-                  />
+                <div className={style.mainScreenLoader}>
+                  <Rings color="#ef9d06" height={140} width={140} />
                 </div>
               ) : posts.length <= 0 ? (
                 <div
@@ -198,11 +191,7 @@ const PostsListContainer = () => {
                   No results found
                 </div>
               ) : (
-
-                <AllPostsList
-                  posts={posts}
-                  deleteBtnStatus={deleteBtnStatus}
-                />
+                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
               )}
             </div>
           </div>
