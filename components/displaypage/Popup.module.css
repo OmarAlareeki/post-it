@@ -12,8 +12,8 @@
 }
 
 .popup {
-    width: 600px;
-    height: 400px;
+    width: 90vw;
+    height: 60vh;
     background-color: white;
     position: relative;
 
