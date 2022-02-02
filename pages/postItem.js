@@ -11,7 +11,7 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  deleteObject
+  deleteObject,
 } from "firebase/storage";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -26,38 +26,33 @@ const PostItem = () => {
     price: "",
     userId: "",
     imageUrls: "",
-    description: ""
+    description: "",
   });
   const [phoneNumber, setPhoneNumber] = useState(undefined);
   const [imageTitles, setImageTitles] = useState([]);
   const [displayUrl, setDisplayUrl] = useState([]);
   const [progress, setProgress] = useState("getUpload");
-  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] = useState(
-    false
-  );
+  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] =
+    useState(false);
   const [currUser, setCurrUser] = useState("");
 
-  onAuthStateChanged(
-    auth,
-    user => (user ? setCurrUser(user) : setCurrUser(""))
+  onAuthStateChanged(auth, (user) =>
+    user ? setCurrUser(user) : setCurrUser("")
   );
 
-  useEffect(
-    () => {
-      setPostId(_.uniqueId(data.category));
-    },
-    [data.category]
-  );
+  useEffect(() => {
+    setPostId(_.uniqueId(data.category));
+  }, [data.category]);
 
   const toggleFree = () => {
     setFreeItem(!freeItem);
-    setData({ ...data, price: 0 });
+    setData({ ...data, price: "0" });
   };
 
   const agreeToTerms = () =>
     setAgreedtoTermsAndConditions(!agreedToTermsAndConditions);
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     await setDoc(doc(db, "posts", postId), {
       title: data.title,
@@ -71,9 +66,9 @@ const PostItem = () => {
       postDate: new Date(),
       userId: currUser.uid,
       userName: currUser.displayName,
-      userImage: currUser.photoURL
+      userImage: currUser.photoURL,
     })
-      .then(doc => {
+      .then((doc) => {
         Router.push("/posted");
         setData({
           title: "",
@@ -82,7 +77,7 @@ const PostItem = () => {
           email: "",
           phone: "",
           price: "",
-          description: ""
+          description: "",
         });
         setDisplayUrl([]);
         setImageTitles([]);
@@ -90,7 +85,7 @@ const PostItem = () => {
         setProgress("getUpload");
         console.log("document written: ", postId);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error adding Document: ", error);
       });
   };
@@ -103,7 +98,8 @@ const PostItem = () => {
       case "uploaded":
         return (
           <div>
-            {" "}{displayUrl.map(srcUrl => {
+            {" "}
+            {displayUrl.map((srcUrl) => {
               return (
                 <Image
                   key={srcUrl}
@@ -121,7 +117,7 @@ const PostItem = () => {
         return <div> Upload failed </div>;
     }
   };
-  const handleImageUpload = e => {
+  const handleImageUpload = (e) => {
     if (data.category) {
       const image = e.target.files[0];
       setImageTitles([...imageTitles, image.name]);
@@ -129,19 +125,22 @@ const PostItem = () => {
       const uploadImages = uploadBytesResumable(imageRef, image);
       uploadImages.on(
         "state_changed",
-        snapshot => {
-          const process = snapshot.bytesTransferred / snapshot.totalBytes * 100;
+        (snapshot) => {
+          const process =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("uploading", process);
           setProgress("uploading");
         },
-        error => {
+        (error) => {
           console.log("Encounter ", error);
         },
         () => {
-          getDownloadURL(ref(storage, `postImages/${image.name}`)).then(url => {
-            setDisplayUrl([...displayUrl, url]);
-            setProgress("uploaded");
-          });
+          getDownloadURL(ref(storage, `postImages/${image.name}`)).then(
+            (url) => {
+              setDisplayUrl([...displayUrl, url]);
+              setProgress("uploaded");
+            }
+          );
         }
       );
     } else {
@@ -177,7 +176,7 @@ const PostItem = () => {
                 type="text"
                 placeholder="Item Name"
                 min-length={4}
-                onChange={e => setData({ ...data, title: e.target.value })}
+                onChange={(e) => setData({ ...data, title: e.target.value })}
               />
               <Form.Control.Feedback type="invalid">
                 Please provide item name.
@@ -195,7 +194,7 @@ const PostItem = () => {
               <Form.Select
                 aria-label="item-category"
                 required
-                onChange={e => setData({ ...data, category: e.target.value })}
+                onChange={(e) => setData({ ...data, category: e.target.value })}
                 value={data.category}
               >
                 <option>Select a category</option>
@@ -233,7 +232,7 @@ const PostItem = () => {
                 minLength={5}
                 maxLength={10}
                 required
-                onChange={e => setData({ ...data, zip: e.target.value })}
+                onChange={(e) => setData({ ...data, zip: e.target.value })}
               />
             </Col>
           </Row>
@@ -251,7 +250,7 @@ const PostItem = () => {
                 value={data.email}
                 type="email"
                 placeholder="example@domain.com"
-                onChange={e => setData({ ...data, email: e.target.value })}
+                onChange={(e) => setData({ ...data, email: e.target.value })}
                 required
               />
             </Col>
@@ -292,13 +291,14 @@ const PostItem = () => {
             <Col md="8">
               <CurrencyInput
                 defaultValue={data.price}
-                placeholder="$ 00.00"
+                //placeholder="$ 00.00"
                 required
                 prefix="$ "
                 decimalsLimit={2}
                 disabled={freeItem ? true : false}
-                onChange={e =>
-                  setData({ ...data, price: e.target.value.split(" ")[1] })}
+                onChange={(e) =>
+                  setData({ ...data, price: e.target.value.split(" ")[1] })
+                }
                 className="form-control"
               />
             </Col>
@@ -324,8 +324,9 @@ const PostItem = () => {
                   placeholder="Description"
                   rows={4}
                   area-describedby="descriptionHelp"
-                  onChange={e =>
-                    setData({ ...data, description: e.target.value })}
+                  onChange={(e) =>
+                    setData({ ...data, description: e.target.value })
+                  }
                 />
                 <Form.Text id="descriptionHelp" muted>
                   Providing description is optional. However, items with detaild
@@ -347,7 +348,7 @@ const PostItem = () => {
                 multiple
                 required
                 name="image"
-                onChange={e => {
+                onChange={(e) => {
                   handleImageUpload(e);
                 }}
                 //   isInvalid={}
@@ -367,9 +368,7 @@ const PostItem = () => {
         <Form.Group />
         <Row>
           <Col md="2" />
-          <Col md="10">
-            {imageContent()}
-          </Col>
+          <Col md="10">{imageContent()}</Col>
         </Row>
         <Form.Group className="d-flex flex-column justify-content-">
           <Row>
@@ -387,15 +386,15 @@ const PostItem = () => {
             <Col md="8" />
             <Col md="2">
               <Button
-                variant="warning"
+                variant="danger"
                 onClick={() => {
-                  imageTitles.map(name => {
+                  imageTitles.map((name) => {
                     deleteRef = ref(storage, name);
                     deleteObject(deleteRef)
                       .then(() => {
                         console.log("picture deleted");
                       })
-                      .catch(error => {
+                      .catch((error) => {
                         console.error("error occurd: ", error);
                       });
                   });
@@ -406,7 +405,13 @@ const PostItem = () => {
               </Button>
             </Col>
             <Col md="2">
-              <Button type="submit">POST IT</Button>
+              <Button type="submit"
+              style={{                 
+              border: 'none',
+              background: '#e38a17',
+              color: '#fff',
+              marginRight: '20px',}}
+              >POST IT</Button>
             </Col>
           </Row>
         </Form.Group>

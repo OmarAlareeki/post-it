@@ -10,7 +10,8 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   signInWithRedirect,
-  inMemoryPersistence
+  inMemoryPersistence,
+  signInWithCredential
 } from "firebase/auth";
 
 const SignInPage = () => {
@@ -20,7 +21,6 @@ const SignInPage = () => {
 
   const login = async () => {
     try {
-
       const user = await signInWithEmailAndPassword(
         auth,
         userEmail,
@@ -28,7 +28,6 @@ const SignInPage = () => {
       );
       console.log(user);
       setErrorMessage("");
-
     } catch (error) {
       const errMsg = error.message;
       if (errMsg.includes("invalid-email")) {
@@ -44,15 +43,23 @@ const SignInPage = () => {
       }
     }
   };
+
+  // signInWithCredential(auth, newCredential).then((result) => {
+  //   console.log("Sign In Success", result);
+  //   const currentUser = result.user;
+  //   const currentUserData = repo.get(currentUser);
+  // })
+
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithRedirect(auth, provider)
-      .then(result => {
+      .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        console.log('Signed in Using google')
+        console.log("Signed in Using google");
+        console.log(token);
       })
-      .catch(error => {
+      .catch((error) => {
         const errorMessage = error.message;
         alert("sorry, try again. ", errorMessage);
         const email = error.email;
@@ -62,13 +69,13 @@ const SignInPage = () => {
   const facebookLogin = () => {
     const provider = new FacebookAuthProvider();
     signInWithPopup(auth, provider)
-      .then(result => {
+      .then((result) => {
         setErrorMessage("");
         const credential = FacebookAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;;
-        console.log('Signed in Using Facebook')
+        const accessToken = credential.accessToken;
+        console.log("Signed in Using Facebook");
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -81,7 +88,7 @@ const SignInPage = () => {
       <h1>Sign In</h1>
 
       <Form
-        validated={userEmail && userPassword }
+        validated={userEmail && userPassword}
         className="px-3 mx-3"
         onSubmit={() => {
           login();

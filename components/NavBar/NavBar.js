@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth } from "../../config/fire-config";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, setDoc } from "firebase/auth";
+import { Container } from "react-bootstrap";
 
 const NavBar = ({ setQueryCriteria }) => {
   const [currentUser, setCurrentUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
-
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -24,14 +24,13 @@ const NavBar = ({ setQueryCriteria }) => {
     });
   }, [loggedIn]);
 
-
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
 
   return (
-    <nav className={style.Nav}>
-      <div>
+    <nav className={style.NavContainer}>
+      <div className={style.LogoDiv}>
         <img
-          src="../New-Logo1.png"
+          src="../new_logo.png"
           className={style.Logo}
           onClick={() => {
             Router.push("/");
@@ -41,8 +40,8 @@ const NavBar = ({ setQueryCriteria }) => {
       <div>
         <SearchPosts setQueryCriteria={setQueryCriteria} />
       </div>
-      <div className="d-flex justify-content-center align-items-center">
-        <p className="mb-0 mx-2">
+      <div className={style.userIcon}>
+        <p>
           Hi,
           {currentUser.displayName
             ? currentUser.displayName.split(" ")[0]

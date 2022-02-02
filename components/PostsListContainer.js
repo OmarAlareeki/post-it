@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { db, storage, auth } from "../config/fire-config";
+import { db, auth } from "../config/fire-config";
 import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
@@ -12,36 +12,92 @@ import {
   onSnapshot,
   orderBy,
   doc,
+  setDoc,
   getDoc,
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
+import { Button } from "react-bootstrap";
+import PostItem from "./PostItem";
+import { Rings } from "react-loader-spinner";
 
 const PostsListContainer = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(["Loading..."]);
   const [queryCriteria, setQueryCriteria] = useState({});
   const [currUser, setCurrUser] = useState("");
+  const [deleteBtnStatus, setDeleteBtnStatus] = useState(false);
+  const [sortValue, setSortValue] = useState("postDate");
+  const [sortType, setSortType] = useState("desc");
+  const [showPostItem, setShowPostItem] = useState(false);
 
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
   );
 
-  useEffect(() => {
+  useEffect(async () => {
+    if (currUser) {
+      await setDoc(doc(db, "users", currUser.uid), {
+        name: currUser.displayName,
+        email: currUser.email,
+        uid: currUser.uid,
+        provider: currUser.providerData[0].providerId,
+        photo: currUser.photoURL,
+      });
+    }
+  }, [currUser]);
+
+  useEffect(async () => {
     const postsRef = collection(db, "posts");
     let q;
+
     if (
       !queryCriteria ||
-      Object.values(queryCriteria).every((value) => value === undefined)
+      Object.values(queryCriteria).every((value) => value === undefined) ||
+      queryCriteria.category ||
+      queryCriteria.price ||
+      queryCriteria.userID
     ) {
-      onSnapshot(postsRef, orderBy("postDate", "desc"), (snap) => {
-        const postsArray = snap.docs.map((doc) => ({
+      if (
+        !queryCriteria ||
+        Object.values(queryCriteria).every((value) => value === undefined)
+      ) {
+        q = query(postsRef, orderBy(sortValue, sortType));
+      } else if (queryCriteria.category) {
+        q = query(
+          postsRef,
+          orderBy(sortValue, sortType),
+          where("category", "==", queryCriteria.category)
+        );
+      } else if (queryCriteria.price) {
+        q = query(
+          postsRef,
+          orderBy("price", "asc"),
+          orderBy(sortValue, sortType),
+          where("price", "<", queryCriteria.price)
+        );
+        console.log(q);
+      } else if (queryCriteria.userID) {
+        q = query(
+          postsRef,
+          orderBy(sortValue, sortType),
+          where("userId", "==", queryCriteria.userID)
+        );
+      }
+      onSnapshot(q, (snap) => {
+        const queryList = snap.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setPosts(postsArray);
+        setPosts(queryList);
       });
     } else if (queryCriteria.searchCriteria) {
-      onSnapshot(postsRef, orderBy("postDate", "desc"), (snap) => {
+      if (sortValue && sortType) {
+        q = query(postsRef, orderBy(sortValue, sortType));
+        console.log(q);
+      } else {
+        q = query(postsRef, orderBy(sortValue, sortType));
+      }
+      onSnapshot(q, (snap) => {
         const searchPosts = snap.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -51,63 +107,27 @@ const PostsListContainer = () => {
             post.title.toLowerCase().includes(queryCriteria.searchCriteria)
           )
         );
-        console.log(queryCriteria.searchCriteria);
       });
     } else if (queryCriteria.saved) {
-      const [savedPosts, setSavedPosts] = useState([]);
-      const docRef = doc(
-        db,
-        "posts",
-        queryCriteria.saved.values().next().value
-      );
-      const getdoc = getDoc(docRef);
-      getdoc.then((doc) => {
-        setSavedPosts();
-        console.log(getdoc.data());
-      });
-    } else if (
-      queryCriteria.category ||
-      queryCriteria.price ||
-      queryCriteria.userID
-    ) {
-      if (queryCriteria.category) {
-        q = query(
-          postsRef,
-          orderBy("postDate", "desc"),
-          where("category", "==", queryCriteria.category)
-        );
-      } else if (queryCriteria.price) {
-        q = query(
-          postsRef,
-          orderBy("postDate", "desc"),
-          where("price", "==", queryCriteria.price)
-        );
-      } else if (queryCriteria.userID) {
-        q = query(
-          postsRef,
-          orderBy("postDate", "desc"),
-          where("userId", "==", queryCriteria.userID)
-        );
-      } else if (queryCriteria.saved) {
-        // q = query(
-        //   postsRef,
-        //   orderBy("postDate", "desc"),
-        //   where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
-        // );
+      const docRef = doc(db, "users", currUser.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        if (docSnap.data().savedPost) {
+          const savedArray = docSnap
+            .data()
+            .savedPost.map((arr) => ({ id: arr.postId, ...arr }));
+          setPosts(savedArray);
+        } else {
+          setPosts([]);
+        }
+      } else {
+        console.log(error);
       }
-
-      onSnapshot(q, (snap) => {
-        const queryList = snap.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setPosts(queryList);
-      });
     }
-  }, [queryCriteria]);
+  }, [queryCriteria, sortValue, sortType]);
 
   const postNewItem = () => {
-    currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
+    currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
   };
 
   return (
@@ -115,37 +135,69 @@ const PostsListContainer = () => {
       <NavBar setQueryCriteria={setQueryCriteria} />
       <div className={style.mainContainer}>
         <div>
-          <SideNavBar setQueryCriteria={setQueryCriteria} />
+          <SideNavBar
+            setQueryCriteria={setQueryCriteria}
+            setDeleteBtnStatus={setDeleteBtnStatus}
+            currUser={currUser}
+          />
         </div>
-        <div>
-          <div className={style.PostsContainer}>
-            <div className={style.SortDiv}>
-              <select style={{ marginRight: "30px", border: "solid 2px" }}>
-                <option>Sort By...</option>
-                <option>Price</option>
-                <option>Title</option>
-                <option>zipCode</option>
-              </select>
-              <button onClick={() => postNewItem()}>Add Post</button>
-            </div>
+        {showPostItem ? (
+          <PostItem back={setShowPostItem} />
+        ) : (
+          <div>
+            <div className={style.PostsContainer}>
+              <div className={style.SortDiv}>
+                <>
+                  <select
+                    style={{
+                      marginRight: "40px",
+                      border: "solid 1px #f0f8ff",
+                      textAlign: "center",
+                      fontSize: ".8rem",
+                      background: "#fff",
+                    }}
+                    onChange={(e) => {
+                      setSortValue(e.target.value.split(",")[0]);
+                      setSortType(e.target.value.split(",")[1]);
+                    }}
+                  >
+                    <option value="postDate,asc">Sort by</option>
+                    <option value="price,asc">Price </option>
+                    <option value="price,desc">Price Desc</option>
+                    <option value="title,asc">Title</option>
+                    <option value="title,desc">Title Desc</option>
+                    <option value="postDate,asc">Post Date </option>
+                    <option value="postDate,desc">Post Date Desc</option>
+                    <option value="zip,desc">Location</option>
+                  </select>
+                </>
 
-            {posts.length <= 0 ? (
-              <div
-                style={{
-                  textAlign: "center",
-                  padding: "110px",
-                  fontSize: "50px",
-                }}
-              >
-                OOPS!
-                <br />
-                No results found
+                <Button variant="warning" onClick={() => postNewItem()}>
+                  Add Post
+                </Button>
               </div>
-            ) : (
-              <AllPostsList posts={posts} myposts={queryCriteria.userID} />
-            )}
+              {posts[0] === "Loading..." ? (
+                <div className={style.mainScreenLoader}>
+                  <Rings color="#ef9d06" height={140} width={140} />
+                </div>
+              ) : posts.length <= 0 ? (
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "110px",
+                    fontSize: "50px",
+                  }}
+                >
+                  OOPS!
+                  <br />
+                  No results found
+                </div>
+              ) : (
+                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </main>
   );

@@ -1,11 +1,12 @@
 .mainHeader {
   text-align: center;
 }
-
-.PostsContainer {
+/* 
+.PostsContainer, .inputContainer {
   padding-top: 40px;
   width: calc(100vw - 400px);
-}
+
+} */
 
 .PostsDisplay {
   display: flex;
@@ -14,6 +15,7 @@
   align-content: space-around;
   justify-content: space-evenly;
   align-items: flex-start;
+  margin-top: 20px;
 }
 
 .listOrders {
@@ -21,7 +23,17 @@
   list-style: inside;
   color: blue;
 }
-
+.imageContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.imageDiv {
+  position: relative;
+}
+.deleteImageButton {
+  fill: #ef9d06;
+}
 .postImage {
   padding: 5px 15px;
   width: 200px;
@@ -29,6 +41,7 @@
 }
 .postImage:hover {
   cursor: pointer;
+  opacity: 0.3;
 }
 
 .postedMain {
@@ -38,29 +51,97 @@
   align-items: center;
   margin-top: 100px;
 }
+
 .mainContainer {
   display: flex;
   flex-direction: row;
 }
-.container {
-  width: 70vw;
-  padding: 10px;
-  padding-top: 60px;
-  margin: auto;
-}
+
 .facebookButton {
   border: none;
   background-color: none;
   fill: none;
 }
+
 .facebookImage {
   height: 50px;
 }
 
 .SortDiv {
   display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: flex-end;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  padding-bottom: 20px;
+  margin-left: 40px;
+}
+
+.Cards {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  width: 220px;
+  margin-top: 10px;
+  background: #fef2eb;
+}
+.mainScreenLoader {
+  width: 80vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
   align-items: center;
+}
+/* Media queries for responsive design */
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  /* CSS */
 }

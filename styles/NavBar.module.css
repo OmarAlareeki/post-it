@@ -1,16 +1,20 @@
-.Nav {
+.NavContainer {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   align-content: center;
   padding: 15px;
-  width: 100%;
+  width: 100vw;
   background: transparent;
   z-index: 1;
 }
 
+.LogoDiv {
+  padding: 10px;
+}
+
 .Logo {
-  height: 80px;
+  height: 64px;
   width: auto;
 }
 
@@ -18,9 +22,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: flex-end;
-  align-content: center;
-  max-width: 90%;
+  align-items: center;
 }
 
 .SearchBar {
@@ -28,17 +30,15 @@
   font-size: 16px;
   font-weight: 300;
   color: #333;
-  background-color: #fff;
-  border-color: #e0e0e0;
   border: none;
-  border-bottom: 1px solid #9e9e9e;
+  border-bottom: 1px solid;
   box-shadow: none;
   box-sizing: content-box;
-  border-radius: 0;
-  width: 600px;
   padding: 15px;
   cursor: pointer;
   margin-left: 80px;
+  width: 800px;
+  text-align: center;
 }
 
 .SearchButton {
@@ -55,18 +55,36 @@
   padding: 0;
 }
 
+.userIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.userIcon p {
+  margin-bottom: 0;
+  margin-right: 1rem;
+}
+
+.FilterIcon {
+  display: none;
+}
+
 .SideBar {
+  display: block;
   list-style: none;
-  width: 300px;
-  margin-top: 120px;
-  line-height: 3rem;
-  padding-right: 70px;
-  padding-left: 80px;
-  font-size: 18px;
+  width: 220px;
+  margin-top: 30px;
+  line-height: 2.5rem;
 }
 
 .SideBar:hover {
   cursor: pointer;
+}
+
+.Active {
+  font-weight: bold;
 }
 
 .CategoryList {
@@ -74,4 +92,119 @@
   padding-top: 10px;
   padding-bottom: 10px;
   font-weight: bold;
+}
+
+/* Media queries for responsive design */
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .SearchBar {
+    width: 180px;
+  }
+
+  .SideBar {
+    display: none;
+  }
+
+  .FilterIcon {
+    display: block;
+    font-size: 30px;
+    position: absolute;
+    right: 88px;
+  }
+
+  .Menu:hover > .SideBar {
+    display: block;
+    position: absolute;
+    top: 123px;
+    right: 26px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 1;
+    margin-top: 0px;
+    padding: 15px;
+    background-color: #fff;
+  }
+
+  .CategoryList {
+    font-size: 13px;
+  }
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .SearchBar {
+    width: 100px;
+  }
+
+  .SideBar {
+    display: none;
+  }
+
+  .FilterIcon {
+    display: block;
+    font-size: 30px;
+    position: absolute;
+    right: 20px;
+  }
+
+  .Menu:hover > .SideBar {
+    display: block;
+    position: absolute;
+    top: 123px;
+    right: 26px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 1;
+    margin-top: 0px;
+    padding: 15px;
+    background-color: #fff;
+  }
+
+  .CategoryList {
+    font-size: 10px;
+  }
 }
