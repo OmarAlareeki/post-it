@@ -9,11 +9,11 @@ import { onAuthStateChanged, setDoc } from "firebase/auth";
 import { Container } from "react-bootstrap";
 import Logo from "./Logo"
 
-
 const NavBar = ({ setQueryCriteria }) => {
   const [currentUser, setCurrentUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
+  const [photo, setPhoto] = useState("");
 
   useEffect(() => {
     console.log(currentUser)
@@ -25,6 +25,16 @@ const NavBar = ({ setQueryCriteria }) => {
         setCurrentUser("");
       }
     });
+
+    if (currentUser) {
+      const docRef = doc(db, "users", currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        docSnap.data().photo ? setPhoto(docSnap.data().photo) : "";
+      } else {
+        Router.push("/signIn/SignIn");
+      }
+    }
   }, [loggedIn]);
 
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
@@ -75,7 +85,6 @@ const NavBar = ({ setQueryCriteria }) => {
         />
       </nav>
     </Container>
-
   );
 };
 

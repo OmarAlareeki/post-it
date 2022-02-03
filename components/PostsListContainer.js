@@ -18,18 +18,16 @@ import {
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { Button } from "react-bootstrap";
-import SortBy from "./SortBy";
 import PostItem from "./PostItem";
-import { Rings } from 'react-loader-spinner'
+import { Rings } from "react-loader-spinner";
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
   const [queryCriteria, setQueryCriteria] = useState({});
   const [currUser, setCurrUser] = useState("");
   const [deleteBtnStatus, setDeleteBtnStatus] = useState(false);
-  const [sortBy, setSortBy] = useState("");
-  // const [sortValue, setSortValue] = useState("");
-  // const [sortType, setSortType] = useState("");
+  const [sortValue, setSortValue] = useState("postDate");
+  const [sortType, setSortType] = useState("desc");
   const [showPostItem, setShowPostItem] = useState(false);
 
   onAuthStateChanged(auth, (user) =>
@@ -42,49 +40,14 @@ const PostsListContainer = () => {
         name: currUser.displayName,
         email: currUser.email,
         uid: currUser.uid,
+        provider: currUser.providerData[0].providerId,
+        photo: currUser.photoURL,
       });
     }
   }, [currUser]);
 
-  console.log(sortBy);
-  console.log(queryCriteria);
-  // console.log(sortValue);
-  // console.log(sortType);
-
-  //let sortValue;
-  //let sortType;
-
-  // let neworderBy;
-
-  // switch (sortBy) {
-  //   case sortBy == "price , sc":
-  //     // setSortValue("price");
-  //     // setSortType("asc");
-  //     neworderBy = `price , asc`;
-  //     break;
-  // case sortBy == "priceDesc":
-  //   sortValue = "price";
-  //   sortType = "desc";
-  //   break;
-  // case sortBy == "titleAsc":
-  //   sortValue = "title";
-  //   sortType = "asc";
-  //   break;
-  // case sortBy == "titleDesc":
-  //   sortValue = "title";
-  //   sortType = "desc";
-  //   break;
-  // default:
-  //   //   sortValue;
-  //   //   sortType;
-  //   neworderBy = "postDate" + " " + "," + " " + "desc";
-  // }
-
-  // console.log(neworderBy);
-
   useEffect(async () => {
     const postsRef = collection(db, "posts");
-    //const userRef = collection(db, "posts");
     let q;
 
     if (
@@ -98,25 +61,25 @@ const PostsListContainer = () => {
         !queryCriteria ||
         Object.values(queryCriteria).every((value) => value === undefined)
       ) {
-        q = query(postsRef, orderBy("postDate", "desc"));
+        q = query(postsRef, orderBy(sortValue, sortType));
       } else if (queryCriteria.category) {
         q = query(
           postsRef,
-          orderBy("postDate", "desc"),
+          orderBy(sortValue, sortType),
           where("category", "==", queryCriteria.category)
         );
       } else if (queryCriteria.price) {
         q = query(
           postsRef,
-          orderBy("price", "desc"),
-          orderBy("postDate", "desc"),
+          orderBy("price", "asc"),
+          orderBy(sortValue, sortType),
           where("price", "<", queryCriteria.price)
         );
         console.log(q);
       } else if (queryCriteria.userID) {
         q = query(
           postsRef,
-          orderBy("postDate", "desc"),
+          orderBy(sortValue, sortType),
           where("userId", "==", queryCriteria.userID)
         );
       }
@@ -134,14 +97,13 @@ const PostsListContainer = () => {
           ...doc.data(),
         }));
         setPosts(queryList);
-        console.log(queryList);
       });
     } else if (queryCriteria.searchCriteria) {
-      if (sortBy) {
-        q = query(postsRef, orderBy(sortBy));
+      if (sortValue && sortType) {
+        q = query(postsRef, orderBy(sortValue, sortType));
         console.log(q);
       } else {
-        q = query(postsRef, orderBy("postDate", "desc"));
+        q = query(postsRef, orderBy(sortValue, sortType));
       }
       onSnapshot(q, (snap) => {
         const searchPosts = snap.docs.map((doc) => ({
@@ -155,26 +117,24 @@ const PostsListContainer = () => {
         );
       });
     } else if (queryCriteria.saved) {
-      const docRef = doc(db, "users", "7hqkVuE26F2qZx6noZhB");
+      const docRef = doc(db, "users", currUser.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         if (docSnap.data().savedPost) {
           const savedArray = docSnap
             .data()
             .savedPost.map((arr) => ({ id: arr.postId, ...arr }));
-          console.log(savedArray);
           setPosts(savedArray);
         } else {
-          alert("You have not saved any Posts");
+          setPosts([]);
         }
       } else {
         console.log(error);
       }
     }
-  }, [queryCriteria, sortBy]);
+  }, [queryCriteria, sortValue, sortType]);
 
   const postNewItem = () => {
-    // currUser ? Router.push("/postItem") : Router.push("/signIn/SignIn");
     currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
   };
 
@@ -211,9 +171,15 @@ const PostsListContainer = () => {
                 ) : posts.length <= 0 ? (
                   <div
                     style={{
+                      marginRight: "40px",
+                      border: "solid 1px #f0f8ff",
                       textAlign: "center",
-                      padding: "110px",
-                      fontSize: "50px",
+                      fontSize: ".8rem",
+                      background: "#fff",
+                    }}
+                    onChange={(e) => {
+                      setSortValue(e.target.value.split(",")[0]);
+                      setSortType(e.target.value.split(",")[1]);
                     }}
                   >
                     OOPS!
@@ -227,6 +193,25 @@ const PostsListContainer = () => {
                       />
                     )}
               </div>
+              {posts[0] === "Loading..." ? (
+                <div className={style.mainScreenLoader}>
+                  <Rings color="#ef9d06" height={140} width={140} />
+                </div>
+              ) : posts.length <= 0 ? (
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "110px",
+                    fontSize: "50px",
+                  }}
+                >
+                  OOPS!
+                  <br />
+                  No results found
+                </div>
+              ) : (
+                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
+              )}
             </div>
           )}
       </div>

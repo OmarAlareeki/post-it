@@ -1,8 +1,11 @@
 import style from "../../styles/NavBar.module.css";
 import { useState } from "react";
+import { MdFilterList } from "react-icons/md";
+import Router from "next/router";
 
 const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
   const [clickStatus, setclcikStatus] = useState(false);
+  const [liValue, setLiValue] = useState("");
 
   const categories = new Map([
     ["Appliance", "appliance"],
@@ -18,74 +21,87 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
     ["Others", "others"],
   ]);
 
-  let bgColor;
-
-  // function handleColor() {
-  //   clickStatus ? bgColor === "orange" : "transparent";
-  //   setclcikStatus(false);
-  // }
-
   return (
     <div>
-      <ul className={style.SideBar}>
-        <li
-          className={`${bgColor === "orange" && clickStatus ? "active" : ""}`}
-          onClick={() => {
-            setQueryCriteria({});
-            setDeleteBtnStatus(false);
-            setclcikStatus(true);
-          }}
-        >
-          All Posts
-        </li>
-
-        <li
-          onClick={() => {
-            setQueryCriteria({ saved: currUser.uid });
-            currUser.uid === undefined
-              ? alert("You Don't have any Saved Posts or You are not Logged-In")
-              : "";
-            setDeleteBtnStatus(false);
-          }}
-        >
-          Saved Posts
-        </li>
-
-        <li
-          onClick={() => {
-            setQueryCriteria({ userID: currUser.uid });
-            currUser.uid ? setDeleteBtnStatus(true) : setDeleteBtnStatus(false);
-            currUser.uid === undefined
-              ? alert("You have not created any Posts or You are not Logged-In")
-              : "";
-          }}
-        >
-          My Posts
-        </li>
-
-        <li
-          onClick={() => {
-            setQueryCriteria({ price: 1 });
-            setDeleteBtnStatus(false);
-          }}
-        >
-          Free
-        </li>
-
-        <li className={style.CategoryList}> Categories: </li>
-
-        {[...categories.keys()].map((categoryName, i) => (
+      <span className={style.Menu}>
+        <MdFilterList className={style.FilterIcon} />
+        <ul className={style.SideBar}>
           <li
-            key={i}
+            className={
+              clickStatus && liValue === "AllPosts" ? style.Active : ""
+            }
             onClick={() => {
-              setQueryCriteria({ category: categories.get(categoryName) });
+              setQueryCriteria({});
               setDeleteBtnStatus(false);
+              setclcikStatus(true);
+              setLiValue("AllPosts");
             }}
           >
-            {categoryName}
+            All Posts
           </li>
-        ))}
-      </ul>
+
+          <li
+            className={
+              clickStatus && liValue === "SavedPosts" ? style.Active : ""
+            }
+            onClick={() => {
+              setQueryCriteria({ saved: currUser.uid });
+              currUser.uid === undefined ? Router.push("/signIn/SignIn") : "";
+              setDeleteBtnStatus(false);
+              setclcikStatus(true);
+              setLiValue("SavedPosts");
+            }}
+          >
+            Saved Posts
+          </li>
+
+          <li
+            className={clickStatus && liValue === "MyPosts" ? style.Active : ""}
+            onClick={() => {
+              setLiValue("MyPosts");
+              setclcikStatus(true);
+              setQueryCriteria({ userID: currUser.uid });
+              currUser.uid
+                ? setDeleteBtnStatus(true)
+                : setDeleteBtnStatus(false);
+              currUser.uid === undefined ? Router.push("/signIn/SignIn") : "";
+            }}
+          >
+            My Posts
+          </li>
+
+          <li
+            className={clickStatus && liValue === "Free" ? style.Active : ""}
+            onClick={() => {
+              setQueryCriteria({ price: 1 });
+              setDeleteBtnStatus(false);
+              setclcikStatus(true);
+              setLiValue("Free");
+            }}
+          >
+            Free
+          </li>
+
+          <li className={style.CategoryList}> Categories: </li>
+
+          {[...categories.keys()].map((categoryName, i) => (
+            <li
+              className={
+                clickStatus && liValue === categoryName ? style.Active : ""
+              }
+              key={i}
+              onClick={() => {
+                setQueryCriteria({ category: categories.get(categoryName) });
+                setDeleteBtnStatus(false);
+                setLiValue(categoryName);
+                setclcikStatus(true);
+              }}
+            >
+              {categoryName}
+            </li>
+          ))}
+        </ul>
+      </span>
     </div>
   );
 };
