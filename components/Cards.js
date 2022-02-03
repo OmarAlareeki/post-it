@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Container, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
@@ -6,6 +6,16 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
 const Cards = ({ props, deleteBtnStatus }) => {
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+        const ismobile = window.innerWidth < 480;
+        if (ismobile !== isMobile) setIsMobile(ismobile);
+    }, false);
+}, [isMobile]);
+
   return (
     <Container className={style.PostsDisplay}>
       {props.map((prop) => (
@@ -19,12 +29,9 @@ const Cards = ({ props, deleteBtnStatus }) => {
               }}
             >
               <Card.Img
-                variant="top"
                 src={prop.imageUrls}
                 alt={prop.title}
-                style={{
-                  height: "150px",
-                }}
+                className={style.CardImage}
               />
               <Card.Body>
                 <Card.Title
@@ -53,13 +60,17 @@ const Cards = ({ props, deleteBtnStatus }) => {
             }}
             style={{
               display: deleteBtnStatus ? "block" : "none",
-              position: "relative",
-              top: "-77px",
-              right: "-204px",
-              backgroundColor: "transparent",
-              border: "none",
-              fontSize: "25px",
+              // position: 'relative',
+              // left: '193px',
+              // bottom: '36px',
+              // fontSize: '1.2rem',
+              // color: 'red',
+              // border: '1px solid #fff',
+              // borderRadius: '3px',
+              // padding: '2px',
+              // background: 'aliceblue',
             }}
+            className={`${!isMobile ? style.DeleteButton : style.DeleteButtonMobile}`}
           >
             <RiDeleteBin6Line />
           </button>

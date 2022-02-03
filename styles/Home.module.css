@@ -28,6 +28,8 @@
 .deleteImageButton{
   fill:#ef9d06;
 }
+
+
 .postImage {
   padding: 5px 15px;
   width: 200px;
@@ -80,8 +82,40 @@
   border-radius: 0.25rem;
   width: 220px;
   margin-top: 10px;
+  margin-right: 10px;
   background: #fef2eb;
 }
+
+.CardImage {
+  max-height: 210px;
+  min-height: 210px;
+}
+
+.DeleteButton {
+  position: relative;
+  left: 187px;
+  bottom: 45px;
+  font-size: 1.5rem;
+  color: red;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  padding: 2px;
+  background: aliceblue;
+}
+.DeleteButtonMobile {
+  position: relative;
+  left: 163px;
+  bottom: 45px;
+  font-size: 1.5rem;
+  color: red;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  padding: 2px;
+  background: aliceblue;
+}
+
+
+
 .mainScreenLoader {
   width: 80vw;
   height: 80vh;
@@ -174,6 +208,20 @@
   
   .container {
     width: 90vw;
+  }
+
+  .Cards {
+    width: 158px;
+    font-size: .8rem;
+  }
+
+  .CardImage{
+    max-height: 200px;
+    left: 152px;
+  }
+  
+  .DeleteButton {
+    left: -167px;
   }
   
 }

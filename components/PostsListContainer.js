@@ -119,14 +119,14 @@ const PostsListContainer = () => {
           orderBy("postDate", "desc"),
           where("userId", "==", queryCriteria.userID)
         );
-      } 
+      }
       else if (queryCriteria.saved) {
         const docRef = doc(db, "users", currUser.uid);
         q = query(
           docRef,
           orderBy("postDate", "desc"),
           where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
-      );
+        );
       }
       onSnapshot(q, (snap) => {
         const queryList = snap.docs.map((doc) => ({
@@ -192,22 +192,22 @@ const PostsListContainer = () => {
         {showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
-          <div>
-            <div className={style.PostsContainer} style={{marginTop: '35px'}}>
-              <div className={style.SortDiv}>
-                <SortBy setSortBy={setSortBy} />
-                <Button variant="warning" onClick={() => postNewItem()}>
-                  Add Post
+            <div>
+              <div className={style.PostsContainer} style={{ marginTop: '35px' }}>
+                <div className={style.SortDiv}>
+                  <SortBy setSortBy={setSortBy} />
+                  <Button variant="warning" onClick={() => postNewItem()}>
+                    Add Post
                 </Button>
                 </div>
                 {posts[0] === "Loading..." ? (
                   <div className={style.mainScreenLoader} >
-                  <Rings 
-                    color="#ef9d06" 
-                    height={140} 
-                    width={140} 
+                    <Rings
+                      color="#ef9d06"
+                      height={140}
+                      width={140}
                     />
-                    </div>
+                  </div>
                 ) : posts.length <= 0 ? (
                   <div
                     style={{
@@ -221,14 +221,14 @@ const PostsListContainer = () => {
                     No results found
                   </div>
                 ) : (
-                  <AllPostsList
-                    posts={posts}
-                    deleteBtnStatus={deleteBtnStatus}
-                  />
-                )}
+                      <AllPostsList
+                        posts={posts}
+                        deleteBtnStatus={deleteBtnStatus}
+                      />
+                    )}
               </div>
             </div>
-        )}
+          )}
       </div>
     </main>
   );

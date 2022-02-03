@@ -31,51 +31,51 @@ const NavBar = ({ setQueryCriteria }) => {
 
   return (
     <Container>
-       <nav className={style.Nav}>
-       <Logo />
-      <div>
-        <SearchPosts setQueryCriteria={setQueryCriteria} />
-      </div>
-      <div className={style.userIcon}>
-        <p>
-          Hi,
+      <nav className={style.Nav}>
+        <Logo />
+        <div>
+          <SearchPosts setQueryCriteria={setQueryCriteria} />
+        </div>
+        <div className={style.userIcon}>
+          <p>
+            Hi,
           {currentUser.displayName
-            ? currentUser.displayName.split(" ")[0]
-            : "there"}
-          !
+              ? currentUser.displayName.split(" ")[0]
+              : "there"}
+            !
         </p>
-        {loggedIn ? (
-          <FaUserCircle
-            style={{
-              width: "auto",
-              height: "50px",
-              fill: "#ef9d06",
-              marginBottom: "0",
-            }}
-            onClick={toggleSignOutModal}
-          />
-        ) : (
-          <FaUserCircle
-            style={{
-              width: "auto",
-              height: "50px",
-              marginBottom: "0",
-              fill: "#afafaf",
-            }}
-            onClick={() => {
-              Router.push("/signIn/SignIn");
-            }}
-          />
-        )}
-      </div>
-      <SignoutModal
-        show={signoutModal}
-        onHide={toggleSignOutModal}
-        setLoggedIn={setLoggedIn}
-      />
-    </nav>
+          {loggedIn ? (
+            <FaUserCircle
+              style={{
+                width: "auto",
+                height: "50px",
+                fill: "#ef9d06",
+                marginBottom: "0",
+              }}
+              onClick={toggleSignOutModal}
+            />
+          ) : (
+              <FaUserCircle
+                style={{
+                  width: "auto",
+                  height: "50px",
+                  marginBottom: "0",
+                  fill: "#afafaf",
+                }}
+                onClick={() => {
+                  Router.push("/signIn/SignIn");
+                }}
+              />
+            )}
+        </div>
+        <SignoutModal
+          show={signoutModal}
+          onHide={toggleSignOutModal}
+          setLoggedIn={setLoggedIn}
+        />
+      </nav>
     </Container>
-   
+
   );
 };
 
