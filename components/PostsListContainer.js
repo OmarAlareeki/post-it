@@ -55,8 +55,6 @@ const PostsListContainer = () => {
     }
   }, [currUser]);
 
-  console.log(currUser);
-
   useEffect(async () => {
     const postsRef = collection(db, "posts");
     let q;
@@ -86,7 +84,6 @@ const PostsListContainer = () => {
           orderBy(sortValue, sortType),
           where("price", "<", queryCriteria.price)
         );
-        console.log(q);
       } else if (queryCriteria.userID) {
         q = query(
           postsRef,
@@ -104,7 +101,6 @@ const PostsListContainer = () => {
     } else if (queryCriteria.searchCriteria) {
       if (sortValue && sortType) {
         q = query(postsRef, orderBy(sortValue, sortType));
-        console.log(q);
       } else {
         q = query(postsRef, orderBy(sortValue, sortType));
       }
@@ -132,7 +128,7 @@ const PostsListContainer = () => {
           setPosts([]);
         }
       } else {
-        console.log(error);
+        alert(error);
       }
     }
   }, [queryCriteria, sortValue, sortType]);

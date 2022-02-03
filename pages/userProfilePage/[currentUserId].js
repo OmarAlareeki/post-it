@@ -2,14 +2,13 @@ import { useState, useEffect } from "react";
 import { db, auth } from "../../config/fire-config";
 import { useRouter } from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
-import { Container } from "react-bootstrap";
 import NavBar from "../../components/NavBar/NavBar";
 
 const userProfilePage = () => {
   const router = useRouter();
-  const userId = router && router.query.id;
+  const id = router && router.query.id;
 
-  console.log(userId);
+  console.log(id);
 
   return (
     <main>
@@ -22,7 +21,7 @@ const userProfilePage = () => {
         <table>
           <tr>
             <th>Name: </th>
-            <td>{userId}</td>
+            <td></td>
           </tr>
           <tr>
             <th>Email:</th>

@@ -7,17 +7,15 @@ import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth, db } from "../../config/fire-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { Container } from "react-bootstrap";
-import { useRouter } from "next/router";
 
 const NavBar = ({ setQueryCriteria }) => {
   const [currentUser, setCurrentUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
-  let userData;
-  const id = currentUser.uid;
-  //const router = useRouter();
+
+  const currentUserId = currentUser.uid;
+
   useEffect(async () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -33,8 +31,6 @@ const NavBar = ({ setQueryCriteria }) => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         docSnap.data().photo ? setPhoto(docSnap.data().photo) : "";
-        userData = docSnap.data();
-        console.log(id);
       } else {
         Router.push("/signIn/SignIn");
       }
@@ -99,7 +95,7 @@ const NavBar = ({ setQueryCriteria }) => {
       </div>
       <p
         onClick={() => {
-          Router.push(`/userProfilePage/${id}`);
+          Router.push(`/userProfilePage/${currentUserId}`);
         }}
       >
         My profile

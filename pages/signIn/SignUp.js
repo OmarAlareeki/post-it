@@ -1,19 +1,23 @@
-
-import Router from 'next/router'
-import React, { useState, useEffect } from 'react'
-import { Button, Form, Row, Col } from 'react-bootstrap'
-import style from "../../styles/Home.module.css"
-import { auth, db } from '../../config/fire-config'
-import { doc, setDoc } from 'firebase/firestore';
-import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
+import Router from "next/router";
+import React, { useState, useEffect } from "react";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import style from "../../styles/Home.module.css";
+import { auth, db } from "../../config/fire-config";
+import { doc, setDoc } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 
 function SignUp() {
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password1, setPassword1] = useState('')
-  const [password2, setPassword2] = useState('')
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
   const [passwordAlert, setPasswordAlert] = useState(false);
 
   useEffect(() => {
@@ -24,30 +28,28 @@ function SignUp() {
     }
   }, [password1, password2]);
 
-
   const signUp = async () => {
-
     if (password1 === password2) {
-      await createUserWithEmailAndPassword(auth, email, password1).then((userCredential) => {
-        setDoc(doc(db, "users", userCredential.user.uid), {
-          userName: `${firstName} ${lastName}`,
-          email: `${email}`,
+      await createUserWithEmailAndPassword(auth, email, password1)
+        .then((userCredential) => {
+          setDoc(doc(db, "users", userCredential.user.uid), {
+            userName: `${firstName} ${lastName}`,
+            email: `${email}`,
+            uid: `${uid}`,
+          });
+          updateProfile(userCredential.user, {
+            displayName: `${firstName} ${lastName}`,
+          });
         })
-        updateProfile(userCredential.user, {
-          displayName: `${firstName} ${lastName}`
-        })
-      })
         .then(() => {
-          sendEmailVerification(auth.currentUser)
+          sendEmailVerification(auth.currentUser);
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
           // alert("sorry, we couldn't complete your requrest due to: ", error.message)
-        })
+        });
     }
-  }
-
-
+  };
 
   return (
     <>
