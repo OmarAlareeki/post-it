@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
-import { auth } from "../../config/fire-config";
+import { auth, db } from "../../config/fire-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { Container } from "react-bootstrap";
