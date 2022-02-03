@@ -45,9 +45,9 @@ const PostsListContainer = () => {
             ? "Firebase.Signup"
             : currUser.providerData[0].providerId,
         photo: currUser.photoURL,
-        accountCreatedOn: currUser.metadata.creationTime,
+        accountCreatedDate: currUser.metadata.creationTime,
         zipCode: 0,
-        password: currUser.reloadUserInfo.passwordHash
+        passwordHashCode: currUser.reloadUserInfo.passwordHash
           ? currUser.reloadUserInfo.passwordHash
           : "",
       });
@@ -79,24 +79,15 @@ const PostsListContainer = () => {
       } else if (queryCriteria.price) {
         q = query(
           postsRef,
-          orderBy("price", "asc"),
+          orderBy("price", "des"),
           orderBy(sortValue, sortType),
           where("price", "<", queryCriteria.price)
         );
-        console.log(q);
       } else if (queryCriteria.userID) {
         q = query(
           postsRef,
           orderBy(sortValue, sortType),
           where("userId", "==", queryCriteria.userID)
-        );
-      }
-      else if (queryCriteria.saved) {
-        const docRef = doc(db, "users", currUser.uid);
-        q = query(
-          docRef,
-          orderBy("postDate", "desc"),
-          where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
         );
       }
       onSnapshot(q, (snap) => {
@@ -107,12 +98,12 @@ const PostsListContainer = () => {
         setPosts(queryList);
       });
     } else if (queryCriteria.searchCriteria) {
-      if (sortValue && sortType) {
-        q = query(postsRef, orderBy(sortValue, sortType));
-        console.log(q);
-      } else {
-        q = query(postsRef, orderBy(sortValue, sortType));
-      }
+      // if (sortValue && sortType) {
+      //   q = query(postsRef, orderBy(sortValue, sortType));
+      //   console.log(q);
+      // } else {
+      q = query(postsRef, orderBy(sortValue, sortType));
+      //}
       onSnapshot(q, (snap) => {
         const searchPosts = snap.docs.map((doc) => ({
           id: doc.id,
@@ -160,10 +151,10 @@ const PostsListContainer = () => {
         {showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
-            <div>
-              <div className={style.PostsContainer} style={{ marginTop: '35px' }}>
-                <div className={style.SortDiv}>
-                  <>
+          <div>
+            <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
+              <div className={style.SortDiv}>
+                <>
                   <select
                     style={{
                       marginRight: "40px",
@@ -187,42 +178,35 @@ const PostsListContainer = () => {
                     <option value="zip,desc">Location</option>
                   </select>
                 </>
-                  <Button variant="warning" onClick={() => postNewItem()}>
-                    Add Post
+                <Button variant="warning" onClick={() => postNewItem()}>
+                  Add Post
                 </Button>
-                </div>
-                {posts[0] === "Loading..." ? (
-                  <div className={style.mainScreenLoader} >
-                    <Rings
-                      color="#ef9d06"
-                      height={140}
-                      width={140}
-                    />
-                  </div>
-                ) : posts.length <= 0 ? (
-                  <div
-                    style={{
-                      marginRight: "40px",
-                      border: "solid 1px #f0f8ff",
-                      textAlign: "center",
-                      fontSize: ".8rem",
-                      background: "#fff",
-                    }}
-                  >
-                    OOPS!
-                    <br />
-                    No results found
-                  </div>
-                ) : (
-                      <AllPostsList
-                        posts={posts}
-                        deleteBtnStatus={deleteBtnStatus}
-                      />
-                    )}
               </div>
+              {posts[0] === "Loading..." ? (
+                <div className={style.mainScreenLoader}>
+                  <Rings color="#ef9d06" height={140} width={140} />
+                </div>
+              ) : posts.length <= 0 ? (
+                <div
+                  style={{
+                    marginRight: "40px",
+                    border: "solid 1px #f0f8ff",
+                    textAlign: "center",
+                    fontSize: ".8rem",
+                    background: "#fff",
+                  }}
+                >
+                  OOPS!
+                  <br />
+                  No results found
+                </div>
+              ) : (
+                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
+              )}
+            </div>
+          </div>
+        )}
       </div>
-)}
-</div>
     </main>
   );
 };
