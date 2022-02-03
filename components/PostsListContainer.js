@@ -40,8 +40,16 @@ const PostsListContainer = () => {
         name: currUser.displayName,
         email: currUser.email,
         uid: currUser.uid,
-        provider: currUser.providerData[0].providerId,
+        provider:
+          currUser.providerData[0].providerId === "password"
+            ? "Firebase.Signup"
+            : currUser.providerData[0].providerId,
         photo: currUser.photoURL,
+        accountCreatedOn: currUser.metadata.creationTime,
+        zipCode: 0,
+        password: currUser.reloadUserInfo.passwordHash
+          ? currUser.reloadUserInfo.passwordHash
+          : "",
       });
     }
   }, [currUser]);
@@ -129,7 +137,7 @@ const PostsListContainer = () => {
           setPosts([]);
         }
       } else {
-        console.log(error);
+        alert(error);
       }
     }
   }, [queryCriteria, sortValue, sortType]);
@@ -155,7 +163,30 @@ const PostsListContainer = () => {
             <div>
               <div className={style.PostsContainer} style={{ marginTop: '35px' }}>
                 <div className={style.SortDiv}>
-                  <SortBy setSortBy={setSortBy} />
+                  <>
+                  <select
+                    style={{
+                      marginRight: "40px",
+                      border: "solid 1px #f0f8ff",
+                      textAlign: "center",
+                      fontSize: ".8rem",
+                      background: "#fff",
+                    }}
+                    onChange={(e) => {
+                      setSortValue(e.target.value.split(",")[0]);
+                      setSortType(e.target.value.split(",")[1]);
+                    }}
+                  >
+                    <option value="postDate,asc">Sort by</option>
+                    <option value="price,asc">Price </option>
+                    <option value="price,desc">Price Desc</option>
+                    <option value="title,asc">Title</option>
+                    <option value="title,desc">Title Desc</option>
+                    <option value="postDate,asc">Post Date </option>
+                    <option value="postDate,desc">Post Date Desc</option>
+                    <option value="zip,desc">Location</option>
+                  </select>
+                </>
                   <Button variant="warning" onClick={() => postNewItem()}>
                     Add Post
                 </Button>
@@ -177,10 +208,6 @@ const PostsListContainer = () => {
                       fontSize: ".8rem",
                       background: "#fff",
                     }}
-                    onChange={(e) => {
-                      setSortValue(e.target.value.split(",")[0]);
-                      setSortType(e.target.value.split(",")[1]);
-                    }}
                   >
                     OOPS!
                     <br />
@@ -193,28 +220,9 @@ const PostsListContainer = () => {
                       />
                     )}
               </div>
-              {posts[0] === "Loading..." ? (
-                <div className={style.mainScreenLoader}>
-                  <Rings color="#ef9d06" height={140} width={140} />
-                </div>
-              ) : posts.length <= 0 ? (
-                <div
-                  style={{
-                    textAlign: "center",
-                    padding: "110px",
-                    fontSize: "50px",
-                  }}
-                >
-                  OOPS!
-                  <br />
-                  No results found
-                </div>
-              ) : (
-                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
-              )}
-            </div>
-          )}
       </div>
+)}
+</div>
     </main>
   );
 };
