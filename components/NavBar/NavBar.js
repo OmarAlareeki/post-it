@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth } from "../../config/fire-config";
-import { onAuthStateChanged, setDoc } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { Container } from "react-bootstrap";
 import Logo from "./Logo"
 
