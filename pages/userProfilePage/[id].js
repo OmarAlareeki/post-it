@@ -1,40 +1,49 @@
 import { useState, useEffect } from "react";
-import { db, auth } from "../config/fire-config";
-import Router from "next/router";
+import { db, auth } from "../../config/fire-config";
+import { useRouter } from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import { Container } from "react-bootstrap";
+import NavBar from "../../components/NavBar/NavBar";
 
-const UserProfile = () => {
+const userProfilePage = () => {
+  const router = useRouter();
+  const userId = router && router.query.id;
+
+  console.log(userId);
+
   return (
     <main>
       <NavBar />
+
       <div>
-        <img></img>
+        <img />
       </div>
       <div>
         <table>
           <tr>
             <th>Name: </th>
-            <td>usersName</td>
+            <td>{userId}</td>
           </tr>
           <tr>
             <th>Email:</th>
             <th>Phone:</th>
           </tr>
           <tr>
-            <td>userEmail</td>
-            <td>450-522-4545</td>
+            <td>userData.email</td>
+            <td>userData.phoneNumber</td>
           </tr>
           <tr>
             <th>Password:</th>
-            <td>userPassword</td>
+            <td>userData.password</td>
           </tr>
           <tr>
             <th>ZipCode:</th>
-            <td>userzipCode</td>
+            <td>userData.zipCode</td>
           </tr>
         </table>
       </div>
     </main>
   );
 };
+
+export default userProfilePage;
