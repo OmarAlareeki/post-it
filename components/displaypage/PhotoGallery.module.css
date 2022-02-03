@@ -20,12 +20,12 @@
     object-position: center;
     height: 50vp;
     overflow: hidden; */
-    height: 100%;
-    /* max-width: none;
-    left: 50%;
+    min-height: 70%;
+    max-width: 70%;
+    /* left: 50%;
     position: relative;
     transform: translateX(-50%);
-    -webkit-transform: translateX(-50%); */
+    -webkit-transform: translateX(-50%); */ 
   }
 
 

@@ -4,10 +4,10 @@ import { FaUserCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
-import { auth, db } from "../../config/fire-config";
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { auth } from "../../config/fire-config";
+import { onAuthStateChanged, setDoc } from "firebase/auth";
 import { Container } from "react-bootstrap";
+import Logo from "./Logo"
 
 const NavBar = ({ setQueryCriteria }) => {
   const [currentUser, setCurrentUser] = useState("");
@@ -15,7 +15,8 @@ const NavBar = ({ setQueryCriteria }) => {
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
 
-  useEffect(async () => {
+  useEffect(() => {
+    console.log(currentUser)
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
@@ -39,35 +40,21 @@ const NavBar = ({ setQueryCriteria }) => {
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
 
   return (
-    <nav className={style.NavContainer}>
-      <div className={style.LogoDiv}>
-        <img
-          src="../Logo3.png"
-          className={style.Logo}
-          onClick={() => {
-            Router.push("/");
-          }}
-        />
-      </div>
-      <div>
-        <SearchPosts setQueryCriteria={setQueryCriteria} />
-      </div>
-      <div className={style.userIcon}>
-        <p>
-          Hi,
+    <Container>
+      <nav className={style.Nav}>
+        <Logo />
+        <div>
+          <SearchPosts setQueryCriteria={setQueryCriteria} />
+        </div>
+        <div className={style.userIcon}>
+          <p>
+            Hi,
           {currentUser.displayName
-            ? currentUser.displayName.split(" ")[0]
-            : "there"}
-          !
+              ? currentUser.displayName.split(" ")[0]
+              : "there"}
+            !
         </p>
-        {loggedIn ? (
-          photo ? (
-            <img
-              src={photo}
-              style={{ borderRadius: "50%", height: "50px", marginBottom: "0" }}
-              onClick={toggleSignOutModal}
-            />
-          ) : (
+          {loggedIn ? (
             <FaUserCircle
               style={{
                 width: "auto",
@@ -77,27 +64,27 @@ const NavBar = ({ setQueryCriteria }) => {
               }}
               onClick={toggleSignOutModal}
             />
-          )
-        ) : (
-          <FaUserCircle
-            style={{
-              width: "auto",
-              height: "50px",
-              marginBottom: "0",
-              fill: "#afafaf",
-            }}
-            onClick={() => {
-              Router.push("/signIn/SignIn");
-            }}
-          />
-        )}
-      </div>
-      <SignoutModal
-        show={signoutModal}
-        onHide={toggleSignOutModal}
-        setLoggedIn={setLoggedIn}
-      />
-    </nav>
+          ) : (
+              <FaUserCircle
+                style={{
+                  width: "auto",
+                  height: "50px",
+                  marginBottom: "0",
+                  fill: "#afafaf",
+                }}
+                onClick={() => {
+                  Router.push("/signIn/SignIn");
+                }}
+              />
+            )}
+        </div>
+        <SignoutModal
+          show={signoutModal}
+          onHide={toggleSignOutModal}
+          setLoggedIn={setLoggedIn}
+        />
+      </nav>
+    </Container>
   );
 };
 

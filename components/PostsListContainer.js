@@ -83,6 +83,14 @@ const PostsListContainer = () => {
           where("userId", "==", queryCriteria.userID)
         );
       }
+      else if (queryCriteria.saved) {
+        const docRef = doc(db, "users", currUser.uid);
+        q = query(
+          docRef,
+          orderBy("postDate", "desc"),
+          where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
+        );
+      }
       onSnapshot(q, (snap) => {
         const queryList = snap.docs.map((doc) => ({
           id: doc.id,
@@ -144,11 +152,24 @@ const PostsListContainer = () => {
         {showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
-          <div>
-            <div className={style.PostsContainer}>
-              <div className={style.SortDiv}>
-                <>
-                  <select
+            <div>
+              <div className={style.PostsContainer} style={{ marginTop: '35px' }}>
+                <div className={style.SortDiv}>
+                  <SortBy setSortBy={setSortBy} />
+                  <Button variant="warning" onClick={() => postNewItem()}>
+                    Add Post
+                </Button>
+                </div>
+                {posts[0] === "Loading..." ? (
+                  <div className={style.mainScreenLoader} >
+                    <Rings
+                      color="#ef9d06"
+                      height={140}
+                      width={140}
+                    />
+                  </div>
+                ) : posts.length <= 0 ? (
+                  <div
                     style={{
                       marginRight: "40px",
                       border: "solid 1px #f0f8ff",
@@ -161,20 +182,16 @@ const PostsListContainer = () => {
                       setSortType(e.target.value.split(",")[1]);
                     }}
                   >
-                    <option value="postDate,asc">Sort by</option>
-                    <option value="price,asc">Price </option>
-                    <option value="price,desc">Price Desc</option>
-                    <option value="title,asc">Title</option>
-                    <option value="title,desc">Title Desc</option>
-                    <option value="postDate,asc">Post Date </option>
-                    <option value="postDate,desc">Post Date Desc</option>
-                    <option value="zip,desc">Location</option>
-                  </select>
-                </>
-
-                <Button variant="warning" onClick={() => postNewItem()}>
-                  Add Post
-                </Button>
+                    OOPS!
+                    <br />
+                    No results found
+                  </div>
+                ) : (
+                      <AllPostsList
+                        posts={posts}
+                        deleteBtnStatus={deleteBtnStatus}
+                      />
+                    )}
               </div>
               {posts[0] === "Loading..." ? (
                 <div className={style.mainScreenLoader}>
@@ -196,8 +213,7 @@ const PostsListContainer = () => {
                 <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
               )}
             </div>
-          </div>
-        )}
+          )}
       </div>
     </main>
   );
