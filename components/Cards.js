@@ -7,7 +7,7 @@ import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
 
 const Cards = ({ props, deleteBtnStatus }) => {
-
+  const timeNow = new Date()
   const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const Cards = ({ props, deleteBtnStatus }) => {
                 </Card.Title>
                 <Card.Text>$ {prop.price}</Card.Text>
                 <Card.Text >
-                 Posted {Math.floor(((timeNow - prop.postDate.toDate())/3600000))<24?(
+                Posted {Math.floor(((timeNow - prop.postDate.toDate())/3600000))<24?(
                    `${Math.floor((timeNow - prop.postDate.toDate())/3600000)} hours`)
                   : Math.floor(((timeNow - prop.postDate.toDate())/3600000)/24)>1? 
                     `${Math.floor(((timeNow - prop.postDate.toDate())/3600000)/24)} days`:
