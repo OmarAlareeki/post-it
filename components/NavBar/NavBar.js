@@ -14,9 +14,10 @@ const NavBar = ({ setQueryCriteria }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
+  
+  const currentUserId = currentUser.uid;
 
-  useEffect(() => {
-    console.log(currentUser)
+  useEffect(async () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
@@ -55,6 +56,13 @@ const NavBar = ({ setQueryCriteria }) => {
             !
         </p>
           {loggedIn ? (
+          photo ? (
+            <img
+              src={photo}
+              style={{ borderRadius: "50%", height: "50px", marginBottom: "0" }}
+              onClick={toggleSignOutModal}
+            />
+          ) : (
             <FaUserCircle
               style={{
                 width: "auto",
@@ -64,19 +72,20 @@ const NavBar = ({ setQueryCriteria }) => {
               }}
               onClick={toggleSignOutModal}
             />
-          ) : (
-              <FaUserCircle
-                style={{
-                  width: "auto",
-                  height: "50px",
-                  marginBottom: "0",
-                  fill: "#afafaf",
-                }}
-                onClick={() => {
-                  Router.push("/signIn/SignIn");
-                }}
-              />
-            )}
+          )
+        ) : (
+          <FaUserCircle
+            style={{
+              width: "auto",
+              height: "50px",
+              marginBottom: "0",
+              fill: "#afafaf",
+            }}
+            onClick={() => {
+              Router.push("/signIn/SignIn");
+            }}
+          />
+        )}
         </div>
         <SignoutModal
           show={signoutModal}
