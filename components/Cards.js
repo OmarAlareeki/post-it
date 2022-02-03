@@ -25,7 +25,7 @@ const Cards = ({ props, deleteBtnStatus }) => {
     );
   }, [isMobile]);
 
-  function Popup() {
+  if (popup.show && popup.id) {
     return (
       <div className="modal">
         <div className="modal_box">
@@ -46,19 +46,14 @@ const Cards = ({ props, deleteBtnStatus }) => {
       show: true,
       id,
     });
-    Popup();
   };
 
-  const handleDeleteTrue = () => {
-    if (popup.show && popup.id) {
-      async () => {
-        await deleteDoc(doc(db, "posts", prop.id));
-      };
-      setPopup({
-        show: false,
-        id: null,
-      });
-    }
+  const handleDeleteTrue = async () => {
+    await deleteDoc(doc(db, "posts", prop.id));
+    setPopup({
+      show: false,
+      id: null,
+    });
   };
 
   const handleDeleteFalse = () => {

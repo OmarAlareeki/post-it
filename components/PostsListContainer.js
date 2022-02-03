@@ -34,6 +34,9 @@ const PostsListContainer = () => {
     user ? setCurrUser(user) : setCurrUser("")
   );
 
+  console.log(queryCriteria);
+  console.log(currUser.uid);
+
   useEffect(async () => {
     if (currUser) {
       await setDoc(doc(db, "users", currUser.uid), {
