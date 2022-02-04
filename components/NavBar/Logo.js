@@ -5,7 +5,7 @@ import Router from 'next/router'
 
 const Logo = props => {
     return (
-        <Container>
+        <>
         <img
           src="../Logo3.png"
           className={style.Logo}
@@ -13,7 +13,7 @@ const Logo = props => {
             Router.push("/");
           }}
         />
-      </Container>
+      </>
     )
 }
 

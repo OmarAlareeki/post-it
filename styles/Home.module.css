@@ -73,7 +73,6 @@
   flex-direction: row-reverse;
   justify-content: space-evenly;
   padding-bottom: 20px;
-  margin-left: 40px;
 }
 
 .Cards {
@@ -204,7 +203,7 @@
 
   /* CSS */
   .Cards {
-    width: 200px
+    width: 190px
   }
 
   .InputField {
