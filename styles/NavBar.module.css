@@ -3,7 +3,8 @@
   justify-content: space-between;
   flex-direction: row;
   align-content: center;
-  width: 100%;
+  padding: 15px;
+  width: 98vw;
   background: transparent;
   z-index: 1;
 }
@@ -31,6 +32,9 @@
   outline: none
 }
 
+.SearchContainer > input:focus {
+  outline: none
+}
 
 .SearchBar {
   display: flex;
@@ -38,14 +42,15 @@
   font-weight: 300;
   color: #333;
   border: none;
-  border-bottom: 1px solid;
   box-shadow: none;
   box-sizing: content-box;
   padding: 15px;
   cursor: pointer;
   margin-left: 80px;
-  width: 800px;
-  text-align: center;
+  width: 400px;
+  background: aliceblue;
+  border-radius: 20px;
+  text-align: center
 }
 
 .SearchButton {
@@ -71,7 +76,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
 }
 
 .userIcon p {
@@ -123,7 +127,7 @@
 */
 
 @media (min-width: 1025px) and (max-width: 1280px) {
-  /* CSS */
+
 }
 
 /* 
@@ -132,9 +136,14 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  
+
+  .NavContainer {
+    width: 90vw;
+    padding: 10px
+  }
+
   .SearchBar {
-    width: 400px;
+    width: 250px;
   }
 }
 
@@ -153,8 +162,39 @@
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
+  .NavContainer {
+    width: 97vw
+  }
   .SearchBar {
-    width: 110px
+    width: 110px;
+  }
+
+  .SideBar {
+    display: none;
+  }
+
+  .FilterIcon {
+    display: block;
+    font-size: 30px;
+    position: absolute;
+    right: 88px;
+  }
+
+  .Menu:hover > .SideBar {
+    display: block;
+    position: absolute;
+    top: 123px;
+    right: 26px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 1;
+    margin-top: 0px;
+    padding: 15px;
+    background-color: #fff;
+  }
+
+  .CategoryList {
+    font-size: 13px;
   }
 }
 
@@ -164,10 +204,13 @@
 */
 
 @media (min-width: 320px) and (max-width: 480px) {
+  .NavContainer {
+    width: 95vw;
+  }
   .SearchBar {
     width: 50px;
   }
-  
+
   .SearchButton {
     left: -15px;
   }
@@ -178,4 +221,37 @@
     bottom: -40px;
     right: -50px;
   }
+
+  .SideBar {
+    display: none;
+  }
+
+  .FilterIcon {
+    display: block;
+    font-size: 30px;
+    position: absolute;
+    right: 20px;
+  }
+
+  .Menu:hover > .SideBar {
+    display: block;
+    position: absolute;
+    top: 123px;
+    right: 26px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 1;
+    margin-top: 0px;
+    padding: 15px;
+    background-color: #ffc107;
+    color:#00243d;
+  }
+
+  .userIcon p{
+    margin-bottom: 0;
+    position: relative;
+    bottom: -40px;
+    right: -50px;
+  }
+
 }

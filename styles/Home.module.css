@@ -85,6 +85,7 @@
   margin-top: 10px;
   margin-right: 10px;
   background: #fef2eb;
+  margin: 2px
 }
 
 .CardImage {
@@ -167,7 +168,10 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  /* CSS */
+  .InputField {
+    width: 70vw;
+    margin-left: 10px;
+  }
 }
 
 /* 
@@ -176,7 +180,7 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  /* CSS */
+
 }
 
 /* 
@@ -185,8 +189,9 @@
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
-  .container {
-    width: 80vw;
+  .InputField {
+    width: 90vw;
+    margin-left: 10px;
   }
 }
 
@@ -196,22 +201,15 @@
 */
 
 @media (min-width: 320px) and (max-width: 480px) {
-  .container {
-    width: 90vw;
-  }
 
+  /* CSS */
   .Cards {
-    width: 158px;
-    font-size: .8rem;
+    width: 200px
   }
 
-  .CardImage{
-    max-height: 200px;
-    left: 152px;
+  .InputField {
+    width: 90vw;
+    margin-left: 10px;
   }
-  
-  .DeleteButton {
-    left: -167px;
-  }
-  
+
 }
