@@ -4,7 +4,7 @@
   flex-direction: row;
   align-content: center;
   padding: 15px;
-  width: 100vw;
+  width: 98vw;
   background: transparent;
   z-index: 1;
 }
@@ -25,25 +25,35 @@
   align-items: center;
 }
 
+.SearchContainer > input:focus {
+  outline: none
+}
+
 .SearchBar {
   display: flex;
   font-size: 16px;
   font-weight: 300;
   color: #333;
   border: none;
-  border-bottom: 1px solid;
   box-shadow: none;
   box-sizing: content-box;
   padding: 15px;
   cursor: pointer;
   margin-left: 80px;
-  width: 800px;
-  text-align: center;
+  width: 400px;
+  background: aliceblue;
+  border-radius: 20px;
+  text-align: center
 }
 
 .SearchButton {
-  display: flex;
-  background-color: transparent;
+  padding: 15px;
+  border-radius: 0% 35% 35% 0%;
+  color: black;
+  position: relative;
+  left: -48px;
+  background: #ffc107;
+  font-size: 1rem;
   border: none;
 }
 
@@ -59,12 +69,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
 }
 
 .userIcon p {
   margin-bottom: 0;
   margin-right: 1rem;
+  font-size: .8rem;
 }
 
 .FilterIcon {
@@ -110,7 +120,7 @@
 */
 
 @media (min-width: 1025px) and (max-width: 1280px) {
-  /* CSS */
+
 }
 
 /* 
@@ -119,7 +129,14 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  /* CSS */
+  .NavContainer {
+    width: 90vw;
+    padding: 10px
+  }
+
+  .SearchBar {
+    width: 250px;
+  }
 }
 
 /* 
@@ -137,8 +154,11 @@
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
+  .NavContainer {
+    width: 97vw
+  }
   .SearchBar {
-    width: 180px;
+    width: 110px;
   }
 
   .SideBar {
@@ -176,8 +196,22 @@
 */
 
 @media (min-width: 320px) and (max-width: 480px) {
+  .NavContainer {
+    width: 95vw;
+  }
   .SearchBar {
-    width: 100px;
+    width: 50px;
+  }
+
+  .SearchButton {
+    left: -15px;
+  }
+
+  .userIcon p{
+    margin-bottom: 0;
+    position: relative;
+    bottom: -40px;
+    right: -50px;
   }
 
   .SideBar {
@@ -201,10 +235,12 @@
     z-index: 1;
     margin-top: 0px;
     padding: 15px;
-    background-color: #fff;
+    background-color: #ffc107;
+    color:#00243d;
   }
 
   .CategoryList {
     font-size: 10px;
   }
+
 }
