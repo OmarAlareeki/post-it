@@ -32,7 +32,7 @@ export default function Map({ zip, title, price }) {
             <MapContainer style={{
                 width: "100%",
                 height: "400px"
-            }} center={position} zoom={15} scrollWheelZoom={false}>
+            }} center={position} zoom={13} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

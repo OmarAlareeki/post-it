@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Container, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
@@ -8,7 +8,14 @@ import { db } from "../config/fire-config";
 
 const Cards = ({ props, deleteBtnStatus }) => {
   const timeNow = new Date()
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
 
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+        const ismobile = window.innerWidth < 480;
+        if (ismobile !== isMobile) setIsMobile(ismobile);
+    }, false);
+}, [isMobile]);
 
   return (
     <Container className={style.PostsDisplay}>
@@ -23,15 +30,13 @@ const Cards = ({ props, deleteBtnStatus }) => {
               }}
             >
               <Card.Img
-                variant="top"
                 src={prop.imageUrls}
                 alt={prop.title}
-                style={{
-                  height: "150px",
-                }}
+                className={style.CardImage}
               />
               <Card.Body>
                 <Card.Title
+                className="h6"
                   style={{
                     overflow: "hidden",
                     whiteSpace: "nowrap",
@@ -43,7 +48,7 @@ const Cards = ({ props, deleteBtnStatus }) => {
                 </Card.Title>
                 <Card.Text>$ {prop.price}</Card.Text>
                 <Card.Text >
-                 Posted {Math.floor(((timeNow - prop.postDate.toDate())/3600000))<24?(
+                Posted {Math.floor(((timeNow - prop.postDate.toDate())/3600000))<24?(
                    `${Math.floor((timeNow - prop.postDate.toDate())/3600000)} hours`)
                   : Math.floor(((timeNow - prop.postDate.toDate())/3600000)/24)>1? 
                     `${Math.floor(((timeNow - prop.postDate.toDate())/3600000)/24)} days`:
@@ -59,13 +64,8 @@ const Cards = ({ props, deleteBtnStatus }) => {
             }}
             style={{
               display: deleteBtnStatus ? "block" : "none",
-              position: "relative",
-              top: "-77px",
-              right: "-204px",
-              backgroundColor: "transparent",
-              border: "none",
-              fontSize: "25px",
             }}
+            className={`${!isMobile ? style.DeleteButton : style.DeleteButtonMobile}`}
           >
             <RiDeleteBin6Line />
           </button>

@@ -40,6 +40,16 @@ const PostsListContainer = () => {
         name: currUser.displayName,
         email: currUser.email,
         uid: currUser.uid,
+        provider:
+          currUser.providerData[0].providerId === "password"
+            ? "Firebase.Signup"
+            : currUser.providerData[0].providerId,
+        photo: currUser.photoURL,
+        accountCreatedOn: currUser.metadata.creationTime,
+        zipCode: 0,
+        password: currUser.reloadUserInfo.passwordHash
+          ? currUser.reloadUserInfo.passwordHash
+          : "",
       });
     }
   }, [currUser]);
@@ -81,6 +91,14 @@ const PostsListContainer = () => {
           where("userId", "==", queryCriteria.userID)
         );
       }
+      else if (queryCriteria.saved) {
+        const docRef = doc(db, "users", currUser.uid);
+        q = query(
+          docRef,
+          orderBy("postDate", "desc"),
+          where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
+        );
+      }
       onSnapshot(q, (snap) => {
         const queryList = snap.docs.map((doc) => ({
           id: doc.id,
@@ -119,7 +137,7 @@ const PostsListContainer = () => {
           setPosts([]);
         }
       } else {
-        console.log(error);
+        alert(error);
       }
     }
   }, [queryCriteria, sortValue, sortType]);
@@ -142,10 +160,10 @@ const PostsListContainer = () => {
         {showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
-          <div>
-            <div className={style.PostsContainer}>
-              <div className={style.SortDiv}>
-                <>
+            <div>
+              <div className={style.PostsContainer} style={{ marginTop: '35px' }}>
+                <div className={style.SortDiv}>
+                  <>
                   <select
                     style={{
                       marginRight: "40px",
@@ -169,34 +187,42 @@ const PostsListContainer = () => {
                     <option value="zip,desc">Location</option>
                   </select>
                 </>
-
-                <Button variant="warning" onClick={() => postNewItem()}>
-                  Add Post
+                  <Button variant="warning" onClick={() => postNewItem()}>
+                    Add Post
                 </Button>
+                </div>
+                {posts[0] === "Loading..." ? (
+                  <div className={style.mainScreenLoader} >
+                    <Rings
+                      color="#ef9d06"
+                      height={140}
+                      width={140}
+                    />
+                  </div>
+                ) : posts.length <= 0 ? (
+                  <div
+                    style={{
+                      marginRight: "40px",
+                      border: "solid 1px #f0f8ff",
+                      textAlign: "center",
+                      fontSize: ".8rem",
+                      background: "#fff",
+                    }}
+                  >
+                    OOPS!
+                    <br />
+                    No results found
+                  </div>
+                ) : (
+                      <AllPostsList
+                        posts={posts}
+                        deleteBtnStatus={deleteBtnStatus}
+                      />
+                    )}
               </div>
-              {posts[0] === "Loading..." ? (
-                <div className={style.mainScreenLoader}>
-                  <Rings color="#ef9d06" height={140} width={140} />
-                </div>
-              ) : posts.length <= 0 ? (
-                <div
-                  style={{
-                    textAlign: "center",
-                    padding: "110px",
-                    fontSize: "50px",
-                  }}
-                >
-                  OOPS!
-                  <br />
-                  No results found
-                </div>
-              ) : (
-                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
-              )}
-            </div>
-          </div>
-        )}
       </div>
+)}
+</div>
     </main>
   );
 };

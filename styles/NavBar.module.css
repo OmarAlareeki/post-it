@@ -1,4 +1,4 @@
-.NavContainer {
+.Nav {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -23,6 +23,13 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  max-width: 90%;
+  margin-top: 15px
+
+}
+
+.SearchContainer > input:focus {
+  outline: none
 }
 
 .SearchContainer > input:focus {
@@ -65,7 +72,7 @@
   padding: 0;
 }
 
-.userIcon {
+.userIcon{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,6 +136,7 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) {
+
   .NavContainer {
     width: 90vw;
     padding: 10px
@@ -239,8 +247,11 @@
     color:#00243d;
   }
 
-  .CategoryList {
-    font-size: 10px;
+  .userIcon p{
+    margin-bottom: 0;
+    position: relative;
+    bottom: -40px;
+    right: -50px;
   }
 
 }
