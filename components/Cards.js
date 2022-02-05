@@ -5,14 +5,19 @@ import style from "../styles/Home.module.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
+import DeleteConfirmation from "./DeleteConfirmation";
+import { render } from "react-dom";
+import AlertDeleteSuccess from "./AlertDeleteSuccess";
 
 const Cards = ({ props, deleteBtnStatus }) => {
   const timeNow = new Date();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
-  const [popup, setPopup] = useState({
-    show: false,
-    id: null,
-  });
+  const [dTitle, setDTitle] = useState("");
+  const [id, setId] = useState(null);
+  const [displayConfirmationModal, setDisplayConfirmationModal] =
+    useState(false);
+  const [deleteMessage, setDeleteMessage] = useState(null);
+  const [confirmationMessage, setConfirmationMessage] = useState(null);
 
   useEffect(() => {
     window.addEventListener(
@@ -25,46 +30,34 @@ const Cards = ({ props, deleteBtnStatus }) => {
     );
   }, [isMobile]);
 
-  if (popup.show && popup.id) {
-    return (
-      <div className="modal">
-        <div className="modal_box">
-          <p>You sure you wanna delete?</p>
-          <button onClick={handleDeleteFalse} className="modal_buttonCancel">
-            Cancel
-          </button>
-          <button onClick={handleDeleteTrue} className="modal_buttoDelete">
-            Confirm
-          </button>
-        </div>
-      </div>
+  const showDeleteModal = (id, title) => {
+    setDTitle(title);
+    setId(id);
+    setDeleteMessage(
+      `Are you sure you want to delete this Post? Title : ${title}`
     );
-  }
-
-  const handleDelete = (id) => {
-    setPopup({
-      show: true,
-      id,
-    });
+    setDisplayConfirmationModal(true);
   };
 
-  const handleDeleteTrue = async () => {
-    await deleteDoc(doc(db, "posts", prop.id));
-    setPopup({
-      show: false,
-      id: null,
-    });
+  // Hide the modal
+  const hideConfirmationModal = () => {
+    setDisplayConfirmationModal(false);
   };
 
-  const handleDeleteFalse = () => {
-    setPopup({
-      show: false,
-      id: null,
-    });
+  // Handle the actual deletion of the item
+  const submitDelete = async (dTitle, id) => {
+    setConfirmationMessage(`${dTitle}  was deleted successfully.`);
+    await deleteDoc(doc(db, "posts", id));
+    setDisplayConfirmationModal(false);
   };
 
   return (
     <Container className={style.PostsDisplay}>
+      {confirmationMessage ? (
+        <AlertDeleteSuccess message={confirmationMessage} />
+      ) : (
+        ""
+      )}
       {props.map((prop) => (
         <div key={prop.id}>
           <Card className={style.Cards}>
@@ -114,7 +107,7 @@ const Cards = ({ props, deleteBtnStatus }) => {
             </Card.Link>
           </Card>
           <button
-            onClick={handleDelete(prop.id)}
+            onClick={() => showDeleteModal(prop.id, prop.title)}
             style={{
               display: deleteBtnStatus ? "block" : "none",
             }}
@@ -126,6 +119,15 @@ const Cards = ({ props, deleteBtnStatus }) => {
           </button>
         </div>
       ))}
+
+      <DeleteConfirmation
+        showModal={displayConfirmationModal}
+        confirmModal={submitDelete}
+        hideModal={hideConfirmationModal}
+        dTitle={dTitle}
+        id={id}
+        message={deleteMessage}
+      />
     </Container>
   );
 };
