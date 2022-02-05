@@ -35,27 +35,6 @@ const PostsListContainer = () => {
   );
 
   useEffect(async () => {
-    if (currUser) {
-      await setDoc(doc(db, "users", currUser.uid), {
-        name: currUser.displayName,
-        email: currUser.email,
-        phoneNumber: currUser.phoneNumber,
-        uid: currUser.uid,
-        provider:
-          currUser.providerData[0].providerId === "password"
-            ? "Firebase.Signup"
-            : currUser.providerData[0].providerId,
-        photo: currUser.photoURL,
-        accountCreatedOn: currUser.metadata.creationTime,
-        zipCode: 0,
-        password: currUser.reloadUserInfo.passwordHash
-          ? currUser.reloadUserInfo.passwordHash
-          : "",
-      });
-    }
-  }, [currUser]);
-
-  useEffect(async () => {
     const postsRef = collection(db, "posts");
     let q;
 
