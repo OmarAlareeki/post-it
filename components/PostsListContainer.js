@@ -107,7 +107,7 @@ const PostsListContainer = () => {
           setPosts([]);
         }
       } else {
-        alert(error);
+        
       }
     }
   }, [queryCriteria, sortValue, sortType]);
