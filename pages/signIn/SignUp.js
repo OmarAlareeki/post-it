@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import style from "../../styles/Home.module.css";
 import { auth, db } from "../../config/fire-config";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   updateProfile,
@@ -35,10 +35,11 @@ function SignUp() {
           setDoc(doc(db, "users", userCredential.user.uid), {
             userName: `${firstName} ${lastName}`,
             email: `${email}`,
-            uid: `${uid}`,
           });
           updateProfile(userCredential.user, {
             displayName: `${firstName} ${lastName}`,
+            uid: `${uid}`,
+            accountCreatedDate: serverTimestamp(),
           });
         })
         .then(() => {

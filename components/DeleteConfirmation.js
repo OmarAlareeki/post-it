@@ -1,6 +1,3 @@
-import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../config/fire-config";
-
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
@@ -9,7 +6,7 @@ const DeleteConfirmation = ({
   hideModal,
   confirmModal,
   id,
-  type,
+  dTitle,
   message,
 }) => {
   return (
@@ -18,13 +15,13 @@ const DeleteConfirmation = ({
         <Modal.Title>Delete Confirmation</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="alert alert-danger">{message}</div>
+        <div className="alert alert-danger">"{message}"</div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="default" onClick={hideModal}>
           Cancel
         </Button>
-        <Button variant="danger" onClick={() => confirmModal(type, id)}>
+        <Button variant="danger" onClick={() => confirmModal(dTitle, id)}>
           Delete
         </Button>
       </Modal.Footer>
@@ -33,13 +30,3 @@ const DeleteConfirmation = ({
 };
 
 export default DeleteConfirmation;
-
-// const handleDeleteTrue = async () => {
-//   if (popup.show && popup.id) {
-//     await deleteDoc(doc(db, "posts", prop.id));
-//     setPopup({
-//       show: false,
-//       id: null,
-//     });
-//   }
-// };
