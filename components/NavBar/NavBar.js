@@ -7,6 +7,7 @@ import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth, db } from "../../config/fire-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { Container } from "react-bootstrap";
 
 const NavBar = ({ setQueryCriteria }) => {
   const [currentUser, setCurrentUser] = useState("");
