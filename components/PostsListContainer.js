@@ -78,12 +78,11 @@ const PostsListContainer = () => {
         setPosts(queryList);
       });
     } else if (queryCriteria.searchCriteria) {
-      // if (sortValue && sortType) {
-      //   q = query(postsRef, orderBy(sortValue, sortType));
-      //   console.log(q);
-      // } else {
+      if (sortValue && sortType) {
       q = query(postsRef, orderBy(sortValue, sortType));
-      //}
+      } else {
+      q = query(postsRef, orderBy(sortValue, sortType));
+      }
       onSnapshot(q, (snap) => {
         const searchPosts = snap.docs.map((doc) => ({
           id: doc.id,
@@ -181,7 +180,10 @@ const PostsListContainer = () => {
                   No results found
                 </div>
               ) : (
-                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
+                <CardsContainer
+                  posts={posts}
+                  deleteBtnStatus={deleteBtnStatus}
+                />
               )}
             </div>
           </div>
