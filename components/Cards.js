@@ -3,7 +3,7 @@ import { Container, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import PopupDelete from "./DeleteConfirmation";
+
 
 const Cards = ({ props, deleteBtnStatus }) => {
   const timeNow = new Date();
@@ -61,7 +61,6 @@ const Cards = ({ props, deleteBtnStatus }) => {
             </Card.Link>
           </Card>
           <button
-            onClick={<PopupDelete id={prop.id} />}
             style={{
               display: deleteBtnStatus ? "block" : "none",
               position: "relative",
