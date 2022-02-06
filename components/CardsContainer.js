@@ -70,6 +70,7 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
             message={confirmationMessage}
             show={show}
             handleClose={handleClose}
+            bgColor="green"
           />
         ) : (
           ""
