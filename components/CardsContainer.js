@@ -90,12 +90,11 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
                   variant="top"
                   src={post.imageUrls}
                   alt={post.title}
-                  style={{
-                    height: "150px",
-                  }}
+                  className={style.CardImage}
                 />
                 <Card.Body>
                   <Card.Title
+                    className="h6"
                     style={{
                       overflow: "hidden",
                       whiteSpace: "nowrap",
@@ -131,13 +130,10 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
               onClick={() => showDeleteModal(post.id, post.title)}
               style={{
                 display: deleteBtnStatus ? "block" : "none",
-                position: "relative",
-                top: "-77px",
-                right: "-204px",
-                backgroundColor: "transparent",
-                border: "none",
-                fontSize: "25px",
               }}
+              className={`${
+                !isMobile ? style.DeleteButton : style.DeleteButtonMobile
+              }`}
             >
               <RiDeleteBin6Line />
             </button>
