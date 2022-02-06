@@ -3,7 +3,8 @@ import { db, auth } from "../config/fire-config";
 import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
-import CardsContainer from "./CardsContainer";
+import CardsContainer from "./CardsContainer.js";
+import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
 import {
   collection,
@@ -79,7 +80,6 @@ const PostsListContainer = () => {
     } else if (queryCriteria.searchCriteria) {
       if (sortValue && sortType) {
         q = query(postsRef, orderBy(sortValue, sortType));
-        console.log(q);
       } else {
         q = query(postsRef, orderBy(sortValue, sortType));
       }
@@ -98,16 +98,16 @@ const PostsListContainer = () => {
       const docRef = doc(db, "users", currUser.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        if (docSnap.data().savedPost) {
+        if (docSnap.data().savedPosts) {
           const savedArray = docSnap
             .data()
-            .savedPost.map((arr) => ({ id: arr.postId, ...arr }));
+            .savedPosts.map((arr) => ({ id: arr.postId, ...arr }));
           setPosts(savedArray);
         } else {
           setPosts([]);
         }
       } else {
-        alert(error);
+        Router.push("/signIn/SignIn");
       }
     }
   }, [queryCriteria, sortValue, sortType]);
@@ -120,7 +120,7 @@ const PostsListContainer = () => {
     <main>
       <NavBar />
       <div>
-        <searchPosts setQueryCriteria={setQueryCriteria} />
+        <SearchPosts setQueryCriteria={setQueryCriteria} />
       </div>
       <div className={style.mainContainer}>
         <div>
@@ -171,11 +171,9 @@ const PostsListContainer = () => {
               ) : posts.length <= 0 ? (
                 <div
                   style={{
-                    marginRight: "40px",
-                    border: "solid 1px #f0f8ff",
                     textAlign: "center",
-                    fontSize: ".8rem",
-                    background: "#fff",
+                    padding: "110px",
+                    fontSize: "50px",
                   }}
                 >
                   OOPS!
