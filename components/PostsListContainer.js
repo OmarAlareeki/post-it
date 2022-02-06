@@ -3,7 +3,7 @@ import { db, auth } from "../config/fire-config";
 import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
-import AllPostsList from "./AllPostsList";
+import CardsContainer from "./CardsContainer";
 import SideNavBar from "./NavBar/SideNavBar";
 import {
   collection,
@@ -12,7 +12,6 @@ import {
   onSnapshot,
   orderBy,
   doc,
-  setDoc,
   getDoc,
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
@@ -33,29 +32,6 @@ const PostsListContainer = () => {
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
   );
-
-  console.log(queryCriteria);
-  console.log(currUser.uid);
-
-  useEffect(async () => {
-    if (currUser) {
-      await setDoc(doc(db, "users", currUser.uid), {
-        name: currUser.displayName,
-        email: currUser.email,
-        uid: currUser.uid,
-        provider:
-          currUser.providerData[0].providerId === "password"
-            ? "Firebase.Signup"
-            : currUser.providerData[0].providerId,
-        photo: currUser.photoURL,
-        accountCreatedDate: currUser.metadata.creationTime,
-        zipCode: 0,
-        passwordHashCode: currUser.reloadUserInfo.passwordHash
-          ? currUser.reloadUserInfo.passwordHash
-          : "",
-      });
-    }
-  }, [currUser]);
 
   useEffect(async () => {
     const postsRef = collection(db, "posts");
@@ -101,12 +77,12 @@ const PostsListContainer = () => {
         setPosts(queryList);
       });
     } else if (queryCriteria.searchCriteria) {
-      // if (sortValue && sortType) {
-      //   q = query(postsRef, orderBy(sortValue, sortType));
-      //   console.log(q);
-      // } else {
-      q = query(postsRef, orderBy(sortValue, sortType));
-      //}
+      if (sortValue && sortType) {
+        q = query(postsRef, orderBy(sortValue, sortType));
+        console.log(q);
+      } else {
+        q = query(postsRef, orderBy(sortValue, sortType));
+      }
       onSnapshot(q, (snap) => {
         const searchPosts = snap.docs.map((doc) => ({
           id: doc.id,
@@ -142,7 +118,10 @@ const PostsListContainer = () => {
 
   return (
     <main>
-      <NavBar setQueryCriteria={setQueryCriteria} />
+      <NavBar />
+      <div>
+        <searchPosts setQueryCriteria={setQueryCriteria} />
+      </div>
       <div className={style.mainContainer}>
         <div>
           <SideNavBar
@@ -204,7 +183,10 @@ const PostsListContainer = () => {
                   No results found
                 </div>
               ) : (
-                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
+                <CardsContainer
+                  posts={posts}
+                  deleteBtnStatus={deleteBtnStatus}
+                />
               )}
             </div>
           </div>
