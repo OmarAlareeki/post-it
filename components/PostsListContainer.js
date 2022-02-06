@@ -3,7 +3,8 @@ import { db, auth } from "../config/fire-config";
 import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
-import AllPostsList from "./AllPostsList";
+import CardsContainer from "./CardsContainer.js";
+import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
 import {
   collection,
@@ -12,7 +13,6 @@ import {
   onSnapshot,
   orderBy,
   doc,
-  setDoc,
   getDoc,
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
@@ -33,26 +33,6 @@ const PostsListContainer = () => {
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
   );
-
-  useEffect(async () => {
-    if (currUser) {
-      await setDoc(doc(db, "users", currUser.uid), {
-        name: currUser.displayName,
-        email: currUser.email,
-        uid: currUser.uid,
-        provider:
-          currUser.providerData[0].providerId === "password"
-            ? "Firebase.Signup"
-            : currUser.providerData[0].providerId,
-        photo: currUser.photoURL,
-        accountCreatedOn: currUser.metadata.creationTime,
-        zipCode: 0,
-        password: currUser.reloadUserInfo.passwordHash
-          ? currUser.reloadUserInfo.passwordHash
-          : "",
-      });
-    }
-  }, [currUser]);
 
   useEffect(async () => {
     const postsRef = collection(db, "posts");
@@ -79,24 +59,15 @@ const PostsListContainer = () => {
       } else if (queryCriteria.price) {
         q = query(
           postsRef,
-          orderBy("price", "asc"),
+          orderBy("price", "des"),
           orderBy(sortValue, sortType),
           where("price", "<", queryCriteria.price)
         );
-        console.log(q);
       } else if (queryCriteria.userID) {
         q = query(
           postsRef,
           orderBy(sortValue, sortType),
           where("userId", "==", queryCriteria.userID)
-        );
-      }
-      else if (queryCriteria.saved) {
-        const docRef = doc(db, "users", currUser.uid);
-        q = query(
-          docRef,
-          orderBy("postDate", "desc"),
-          where("savedPosts", "array-contains", "7hqkVuE26F2qZx6noZhB")
         );
       }
       onSnapshot(q, (snap) => {
@@ -109,7 +80,6 @@ const PostsListContainer = () => {
     } else if (queryCriteria.searchCriteria) {
       if (sortValue && sortType) {
         q = query(postsRef, orderBy(sortValue, sortType));
-        console.log(q);
       } else {
         q = query(postsRef, orderBy(sortValue, sortType));
       }
@@ -128,16 +98,16 @@ const PostsListContainer = () => {
       const docRef = doc(db, "users", currUser.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        if (docSnap.data().savedPost) {
+        if (docSnap.data().savedPosts) {
           const savedArray = docSnap
             .data()
-            .savedPost.map((arr) => ({ id: arr.postId, ...arr }));
+            .savedPosts.map((arr) => ({ id: arr.postId, ...arr }));
           setPosts(savedArray);
         } else {
           setPosts([]);
         }
       } else {
-        alert(error);
+        Router.push("/signIn/SignIn");
       }
     }
   }, [queryCriteria, sortValue, sortType]);
@@ -148,7 +118,10 @@ const PostsListContainer = () => {
 
   return (
     <main>
-      <NavBar setQueryCriteria={setQueryCriteria} />
+      <NavBar />
+      <div>
+        <SearchPosts setQueryCriteria={setQueryCriteria} />
+      </div>
       <div className={style.mainContainer}>
         <div>
           <SideNavBar
@@ -160,10 +133,10 @@ const PostsListContainer = () => {
         {showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
-            <div>
-              <div className={style.PostsContainer} style={{ marginTop: '35px' }}>
-                <div className={style.SortDiv}>
-                  <>
+          <div>
+            <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
+              <div className={style.SortDiv}>
+                <>
                   <select
                     style={{
                       marginRight: "40px",
@@ -187,42 +160,36 @@ const PostsListContainer = () => {
                     <option value="zip,desc">Location</option>
                   </select>
                 </>
-                  <Button variant="warning" onClick={() => postNewItem()}>
-                    Add Post
+                <Button variant="warning" onClick={() => postNewItem()}>
+                  Add Post
                 </Button>
-                </div>
-                {posts[0] === "Loading..." ? (
-                  <div className={style.mainScreenLoader} >
-                    <Rings
-                      color="#ef9d06"
-                      height={140}
-                      width={140}
-                    />
-                  </div>
-                ) : posts.length <= 0 ? (
-                  <div
-                    style={{
-                      marginRight: "40px",
-                      border: "solid 1px #f0f8ff",
-                      textAlign: "center",
-                      fontSize: ".8rem",
-                      background: "#fff",
-                    }}
-                  >
-                    OOPS!
-                    <br />
-                    No results found
-                  </div>
-                ) : (
-                      <AllPostsList
-                        posts={posts}
-                        deleteBtnStatus={deleteBtnStatus}
-                      />
-                    )}
               </div>
+              {posts[0] === "Loading..." ? (
+                <div className={style.mainScreenLoader}>
+                  <Rings color="#ef9d06" height={140} width={140} />
+                </div>
+              ) : posts.length <= 0 ? (
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "110px",
+                    fontSize: "50px",
+                  }}
+                >
+                  OOPS!
+                  <br />
+                  No results found
+                </div>
+              ) : (
+                <CardsContainer
+                  posts={posts}
+                  deleteBtnStatus={deleteBtnStatus}
+                />
+              )}
+            </div>
+          </div>
+        )}
       </div>
-)}
-</div>
     </main>
   );
 };

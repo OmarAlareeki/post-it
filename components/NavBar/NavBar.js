@@ -1,21 +1,19 @@
 import style from "../../styles/NavBar.module.css";
-import SearchPosts from "./SearchPosts.js";
 import { FaUserCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth, db } from "../../config/fire-config";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { Container } from "react-bootstrap";
-import Logo from "./Logo"
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import Logo from "./Logo";
 
-const NavBar = ({ setQueryCriteria }) => {
+const NavBar = () => {
   const [currentUser, setCurrentUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
-  
+
   const currentUserId = currentUser.uid;
 
   useEffect(async () => {
@@ -34,7 +32,18 @@ const NavBar = ({ setQueryCriteria }) => {
       if (docSnap.exists()) {
         docSnap.data().photo ? setPhoto(docSnap.data().photo) : "";
       } else {
-        Router.push("/signIn/SignIn");
+        await setDoc(doc(db, "users", currentUser.uid), {
+          accountCreatedDate: currentUser.metadata.creationTime,
+          email: currentUser.email,
+          name: currentUser.displayName,
+          password: "",
+          phoneNumber: currentUser.phoneNumber,
+          photo: currentUser.photoURL,
+          provider: currentUser.providerData[0].providerId,
+          savedPosts: [],
+          uid: currentUser.uid,
+          zipCode: 0,
+        });
       }
     }
   }, [loggedIn]);
@@ -42,21 +51,19 @@ const NavBar = ({ setQueryCriteria }) => {
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
 
   return (
-    <Container>
-      <nav className={style.Nav}>
+    <nav className={style.NavContainer}>
+      <div className={style.LogoDiv}>
         <Logo />
-        <div>
-          <SearchPosts setQueryCriteria={setQueryCriteria} />
-        </div>
-        <div className={style.userIcon}>
-          <p>
-            Hi,
+      </div>
+      <div className={style.userIcon}>
+        <p>
+          Hi,
           {currentUser.displayName
-              ? currentUser.displayName.split(" ")[0]
-              : "there"}
-            !
+            ? currentUser.displayName.split(" ")[0]
+            : "there"}
+          !
         </p>
-          {loggedIn ? (
+        {loggedIn ? (
           photo ? (
             <img
               src={photo}
@@ -87,14 +94,21 @@ const NavBar = ({ setQueryCriteria }) => {
             }}
           />
         )}
-        </div>
-        <SignoutModal
-          show={signoutModal}
-          onHide={toggleSignOutModal}
-          setLoggedIn={setLoggedIn}
-        />
-      </nav>
-    </Container>
+      </div>
+      <p
+        onClick={() => {
+          Router.push(`/userProfilePage/${currentUserId}`);
+        }}
+      >
+        My profile
+      </p>
+
+      <SignoutModal
+        show={signoutModal}
+        onHide={toggleSignOutModal}
+        setLoggedIn={setLoggedIn}
+      />
+    </nav>
   );
 };
 
