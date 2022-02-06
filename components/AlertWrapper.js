@@ -1,7 +1,6 @@
 import { Alert } from "react-bootstrap";
 
-export default function AlertSuccessWrapper({ message, show, handleClose }) {
-  console.log(show);
+export default function AlertSuccessWrapper({ message, show, handleClose, bgColor }) {
 
   return (
     <>
@@ -9,9 +8,8 @@ export default function AlertSuccessWrapper({ message, show, handleClose }) {
         variant="success"
         onClose={handleClose}
         dismissible
-        style={{ backgroundColor: "green", color: "white", height: "50px" }}
+        style={{ backgroundColor: bgColor, color: "white", height: "50px" }}
       >
-        {/* <Alert.Heading>This is a success message!</Alert.Heading> */}
         <p>{message}</p>
       </Alert>
     </>
