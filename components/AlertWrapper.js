@@ -1,6 +1,6 @@
 import { Alert } from "react-bootstrap";
 
-export default function AlertSuccessWrapper({ message, show, handleClose, bgColor }) {
+export default function AlertSuccessWrapper({ message, handleClose, bgColor }) {
 
   return (
     <>
