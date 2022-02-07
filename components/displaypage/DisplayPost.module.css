@@ -25,16 +25,16 @@
 
 
 /*  landscape mobile */
-@media (max-width:768px) {
+@media (min-width:768px) {
     
 }
 
 /* tablet, */
-@media (max-width:1024px) {
+@media (min-width:1024px) {
     
 }
 
-/* desctop */
+/* desktop */
 @media (min-width: 1280px) {
     .mainField {
         grid-template-columns: 2fr 1fr !important; 
