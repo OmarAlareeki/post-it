@@ -1,19 +1,22 @@
 import style from "../../styles/NavBar.module.css";
-import SearchPosts from "./SearchPosts.js";
 import { FaUserCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
-import { auth } from "../../config/fire-config";
-import { onAuthStateChanged, setDoc } from "firebase/auth";
-import { Container } from "react-bootstrap";
+import { auth, db } from "../../config/fire-config";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import Logo from "./Logo";
 
-const NavBar = ({ setQueryCriteria }) => {
+const NavBar = () => {
   const [currentUser, setCurrentUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
+  const [photo, setPhoto] = useState("");
 
-  useEffect(() => {
+  const currentUserId = currentUser.uid;
+
+  useEffect(async () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
@@ -22,6 +25,27 @@ const NavBar = ({ setQueryCriteria }) => {
         setCurrentUser("");
       }
     });
+
+    if (currentUser) {
+      const docRef = doc(db, "users", currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        docSnap.data().photo ? setPhoto(docSnap.data().photo) : "";
+      } else {
+        await setDoc(doc(db, "users", currentUser.uid), {
+          accountCreatedDate: currentUser.metadata.creationTime,
+          email: currentUser.email,
+          name: currentUser.displayName,
+          password: "",
+          phoneNumber: currentUser.phoneNumber,
+          photo: currentUser.photoURL,
+          provider: currentUser.providerData[0].providerId,
+          savedPosts: [],
+          uid: currentUser.uid,
+          zipCode: 0,
+        });
+      }
+    }
   }, [loggedIn]);
 
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
@@ -29,16 +53,7 @@ const NavBar = ({ setQueryCriteria }) => {
   return (
     <nav className={style.NavContainer}>
       <div className={style.LogoDiv}>
-        <img
-          src="../new_logo.png"
-          className={style.Logo}
-          onClick={() => {
-            Router.push("/");
-          }}
-        />
-      </div>
-      <div>
-        <SearchPosts setQueryCriteria={setQueryCriteria} />
+        <Logo />
       </div>
       <div className={style.userIcon}>
         <p>
@@ -49,15 +64,23 @@ const NavBar = ({ setQueryCriteria }) => {
           !
         </p>
         {loggedIn ? (
-          <FaUserCircle
-            style={{
-              width: "auto",
-              height: "50px",
-              fill: "#ef9d06",
-              marginBottom: "0",
-            }}
-            onClick={toggleSignOutModal}
-          />
+          photo ? (
+            <img
+              src={photo}
+              style={{ borderRadius: "50%", height: "50px", marginBottom: "0" }}
+              onClick={toggleSignOutModal}
+            />
+          ) : (
+            <FaUserCircle
+              style={{
+                width: "auto",
+                height: "50px",
+                fill: "#ef9d06",
+                marginBottom: "0",
+              }}
+              onClick={toggleSignOutModal}
+            />
+          )
         ) : (
           <FaUserCircle
             style={{
@@ -72,6 +95,14 @@ const NavBar = ({ setQueryCriteria }) => {
           />
         )}
       </div>
+      <p
+        onClick={() => {
+          Router.push(`/userProfilePage/${currentUserId}`);
+        }}
+      >
+        My profile
+      </p>
+
       <SignoutModal
         show={signoutModal}
         onHide={toggleSignOutModal}
