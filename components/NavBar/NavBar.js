@@ -95,13 +95,6 @@ const NavBar = () => {
           />
         )}
       </div>
-      <p
-        onClick={() => {
-          Router.push(`/userProfilePage/${currentUserId}`);
-        }}
-      >
-        My profile
-      </p>
 
       <SignoutModal
         show={signoutModal}
