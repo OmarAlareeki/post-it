@@ -1,4 +1,4 @@
-.Nav {
+.NavContainer {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -155,7 +155,7 @@
     width: 97vw
   }
   .SearchBar {
-    width: 110px;
+    width: 280px;
 
   }
 }
@@ -170,7 +170,7 @@
     width: 95vw;
   }
   .SearchBar {
-    width: 50px;
+    width: 150px;
   }
 
   .SearchButton {
