@@ -14,8 +14,6 @@ const NavBar = () => {
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
 
-  const currentUserId = currentUser.uid;
-
   useEffect(async () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -95,14 +93,6 @@ const NavBar = () => {
           />
         )}
       </div>
-      <p
-        onClick={() => {
-          Router.push(`/userProfilePage/${currentUserId}`);
-        }}
-      >
-        My profile
-      </p>
-
       <SignoutModal
         show={signoutModal}
         onHide={toggleSignOutModal}
