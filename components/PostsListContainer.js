@@ -7,6 +7,8 @@ import CardsContainer from "./CardsContainer.js";
 import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
 import UserProfile from "./UserProfile";
+import AlertWrapper from "./AlertWrapper";
+
 import {
   collection,
   query,
@@ -31,6 +33,16 @@ const PostsListContainer = () => {
   const [sortType, setSortType] = useState("desc");
   const [showPostItem, setShowPostItem] = useState(false);
   const [userProfile, setUserProfile] = useState(false);
+  const [show, setShow] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState(null);
+
+  const handleClick = () => {
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
 
   const currentUserId = currUser.uid;
 
@@ -121,7 +133,9 @@ const PostsListContainer = () => {
   }, [queryCriteria, sortValue, sortType]);
 
   const postNewItem = () => {
-    currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
+    currUser
+      ? setShowPostItem(true) && setUserProfile(false)
+      : Router.push("/signIn/SignIn");
   };
 
   function userProfilePage() {
@@ -145,7 +159,7 @@ const PostsListContainer = () => {
         {userProfile ? (
           <UserProfile id={currentUserId} />
         ) : showPostItem ? (
-          (setUserProfile(false), (<PostItem back={setShowPostItem} />))
+          <PostItem back={setShowPostItem} />
         ) : (
           <div>
             <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
@@ -183,6 +197,18 @@ const PostsListContainer = () => {
                 >
                   My profile
                 </p>
+                <>
+                  {show ? (
+                    <AlertWrapper
+                      message={confirmationMessage}
+                      show={show}
+                      handleClose={handleClose}
+                      bgColor="green"
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>
               </div>
               {posts[0] === "Loading..." ? (
                 <div className={style.mainScreenLoader}>
@@ -204,6 +230,8 @@ const PostsListContainer = () => {
                 <CardsContainer
                   posts={posts}
                   deleteBtnStatus={deleteBtnStatus}
+                  handleClick={handleClick}
+                  setConfirmationMessage={setConfirmationMessage}
                 />
               )}
             </div>

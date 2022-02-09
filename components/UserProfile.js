@@ -2,7 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { db, storage } from "../config/fire-config";
 import { RiCloseCircleFill } from "react-icons/ri";
+import { IoMdAddCircle } from "react-icons/io";
 import { TailSpin } from "react-loader-spinner";
+import { Image } from "react-bootstrap";
 import {
   ref,
   uploadBytesResumable,
@@ -16,6 +18,7 @@ import {
   Button,
   Stack,
   Input,
+  FormControl,
   TextField,
   IMaskInput,
   Paper,
@@ -23,7 +26,7 @@ import {
 } from "@material-ui/core/";
 
 export default function UserProfile({ id }) {
-  const [data, setData] = useState([]);
+  const [user, setUser] = useState([]);
   const [displayUrl, setDisplayUrl] = useState([]);
   const [progress, setProgress] = useState("getUpload");
 
@@ -31,16 +34,16 @@ export default function UserProfile({ id }) {
     const docRef = doc(db, "users", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      const userData = docSnap.data();
-      console.log(userData);
-      setData(userData);
+      const userData = { ...docSnap.data(), id: docSnap.id };
+      setUser([userData]);
+      //});
     }
   }, [id]);
 
   const imageContent = () => {
     switch (progress) {
       case "getUpload":
-        return <div>Upload Pictures</div>;
+        return <div>Preview new photo here!</div>;
       case "uploading":
         return <div>{displayUrl ? displayImage(displayUrl) : ""}</div>;
       case "uploaded":
@@ -50,28 +53,29 @@ export default function UserProfile({ id }) {
     }
   };
 
-  const updatePhoto = async (e) => {
-    const userImage = e.target.file[0];
-    const imageRef = ref(storage, `userProfileImages/${data.uid}`);
+  const handleImageUpload = (e) => {
+    console.log(e.target);
+    const userImage = e.target.files[0];
+    const imageRef = ref(storage, `userProfileImages/${userImage.name}`);
     const uploadImages = uploadBytesResumable(imageRef, userImage);
     uploadImages.on(
       "state_changed",
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("uploading", progress);
+        const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("uploading", process);
         setProgress("uploading");
       },
       (error) => {
         console.log("Encounter ", error);
       },
       () => {
-        getDownloadURL(ref(storage, `userProfileImages/${data.uid}`)).then(
-          (url) => {
-            setDisplayUrl(url);
-            setProgress("uploaded");
-          }
-        );
+        getDownloadURL(
+          ref(storage, `userProfileImages/${userImage.name}`)
+        ).then((url) => {
+          setDisplayUrl(url);
+          console.log(url);
+          setProgress("uploaded");
+        });
       }
     );
   };
@@ -92,31 +96,28 @@ export default function UserProfile({ id }) {
     return (
       <div className={style.imageContainer}>
         <div className={style.imageDiv}>
-          <div>
-            <RiCloseCircleFill
-              style={{
-                fill: "#ef9d06",
-                position: "absolute",
-                top: "20px",
-                right: "20px",
-                zIndex: "100",
-                cursor: "pointer",
-              }}
-              onClick={() => deleteImage(dUrl)}
-            />
-          </div>
           <Image
+            key={user.id}
             src={dUrl}
             alt={dUrl}
-            height={100}
-            width={100}
+            height={200}
+            width={200}
             className={style.postImage}
             onClick={() => {
               console.log("image clicked");
             }}
           />
+          <div>
+            <RiCloseCircleFill
+              style={{
+                fill: "red",
+                fontSize: "30px",
+                cursor: "pointer",
+              }}
+              onClick={() => deleteImage(dUrl)}
+            />
+          </div>
         </div>
-        );
         {progress === "uploading" ? (
           <div className={style.loader}>
             <TailSpin color="#ef9d06" height={40} width={40} />
@@ -128,36 +129,60 @@ export default function UserProfile({ id }) {
     );
   };
 
+  const handleSubmit = async () => {
+    try {
+      await updateDoc(doc(db, "user", id), {
+        photo: displayUrl,
+      });
+      setDisplayUrl([]);
+      setProgress("getUpload");
+    } catch {
+      (error) => {
+        console.error("Error adding Document: ", error);
+      };
+    }
+  };
+
   return (
     <main className={style.UserProfileContainer}>
-      <Paper sx={{ p: 2, margin: "auto", flexGrow: 1, maxWidth: "80%" }}>
+      {user.map((data) => (
         <Grid container spacing={12} direction="row" justify="center">
           <Grid item>
-            <img src={data.photo} className={style.Imagediv} />
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <label htmlFor="contained-button-file">
-                <Input
-                  accept="image/*"
-                  id="contained-button-file"
-                  type="file"
-                  style={{ display: "none" }}
-                />
-                <Button
-                  variant="contained"
-                  component="span"
-                  backgroundColor="#00243D"
-                  justify="center"
-                  size="small"
-                  onClick={(e) => {
-                    updatePhoto(e);
-                  }}
-                >
-                  Change Photo
-                </Button>
-                <>{imageContent()}</>
-              </label>
-            </Stack>
+            <FormControl>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <label htmlFor="contained-button-file">
+                  <img src={data.photo} className={style.Imagediv} />
+                  <Input
+                    id="contained-button-file"
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      handleImageUpload(e);
+                    }}
+                  />
+                  <Button
+                    variant="contained"
+                    component="span"
+                    color="secondary"
+                    justify="center"
+                    size="small"
+                  >
+                    Change Photo
+                  </Button>
+                  <>{imageContent()}</>
+                  <IoMdAddCircle
+                    style={{
+                      fill: "green",
+                      fontSize: "30px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleSubmit()}
+                  />
+                </label>
+              </Stack>
+            </FormControl>
           </Grid>
+
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
@@ -169,35 +194,29 @@ export default function UserProfile({ id }) {
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                   Phone: {data.phoneNumber}
-                  {/* <TextField
+                  {/* {/* <TextField
                     ref="phone"
                     name="phone"
                     type="text"
                     value="phone"
-                  />
-                  <IMaskInput
-                    mask="(0)999 999 9999"
-                    value="phone"
-                    disabled={false}
-                    maskChar=" "
-                    definitions={{
-                      "#": /[1-9]/,
-                    }}
-                    inputRef={ref}
-                    onAccept={(value) =>
-                      onChange({ target: { name: props.name, value } })
-                    }
-                    overwrite
                   /> */}
+                  {/* <IMaskInput
+                      mask="(0)999 999 9999"
+                      value="phone"
+                      disabled={false}
+                      maskChar=" "
+                      definitions={{
+                        "#": /[1-9]/,
+                      }}
+                      inputRef={ref}
+                      onAccept={(value) =>
+                        onChange({ target: { name: props.name, value } })
+                      }
+                      overwrite
+                    /> */}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                   ZipCode: {data.ZipCode}
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Password: {data.password}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  AccountDate: {data.accountCreatedDate}
                 </Typography>
               </Grid>
               <Grid item>
@@ -208,7 +227,7 @@ export default function UserProfile({ id }) {
             </Grid>
           </Grid>
         </Grid>
-      </Paper>
+      ))}
     </main>
   );
 }

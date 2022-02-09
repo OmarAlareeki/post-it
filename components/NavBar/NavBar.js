@@ -5,7 +5,7 @@ import Router from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth, db } from "../../config/fire-config";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import Logo from "./Logo";
 
 const NavBar = () => {
@@ -31,7 +31,7 @@ const NavBar = () => {
         docSnap.data().photo ? setPhoto(docSnap.data().photo) : "";
       } else {
         await setDoc(doc(db, "users", currentUser.uid), {
-          accountCreatedDate: currentUser.metadata.creationTime,
+          accountCreatedDate: new Date(),
           email: currentUser.email,
           name: currentUser.displayName,
           password: "",
