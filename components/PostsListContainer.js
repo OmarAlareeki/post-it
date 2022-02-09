@@ -156,9 +156,7 @@ const PostsListContainer = () => {
             currUser={currUser}
           />
         </div>
-        {userProfile ? (
-          <UserProfile id={currentUserId} />
-        ) : showPostItem ? (
+        {showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
           <div>
@@ -210,7 +208,10 @@ const PostsListContainer = () => {
                   )}
                 </>
               </div>
-              {posts[0] === "Loading..." ? (
+
+              {userProfile ? (
+                <UserProfile id={currentUserId} />
+              ) : posts[0] === "Loading..." ? (
                 <div className={style.mainScreenLoader}>
                   <Rings color="#ef9d06" height={140} width={140} />
                 </div>
