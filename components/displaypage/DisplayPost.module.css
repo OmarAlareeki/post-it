@@ -1,12 +1,13 @@
 .mainField {
     display: grid;
     width: 100%;
-    grid-template-columns: 2fr 1fr !important; 
-    /* grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); */
+    grid-template-columns: 1fr !important; 
     grid-gap:10px;
     grid-template-areas:
-        "photoGallery content"
-        "map content"
+        "title"
+        "photoGallery"
+        "content"
+        "map"
 }
 
 .photoGallery {
@@ -15,14 +16,42 @@
 }
 
 .content {
-    grid-area: content
+    grid-area: content;
 }
 
 .map {
-    grid-area: map
+    grid-area: map;
 }
 
+.title {
+    grid-area: title;
+}
 
-@media (max-width:769px) {
+/*  landscape mobile */
+@media (min-width:768px) {
     
 }
+
+/* tablet, */
+@media (min-width:1024px) {
+    .mainField {
+        grid-template-columns: 2fr 1fr !important; 
+        grid-gap:10px;
+        grid-template-areas:
+            "title"
+            "photoGallery content"
+            "map content"
+    }
+}
+
+/* desktop */
+@media (min-width: 1280px) {
+    .mainField {
+        grid-template-columns: 2fr 1fr !important; 
+        grid-gap:10px;
+        grid-template-areas:
+            "title"
+            "photoGallery content"
+            "map content"
+    }
+  }

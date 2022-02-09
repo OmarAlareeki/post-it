@@ -226,7 +226,7 @@ const PostItem = ({ back }) => {
       <div className={style.inputContainer}>
         <h1 className="d-flex justify-content-center mt-4">Post an Item</h1>
         {/* Post item form and validation */}
-        <Form
+        <Form className={style.InputField}
           onSubmit={handleSubmit}
           validated={
           validate

@@ -3,7 +3,8 @@ import { db, auth } from "../config/fire-config";
 import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
-import AllPostsList from "./AllPostsList";
+import CardsContainer from "./CardsContainer.js";
+import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
 import {
   collection,
@@ -12,7 +13,6 @@ import {
   onSnapshot,
   orderBy,
   doc,
-  setDoc,
   getDoc,
 } from "firebase/firestore";
 import style from "../styles/Home.module.css";
@@ -33,18 +33,6 @@ const PostsListContainer = () => {
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
   );
-
-  useEffect(async () => {
-    if (currUser) {
-      await setDoc(doc(db, "users", currUser.uid), {
-        name: currUser.displayName,
-        email: currUser.email,
-        uid: currUser.uid,
-        provider: currUser.providerData[0].providerId,
-        photo: currUser.photoURL,
-      });
-    }
-  }, [currUser]);
 
   useEffect(async () => {
     const postsRef = collection(db, "posts");
@@ -71,11 +59,10 @@ const PostsListContainer = () => {
       } else if (queryCriteria.price) {
         q = query(
           postsRef,
-          orderBy("price", "asc"),
+          orderBy("price", "des"),
           orderBy(sortValue, sortType),
           where("price", "<", queryCriteria.price)
         );
-        console.log(q);
       } else if (queryCriteria.userID) {
         q = query(
           postsRef,
@@ -93,7 +80,6 @@ const PostsListContainer = () => {
     } else if (queryCriteria.searchCriteria) {
       if (sortValue && sortType) {
         q = query(postsRef, orderBy(sortValue, sortType));
-        console.log(q);
       } else {
         q = query(postsRef, orderBy(sortValue, sortType));
       }
@@ -112,16 +98,16 @@ const PostsListContainer = () => {
       const docRef = doc(db, "users", currUser.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        if (docSnap.data().savedPost) {
+        if (docSnap.data().savedPosts) {
           const savedArray = docSnap
             .data()
-            .savedPost.map((arr) => ({ id: arr.postId, ...arr }));
+            .savedPosts.map((arr) => ({ id: arr.postId, ...arr }));
           setPosts(savedArray);
         } else {
           setPosts([]);
         }
       } else {
-        console.log(error);
+        Router.push("/signIn/SignIn");
       }
     }
   }, [queryCriteria, sortValue, sortType]);
@@ -132,7 +118,10 @@ const PostsListContainer = () => {
 
   return (
     <main>
-      <NavBar setQueryCriteria={setQueryCriteria} />
+      <NavBar />
+      <div>
+        <SearchPosts setQueryCriteria={setQueryCriteria} />
+      </div>
       <div className={style.mainContainer}>
         <div>
           <SideNavBar
@@ -145,7 +134,7 @@ const PostsListContainer = () => {
           <PostItem back={setShowPostItem} />
         ) : (
           <div>
-            <div className={style.PostsContainer}>
+            <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
               <div className={style.SortDiv}>
                 <>
                   <select
@@ -171,7 +160,6 @@ const PostsListContainer = () => {
                     <option value="zip,desc">Location</option>
                   </select>
                 </>
-
                 <Button variant="warning" onClick={() => postNewItem()}>
                   Add Post
                 </Button>
@@ -193,7 +181,10 @@ const PostsListContainer = () => {
                   No results found
                 </div>
               ) : (
-                <AllPostsList posts={posts} deleteBtnStatus={deleteBtnStatus} />
+                <CardsContainer
+                  posts={posts}
+                  deleteBtnStatus={deleteBtnStatus}
+                />
               )}
             </div>
           </div>

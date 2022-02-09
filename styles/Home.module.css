@@ -8,6 +8,7 @@
 
 } 
 
+
 .PostsDisplay {
   display: flex;
   flex-direction: row;
@@ -34,6 +35,8 @@
 .deleteImageButton {
   fill: #ef9d06;
 }
+
+
 .postImage {
   padding: 5px 15px;
   width: 200px;
@@ -56,7 +59,12 @@
   display: flex;
   flex-direction: row;
 }
-
+.container {
+  width: 40vw;
+  padding: 10px;
+  margin: auto;
+  text-align: center
+}
 .facebookButton {
   border: none;
   background-color: none;
@@ -72,7 +80,6 @@
   flex-direction: row-reverse;
   justify-content: space-evenly;
   padding-bottom: 20px;
-  margin-left: 40px;
 }
 
 .Cards {
@@ -82,8 +89,41 @@
   border-radius: 0.25rem;
   width: 220px;
   margin-top: 10px;
+  margin-right: 10px;
   background: #fef2eb;
+  margin: 2px
 }
+
+.CardImage {
+  max-height: 210px;
+  min-height: 210px;
+}
+
+.DeleteButton {
+  position: relative;
+  left: 187px;
+  bottom: 45px;
+  font-size: 1.5rem;
+  color: red;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  padding: 2px;
+  background: aliceblue;
+}
+.DeleteButtonMobile {
+  position: relative;
+  left: 163px;
+  bottom: 45px;
+  font-size: 1.5rem;
+  color: red;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  padding: 2px;
+  background: aliceblue;
+}
+
+
+
 .mainScreenLoader {
   width: 80vw;
   height: 80vh;
@@ -91,6 +131,24 @@
   justify-content: center;
   align-items: center;
 }
+
+.providerButtons {
+  display: flex;
+  flex-direction: row
+}
+
+.providerButtons > * {
+  background: none;
+  border: none;
+  font-size: 2.5rem
+
+}
+
+/* .formContainer {
+  width: 80%;
+  margin: auto
+} */
+
 /* Media queries for responsive design */
 /* 
   ##Device = Desktops
@@ -116,7 +174,10 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  /* CSS */
+  .InputField {
+    width: 70vw;
+    margin-left: 10px;
+  }
 }
 
 /* 
@@ -125,7 +186,7 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  /* CSS */
+
 }
 
 /* 
@@ -134,7 +195,10 @@
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
-  /* CSS */
+  .InputField {
+    width: 90vw;
+    margin-left: 10px;
+  }
 }
 
 /* 
@@ -143,5 +207,15 @@
 */
 
 @media (min-width: 320px) and (max-width: 480px) {
+
   /* CSS */
+  .Cards {
+    width: 190px
+  }
+
+  .InputField {
+    width: 90vw;
+    margin-left: 10px;
+  }
+
 }
