@@ -9,7 +9,7 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  deleteObject
+  deleteObject,
 } from "firebase/storage";
 import { onAuthStateChanged } from "firebase/auth";
 import { RiCloseCircleFill } from "react-icons/ri";
@@ -26,32 +26,26 @@ const PostItem = ({ back }) => {
     price: "",
     userId: "",
     imageUrls: "",
-    description: ""
+    description: "",
   });
   const [phoneNumber, setPhoneNumber] = useState(undefined);
   const [imageTitles, setImageTitles] = useState([]);
   const [displayUrl, setDisplayUrl] = useState([]);
   const [progress, setProgress] = useState("getUpload");
-  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] = useState(
-    false
-  );
+  const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] =
+    useState(false);
   const [currUser, setCurrUser] = useState("");
-  let uniqueId = require('lodash.uniqueid')
- 
+  let uniqueId = require("lodash.uniqueid");
 
-  onAuthStateChanged(
-    auth,
-    user => (user ? setCurrUser(user) : setCurrUser(""))
+  onAuthStateChanged(auth, (user) =>
+    user ? setCurrUser(user) : setCurrUser("")
   );
 
-  useEffect(
-    () => {
-      setPostId(
-        data.category ? data.category + Math.random().toString(36).slice(2) : ""
-      );
-    },
-    [data.category]
-  );
+  useEffect(() => {
+    setPostId(
+      data.category ? data.category + Math.random().toString(36).slice(2) : ""
+    );
+  }, [data.category]);
 
   const toggleFree = () => {
     setFreeItem(!freeItem);
@@ -62,18 +56,18 @@ const PostItem = ({ back }) => {
     setAgreedtoTermsAndConditions(!agreedToTermsAndConditions);
 
   const deleteImage = (url) => {
-    setDisplayUrl(displayUrl.filter(imageurl=> imageurl !== url))
+    setDisplayUrl(displayUrl.filter((imageurl) => imageurl !== url));
     const deleteRef = ref(storage, url);
     deleteObject(deleteRef)
       .then(() => {
         console.log("picture deleted");
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("error occurd: ", error);
       });
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     await setDoc(doc(db, "posts", postId), {
       title: data.title,
@@ -87,9 +81,9 @@ const PostItem = ({ back }) => {
       postDate: new Date(),
       userId: currUser.uid,
       userName: currUser.displayName,
-      userImage: currUser.photoURL
+      userImage: currUser.photoURL,
     })
-      .then(doc => {
+      .then((doc) => {
         setData({
           title: "",
           category: "",
@@ -97,88 +91,76 @@ const PostItem = ({ back }) => {
           email: "",
           phone: "",
           price: "",
-          description: ""
+          description: "",
         });
         setDisplayUrl([]);
         setImageTitles([]);
         setPhoneNumber(undefined);
         setProgress("getUpload");
         console.log("document written: ", postId);
-        back(false)
+        back(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error adding Document: ", error);
       });
   };
-  const displayImages = (dUrl) =>{
-    return(
-    <div className={style.imageContainer}>
-    {dUrl.map(srcUrl => {
-      return (
-        <div className={style.imageDiv}>
-          <div >
-          <RiCloseCircleFill
-            style={{
-              fill: "#ef9d06",
-              position: "absolute",
-              top: '20px',
-              right: '20px',
-              zIndex: '100',
-              cursor: "pointer"
-            }}
-            onClick={()=>deleteImage(srcUrl)}
-          />
-          </div>
-          <Image
-            key={uniqueId("image_")}
-            src={srcUrl}
-            alt={srcUrl}
-            height={100}
-            width={100}
-            className={style.postImage}
-            onClick={()=>{console.log('image clicked')}}
-            
-          />
-         
-        </div>
-      );
-    })}
-          {
-            progress==='uploading'? 
-            ( <div className={style.loader}> 
-                <TailSpin 
-                color="#ef9d06" 
-                  height={40} 
-                  width={40} 
+  const displayImages = (dUrl) => {
+    return (
+      <div className={style.imageContainer}>
+        {dUrl.map((srcUrl) => {
+          return (
+            <div className={style.imageDiv}>
+              <div>
+                <RiCloseCircleFill
+                  style={{
+                    fill: "#ef9d06",
+                    position: "absolute",
+                    top: "20px",
+                    right: "20px",
+                    zIndex: "100",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => deleteImage(srcUrl)}
                 />
-              </div>):
-              <></>
-          }
-  </div>
-    )
-  }
+              </div>
+              <Image
+                key={uniqueId("image_")}
+                src={srcUrl}
+                alt={srcUrl}
+                height={100}
+                width={100}
+                className={style.postImage}
+                onClick={() => {
+                  console.log("image clicked");
+                }}
+              />
+            </div>
+          );
+        })}
+        {progress === "uploading" ? (
+          <div className={style.loader}>
+            <TailSpin color="#ef9d06" height={40} width={40} />
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
+    );
+  };
 
   const imageContent = () => {
     switch (progress) {
       case "getUpload":
-        return <div>
-          Upload Pictures
-        </div>;
+        return <div>Upload Pictures</div>;
       case "uploading":
-        return (<div>
-          {displayUrl?displayImages(displayUrl):"" }
-          </div>);
+        return <div>{displayUrl ? displayImages(displayUrl) : ""}</div>;
       case "uploaded":
-        return (
-         <div>
-            {displayUrl?displayImages(displayUrl): ""}
-         </div>
-        );
+        return <div>{displayUrl ? displayImages(displayUrl) : ""}</div>;
       case "failedUpload":
         return <div> Upload failed </div>;
     }
   };
-  const handleImageUpload = e => {
+  const handleImageUpload = (e) => {
     if (data.category) {
       const image = e.target.files[0];
       setImageTitles([...imageTitles, image.name]);
@@ -186,19 +168,22 @@ const PostItem = ({ back }) => {
       const uploadImages = uploadBytesResumable(imageRef, image);
       uploadImages.on(
         "state_changed",
-        snapshot => {
-          const process = snapshot.bytesTransferred / snapshot.totalBytes * 100;
+        (snapshot) => {
+          const process =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("uploading", process);
           setProgress("uploading");
         },
-        error => {
+        (error) => {
           console.log("Encounter ", error);
         },
         () => {
-          getDownloadURL(ref(storage, `postImages/${image.name}`)).then(url => {
-            setDisplayUrl([...displayUrl, url]);
-            setProgress("uploaded");
-          });
+          getDownloadURL(ref(storage, `postImages/${image.name}`)).then(
+            (url) => {
+              setDisplayUrl([...displayUrl, url]);
+              setProgress("uploaded");
+            }
+          );
         }
       );
     } else {
@@ -211,7 +196,8 @@ const PostItem = ({ back }) => {
       <div className={style.inputContainer}>
         <h1 className="d-flex justify-content-center mt-4">Post an Item</h1>
         {/* Post item form and validation */}
-        <Form className={style.InputField}
+        <Form
+          className={style.InputField}
           onSubmit={handleSubmit}
           validated={
             data.title &&
@@ -238,7 +224,7 @@ const PostItem = ({ back }) => {
                   type="text"
                   placeholder="Item Name"
                   min-length={4}
-                  onChange={e => setData({ ...data, title: e.target.value })}
+                  onChange={(e) => setData({ ...data, title: e.target.value })}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide item name.
@@ -256,7 +242,9 @@ const PostItem = ({ back }) => {
                 <Form.Select
                   aria-label="item-category"
                   required
-                  onChange={e => setData({ ...data, category: e.target.value })}
+                  onChange={(e) =>
+                    setData({ ...data, category: e.target.value })
+                  }
                   value={data.category}
                 >
                   <option>Select a category</option>
@@ -294,7 +282,7 @@ const PostItem = ({ back }) => {
                   minLength={5}
                   maxLength={10}
                   required
-                  onChange={e => setData({ ...data, zip: e.target.value })}
+                  onChange={(e) => setData({ ...data, zip: e.target.value })}
                 />
               </Col>
             </Row>
@@ -312,7 +300,7 @@ const PostItem = ({ back }) => {
                   value={data.email}
                   type="email"
                   placeholder="example@domain.com"
-                  onChange={e => setData({ ...data, email: e.target.value })}
+                  onChange={(e) => setData({ ...data, email: e.target.value })}
                   required
                 />
               </Col>
@@ -359,13 +347,14 @@ const PostItem = ({ back }) => {
                     placeholder="00.00"
                     required
                     disabled={freeItem ? true : false}
-                    onChange={e =>
+                    onChange={(e) =>
                       setData({
                         ...data,
                         price: e.target.value
                           ? parseFloat(e.target.value.trim().replace(" ", ""))
-                          : ""
-                      })}
+                          : "",
+                      })
+                    }
                     className="form-control"
                   />
                 </InputGroup>
@@ -392,8 +381,9 @@ const PostItem = ({ back }) => {
                     placeholder="Description"
                     rows={4}
                     area-describedby="descriptionHelp"
-                    onChange={e =>
-                      setData({ ...data, description: e.target.value })}
+                    onChange={(e) =>
+                      setData({ ...data, description: e.target.value })
+                    }
                   />
                   <Form.Text id="descriptionHelp" muted>
                     Providing description is optional. However, items with
@@ -415,10 +405,9 @@ const PostItem = ({ back }) => {
                   inputMode="no"
                   required
                   name="image"
-                  onChange={e => {
+                  onChange={(e) => {
                     handleImageUpload(e);
                   }}
-                  
                   area-describedby="fileDescription"
                 />
 
@@ -432,9 +421,7 @@ const PostItem = ({ back }) => {
           <Form.Group />
           <Row>
             <Col md="2" />
-            <Col md="10">
-              {imageContent()}
-            </Col>
+            <Col md="10">{imageContent()}</Col>
           </Row>
           <Form.Group className="d-flex flex-column justify-content-">
             <Row>
@@ -454,13 +441,13 @@ const PostItem = ({ back }) => {
                 <Button
                   variant="warning"
                   onClick={() => {
-                    imageTitles.map(name => {
+                    imageTitles.map((name) => {
                       deleteRef = ref(storage, name);
                       deleteObject(deleteRef)
                         .then(() => {
                           console.log("picture deleted");
                         })
-                        .catch(error => {
+                        .catch((error) => {
                           console.error("error occurd: ", error);
                         });
                     });

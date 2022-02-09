@@ -1,0 +1,19 @@
+/* .bgImageUserProfile {
+  background-repeat: no-repeat;
+  height: 350px;
+  background-size: cover;
+  background-image: url(../public/BgImagePost-it.jpg);
+} */
+
+.UserProfileContainer {
+  margin-top: 70px;
+  margin-left: 100px;
+  margin-right: 20%;
+  margin-left: 20%;
+  width: 100%;
+}
+
+.Imagediv {
+  height: 128px;
+  width: 128px;
+}
