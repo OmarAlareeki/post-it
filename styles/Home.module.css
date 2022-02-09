@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+.PostsContainer, .inputContainer {
+  padding-top: 40px;
+  width: calc(100vw - 400px);
+
+} 
+
+
 .PostsDisplay {
   display: flex;
   flex-direction: row;

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { db, storage, auth } from "../config/fire-config";
 import { Form, Button, Col, Row, Image, InputGroup } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input/input";
-import Router from "next/router";
 import style from "../styles/Home.module.css";
 import { doc, setDoc } from "firebase/firestore";
 import {
@@ -14,6 +13,8 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { TailSpin } from "react-loader-spinner";
+import zipcodes from "zipcodes"
+import { zip } from "lodash";
 
 const PostItem = ({ back }) => {
   const [freeItem, setFreeItem] = useState(false);
@@ -36,8 +37,7 @@ const PostItem = ({ back }) => {
     false
   );
   const [currUser, setCurrUser] = useState("");
-  let uniqueId = require('lodash.uniqueid')
- 
+  const [validate, setValidate ] = useState(false)
 
   onAuthStateChanged(
     auth,
@@ -53,6 +53,17 @@ const PostItem = ({ back }) => {
     [data.category]
   );
 
+  useEffect(()=>{
+    data.title &&
+    zipcodes.lookup(data.zip)!==undefined &&
+    data.category &&
+    data.email &&
+    phoneNumber?.length>11 &&
+    agreedToTermsAndConditions
+      ?setValidate(true)
+      : setValidate(false);
+  },[data.title, data.category, data.zip, data.email, phoneNumber, agreedToTermsAndConditions])
+  
   const toggleFree = () => {
     setFreeItem(!freeItem);
     setData({ ...data, price: 0 });
@@ -75,6 +86,8 @@ const PostItem = ({ back }) => {
 
   const handleSubmit = async event => {
     event.preventDefault();
+    validate === false? 
+    event.stopPropagation():
     await setDoc(doc(db, "posts", postId), {
       title: data.title,
       zip: data.zip,
@@ -113,9 +126,11 @@ const PostItem = ({ back }) => {
   const displayImages = (dUrl) =>{
     return(
     <div className={style.imageContainer}>
-    {dUrl.map(srcUrl => {
+    {dUrl.map((srcUrl, idx) => {
       return (
-        <div className={style.imageDiv}>
+        <div className={style.imageDiv}
+        key={idx}
+        >
           <div >
           <RiCloseCircleFill
             style={{
@@ -130,7 +145,7 @@ const PostItem = ({ back }) => {
           />
           </div>
           <Image
-            key={uniqueId("image_")}
+ 
             src={srcUrl}
             alt={srcUrl}
             height={100}
@@ -214,16 +229,7 @@ const PostItem = ({ back }) => {
         <Form className={style.InputField}
           onSubmit={handleSubmit}
           validated={
-            data.title &&
-            data.category &&
-            data.zip &&
-            data.email &&
-            phoneNumber &&
-            data.price &&
-            data.description &&
-            agreedToTermsAndConditions
-              ? true
-              : false
+          validate
           }
         >
           <Form.Group className="my-2 align-item-center" controlId="formTitle">
@@ -287,14 +293,20 @@ const PostItem = ({ back }) => {
                 <Form.Label className="mb-0">Zip:</Form.Label>
               </Col>
               <Col md="10">
-                <Form.Control
-                  value={data.zip}
-                  type="zip"
+                <Form.Control 
+                  type = "zip"
+                  pattern ="[0-9]{5}"
+                  min = "00001"
+                  max = "99999"
                   placeholder="00000"
-                  minLength={5}
-                  maxLength={10}
+                  maxLength="5"
+                  value={data.zip}
                   required
-                  onChange={e => setData({ ...data, zip: e.target.value })}
+                  isInvalid={data.zip?(zipcodes.lookup(data.zip) !== undefined?false:true):false}
+                  onChange={e => {
+                    setData({ ...data, zip: e.target.value })
+                    console.log()}
+                  }
                 />
               </Col>
             </Row>
@@ -330,13 +342,16 @@ const PostItem = ({ back }) => {
               <Col md="10">
                 <PhoneInput
                   value={phoneNumber}
-                  type="phone"
-                  withCountryCallingCode
+                  type="tel"
                   placeholder="(000) 000-0000"
                   country="US"
-                  required
-                  onChange={setPhoneNumber}
-                  maxLength={14}
+                  onChange={ 
+                    setPhoneNumber
+                  }
+                 
+                  smartCaret
+                  maxLength={16}
+                  minLength={14}
                   className="form-control"
                 />
               </Col>
@@ -449,13 +464,13 @@ const PostItem = ({ back }) => {
               </Col>
             </Row>
             <Row>
-              <Col md="8" />
-              <Col md="2">
+              <Col md="2" />
+              <Col md="4">
                 <Button
                   variant="warning"
                   onClick={() => {
                     imageTitles.map(name => {
-                      deleteRef = ref(storage, name);
+                      const deleteRef = ref(storage, `postImages/${name}`);
                       deleteObject(deleteRef)
                         .then(() => {
                           console.log("picture deleted");
@@ -470,7 +485,7 @@ const PostItem = ({ back }) => {
                   Cancel
                 </Button>
               </Col>
-              <Col md="2">
+              <Col md="4">
                 <Button type="submit">POST IT</Button>
               </Col>
             </Row>
