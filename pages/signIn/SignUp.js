@@ -34,7 +34,6 @@ function SignUp() {
             accountCreatedDate: serverTimestamp(),
             email: `${email}`,
             name: `${firstName} ${lastName}`,
-            password: { password2 },
             phoneNumber: null,
             photo: "",
             provider: "Firebase.Signup",
