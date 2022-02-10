@@ -52,10 +52,10 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
   // const [deleteMessage, setDeleteMessage] = useState(null);
 
   const postsRef = collection(db, "posts");
+  const docRef = doc(db, "users", id);
   let q;
 
   useEffect(async () => {
-    const docRef = doc(db, "users", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const userData = { ...docSnap.data(), id: docSnap.id };
@@ -130,9 +130,7 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
     console.log(displayUrl);
     event.preventDefault();
     try {
-      updateDoc(doc(db, "user", id), {
-        photo: url,
-      });
+      docRef.updateDoc("photo", url);
       setDisplayUrl([]);
       setProgress("getUpload");
     } catch {
@@ -157,12 +155,19 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
               console.log("image clicked");
             }}
           />
-          <div style={{ display: "flex", justifyContent: "spaceAround" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+            }}
+          >
             <RiCloseCircleFill
               style={{
                 fill: "red",
                 fontSize: "30px",
                 cursor: "pointer",
+                display: "flex",
               }}
               onClick={(e) => deleteImage(dUrl, e)}
             />
@@ -270,27 +275,12 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
                           Email :
                         </Typography>
                       </TableCell>
-
                       <TableCell align="center">
                         <Typography variant="body2" gutterBottom fontSize={15}>
                           {data.email}
                         </Typography>
                       </TableCell>
 
-                      <TableCell component="th" scope="row" width={150}>
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Phone :
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell width={200} align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          250-1245-5646
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow>
                       <TableCell component="th" scope="row">
                         <Typography
                           variant="body1"
@@ -301,12 +291,33 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
                           Signup Method :
                         </Typography>
                       </TableCell>
-
                       <TableCell align="center">
                         <Typography variant="body2" gutterBottom fontSize={13}>
                           {data.provider.split(".")[0].toUpperCase()}
                         </Typography>
                       </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                      <Typography variant="body1" gutterBottom fontSize={20}>
+                        Phone : 250-1245-5646
+                      </Typography>
+                    </TableRow>
+
+                    <TableRow>
+                      <Button
+                        variant="outlined"
+                        startIcon={<PasswordIcon />}
+                        size="small"
+                        onClick
+                      >
+                        <Typography sx={{ cursor: "pointer" }} variant="body2">
+                          Change Password
+                        </Typography>
+                      </Button>
+                    </TableRow>
+
+                    <TableRow>
                       <TableCell component="th" scope="row">
                         <Typography
                           variant="body1"
@@ -319,9 +330,13 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
                       </TableCell>
                       <TableCell align="center">
                         <Typography variant="body2" gutterBottom fontSize={13}>
-                          {data.accountCreatedDate.toDate().toLocaleDateString}
+                          {data.accountCreatedDate
+                            .toDate()
+                            .toLocaleDateString()}
                         </Typography>
                       </TableCell>
+                      <TableCell />
+                      <TableCell />
                     </TableRow>
 
                     <TableRow>
@@ -357,18 +372,6 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
                           {postCount.length}
                         </Typography>
                       </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <Button
-                        variant="outlined"
-                        startIcon={<PasswordIcon />}
-                        size="small"
-                        onClick
-                      >
-                        <Typography sx={{ cursor: "pointer" }} variant="body2">
-                          Change Password
-                        </Typography>
-                      </Button>
                     </TableRow>
                   </TableBody>
                 </Table>
