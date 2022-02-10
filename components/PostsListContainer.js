@@ -210,7 +210,11 @@ const PostsListContainer = () => {
               </div>
 
               {userProfile ? (
-                <UserProfile id={currentUserId} />
+                <UserProfile
+                  id={currentUserId}
+                  handleClick={handleClick}
+                  setConfirmationMessage={setConfirmationMessage}
+                />
               ) : posts[0] === "Loading..." ? (
                 <div className={style.mainScreenLoader}>
                   <Rings color="#ef9d06" height={140} width={140} />
