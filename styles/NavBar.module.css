@@ -4,6 +4,7 @@
   flex-direction: row;
   align-content: center;
   padding: 15px;
+  width: 98vw;
   background: transparent;
   z-index: 1;
 }
@@ -152,11 +153,11 @@
 
 @media (min-width: 481px) and (max-width: 767px) {
   .NavContainer {
-    width: 97vw
+    width: 97vw;
   }
+
   .SearchBar {
     width: 280px;
-
   }
 }
 
@@ -176,7 +177,6 @@
   .SearchButton {
     left: -15px;
   }
-
   .userIcon p {
     margin-bottom: 0;
     position: relative;
@@ -206,10 +206,10 @@
     margin-top: 0px;
     padding: 15px;
     background-color: #ffc107;
-    color:#00243d;
+    color: #00243d;
   }
 
-  .userIcon p{
+  .userIcon p {
     margin-bottom: 0;
     position: relative;
     bottom: -40px;

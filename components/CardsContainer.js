@@ -19,8 +19,6 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
   const [confirmationMessage, setConfirmationMessage] = useState(null);
   const [show, setShow] = useState(false);
 
-  console.log(show);
-
   const handleClick = () => {
     setShow(true);
   };

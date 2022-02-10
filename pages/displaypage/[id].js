@@ -6,29 +6,25 @@ import DisplayPost from "../../components/displaypage/DisplayPost.js";
 import DisplayPageLayout from "../../components/displaypage/DisplayPageLayout";
 
 export default function Post() {
-    const router = useRouter()
-    const id = router && router.query.id
+  const router = useRouter();
+  const id = router && router.query.id;
 
-    const [postToDisplay, setPosttoDisplay] = useState(null);
+  const [postToDisplay, setPosttoDisplay] = useState(null);
 
-    console.log({ postToDisplay });
-    useEffect(() => {
-        if (!id) return false
-        const docRef = doc(db, "posts", id);
-        return onSnapshot(docRef, (doc) => {
-            const post = { ...doc.data(), id: doc.id };
-            console.log({ post });
-            setPosttoDisplay(post);
-        })
-    }, [id])
+  console.log({ postToDisplay });
+  useEffect(() => {
+    if (!id) return false;
+    const docRef = doc(db, "posts", id);
+    return onSnapshot(docRef, (doc) => {
+      const post = { ...doc.data(), id: doc.id };
+      console.log({ post });
+      setPosttoDisplay(post);
+    });
+  }, [id]);
 
-
-    return (
-        <DisplayPageLayout>
-            {!!postToDisplay ? (
-                <DisplayPost post={postToDisplay} />
-            ) : "Loading..."}
-
-        </DisplayPageLayout>
-    )
-} 
+  return (
+    <DisplayPageLayout>
+      {!!postToDisplay ? <DisplayPost post={postToDisplay} /> : "Loading..."}
+    </DisplayPageLayout>
+  );
+}
