@@ -45,6 +45,8 @@ const NavBar = () => {
     }
   }, [loggedIn]);
 
+  const currentUserId = currentUser.uid;
+
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
 
   return (
