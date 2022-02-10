@@ -36,7 +36,7 @@ function SignUp() {
             name: `${firstName} ${lastName}`,
             phoneNumber: null,
             photo: "",
-            provider: "Firebase.Signup",
+            provider: "Post-It Signup",
             savedPosts: [],
             uid: userCredential.user.uid,
             zipcode: 0,
