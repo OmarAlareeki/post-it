@@ -34,7 +34,6 @@ const NavBar = () => {
           accountCreatedDate: new Date(),
           email: currentUser.email,
           name: currentUser.displayName,
-          password: "",
           phoneNumber: currentUser.phoneNumber,
           photo: currentUser.photoURL,
           provider: currentUser.providerData[0].providerId,
