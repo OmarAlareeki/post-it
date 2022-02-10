@@ -4,11 +4,15 @@ import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmation from "./DeleteConfirmation";
-import AlertWrapper from "./AlertWrapper";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
 
-const CardsContainer = ({ posts, deleteBtnStatus }) => {
+const CardsContainer = ({
+  posts,
+  deleteBtnStatus,
+  handleClick,
+  setConfirmationMessage,
+}) => {
   const timeNow = new Date();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
   const [dTitle, setDTitle] = useState("");
@@ -16,18 +20,6 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
   const [displayConfirmationModal, setDisplayConfirmationModal] =
     useState(false);
   const [deleteMessage, setDeleteMessage] = useState(null);
-  const [confirmationMessage, setConfirmationMessage] = useState(null);
-  const [show, setShow] = useState(false);
-
-  console.log(show);
-
-  const handleClick = () => {
-    setShow(true);
-  };
-
-  const handleClose = () => {
-    setShow(false);
-  };
 
   useEffect(() => {
     window.addEventListener(
@@ -64,18 +56,6 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
 
   return (
     <div>
-      <div>
-        {show ? (
-          <AlertWrapper
-            message={confirmationMessage}
-            show={show}
-            handleClose={handleClose}
-            bgColor="green"
-          />
-        ) : (
-          ""
-        )}
-      </div>
       <Container className={style.PostsDisplay}>
         {posts.map((post) => (
           <div key={post.id}>

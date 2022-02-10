@@ -31,7 +31,7 @@ const NavBar = () => {
         docSnap.data().photo ? setPhoto(docSnap.data().photo) : "";
       } else {
         await setDoc(doc(db, "users", currentUser.uid), {
-          accountCreatedDate: currentUser.metadata.creationTime,
+          accountCreatedDate: new Date(),
           email: currentUser.email,
           name: currentUser.displayName,
           password: "",

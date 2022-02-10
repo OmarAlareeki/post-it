@@ -1,0 +1,40 @@
+/* .bgImageUserProfile {
+  background-repeat: no-repeat;
+  height: 350px;
+  background-size: cover;
+  background-image: url(../public/BgImagePost-it.jpg);
+} */
+
+.UserProfileContainer {
+  margin-top: 70px;
+  margin-left: 100px;
+  margin-right: 20%;
+  margin-left: 20%;
+  width: 100%;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.imageDiv {
+  position: relative;
+}
+
+.DisplayImagediv {
+  height: 175px;
+  width: 175px;
+}
+
+.userImage {
+  padding: 5px 15px;
+  width: 200px;
+  height: auto;
+}
+
+.userImage:hover {
+  cursor: pointer;
+  opacity: 0.3;
+}

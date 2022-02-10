@@ -6,6 +6,9 @@ import NavBar from "./NavBar/NavBar";
 import CardsContainer from "./CardsContainer.js";
 import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
+import UserProfile from "./UserProfile";
+import AlertWrapper from "./AlertWrapper";
+
 import {
   collection,
   query,
@@ -29,6 +32,19 @@ const PostsListContainer = () => {
   const [sortValue, setSortValue] = useState("postDate");
   const [sortType, setSortType] = useState("desc");
   const [showPostItem, setShowPostItem] = useState(false);
+  const [userProfile, setUserProfile] = useState(false);
+  const [show, setShow] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState(null);
+
+  const handleClick = () => {
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const currentUserId = currUser.uid;
 
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
@@ -76,6 +92,7 @@ const PostsListContainer = () => {
           ...doc.data(),
         }));
         setPosts(queryList);
+        setUserProfile(false);
       });
     } else if (queryCriteria.searchCriteria) {
       if (sortValue && sortType) {
@@ -93,6 +110,7 @@ const PostsListContainer = () => {
             post.title.toLowerCase().includes(queryCriteria.searchCriteria)
           )
         );
+        setUserProfile(false);
       });
     } else if (queryCriteria.saved) {
       const docRef = doc(db, "users", currUser.uid);
@@ -103,8 +121,10 @@ const PostsListContainer = () => {
             .data()
             .savedPosts.map((arr) => ({ id: arr.postId, ...arr }));
           setPosts(savedArray);
+          setUserProfile(false);
         } else {
           setPosts([]);
+          setUserProfile(false);
         }
       } else {
         Router.push("/signIn/SignIn");
@@ -113,8 +133,14 @@ const PostsListContainer = () => {
   }, [queryCriteria, sortValue, sortType]);
 
   const postNewItem = () => {
-    currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
+    currUser
+      ? setShowPostItem(true) && setUserProfile(false)
+      : Router.push("/signIn/SignIn");
   };
+
+  function userProfilePage() {
+    currUser ? setUserProfile(true) : Router.push("/signIn/SignIn");
+  }
 
   return (
     <main>
@@ -130,7 +156,9 @@ const PostsListContainer = () => {
             currUser={currUser}
           />
         </div>
-        {showPostItem ? (
+        {userProfile ? (
+          <UserProfile id={currentUserId} />
+        ) : showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
           <div>
@@ -163,8 +191,33 @@ const PostsListContainer = () => {
                 <Button variant="warning" onClick={() => postNewItem()}>
                   Add Post
                 </Button>
+                <p
+                  onClick={() => userProfilePage()}
+                  style={{ cursor: "pointer" }}
+                >
+                  My profile
+                </p>
+                <>
+                  {show ? (
+                    <AlertWrapper
+                      message={confirmationMessage}
+                      show={show}
+                      handleClose={handleClose}
+                      bgColor="green"
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>
               </div>
-              {posts[0] === "Loading..." ? (
+
+              {userProfile ? (
+                <UserProfile
+                  id={currentUserId}
+                  handleClick={handleClick}
+                  setConfirmationMessage={setConfirmationMessage}
+                />
+              ) : posts[0] === "Loading..." ? (
                 <div className={style.mainScreenLoader}>
                   <Rings color="#ef9d06" height={140} width={140} />
                 </div>
@@ -184,6 +237,8 @@ const PostsListContainer = () => {
                 <CardsContainer
                   posts={posts}
                   deleteBtnStatus={deleteBtnStatus}
+                  handleClick={handleClick}
+                  setConfirmationMessage={setConfirmationMessage}
                 />
               )}
             </div>
