@@ -156,7 +156,9 @@ const PostsListContainer = () => {
             currUser={currUser}
           />
         </div>
-        {showPostItem ? (
+        {userProfile ? (
+          <UserProfile id={currentUserId} />
+        ) : showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
           <div>

@@ -207,7 +207,6 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
                       handleImageUpload(e);
                     }}
                   />
-
                   <Button
                     variant="contained"
                     component="span"
@@ -367,6 +366,7 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
   );
 }
 export default UserProfile;
+
 /* <TextField
     ref="phone"
     name="phone"
