@@ -36,7 +36,7 @@ const NavBar = () => {
           name: currentUser.displayName,
           phoneNumber: currentUser.phoneNumber,
           photo: currentUser.photoURL,
-          provider: currentUser.providerData[0].providerId,
+          provider: `Login-${currentUser.providerData[0].providerId}`,
           savedPosts: [],
           uid: currentUser.uid,
           zipCode: 0,
