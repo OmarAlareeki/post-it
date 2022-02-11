@@ -4,7 +4,7 @@
 
 .PostsContainer, .inputContainer {
   padding-top: 40px;
-  width: calc(100vw - 400px);
+  /* width: calc(100vw - 400px); */
 
 } 
 
@@ -204,7 +204,7 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   .Cards {
-    width: 190px;
+    width: 155px;
   }
 
   .InputField {

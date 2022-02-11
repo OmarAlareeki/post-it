@@ -155,8 +155,38 @@
     width: 97vw;
   }
 
+  .container-sm, .container {
+    max-width: 730px;
+  }
+
   .SearchBar {
     width: 280px;
+  }
+
+  .SideBar {
+    display: none;
+  }
+
+  .FilterIcon {
+    display: block;
+    font-size: 30px;
+    position: relative;
+    left: 470px;
+    bottom: -70px;
+  }
+
+  .Menu:hover > .SideBar {
+    display: block;
+    position: absolute;
+    top: 123px;
+    right: 26px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 1;
+    margin-top: 0px;
+    padding: 15px;
+    background-color: #ffc107;
+    color: #00243d;
   }
 }
 
@@ -167,7 +197,7 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   .NavContainer {
-    width: 95vw;
+    width: 100vw;
   }
   .SearchBar {
     width: 150px;
@@ -190,8 +220,9 @@
   .FilterIcon {
     display: block;
     font-size: 30px;
-    position: absolute;
-    right: 20px;
+    position: relative;
+    right: -365px;
+    bottom: -70px;
   }
 
   .Menu:hover > .SideBar {
