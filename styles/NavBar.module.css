@@ -155,10 +155,6 @@
     width: 97vw;
   }
 
-  .container-sm, .container {
-    max-width: 730px;
-  }
-
   .SearchBar {
     width: 280px;
   }
