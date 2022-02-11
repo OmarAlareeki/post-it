@@ -15,8 +15,3 @@ a {
 * {
   box-sizing: border-box;
 }
-@media (min-width: 481px) and (max-width: 767px) {
-  .container-sm, .container {
-    max-width: 730px;
-  }
-}
