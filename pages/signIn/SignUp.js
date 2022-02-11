@@ -49,8 +49,7 @@ function SignUp() {
           sendEmailVerification(auth.currentUser);
         })
         .catch((error) => {
-          console.log(error);
-          // alert("sorry, we couldn't complete your requrest due to: ", error.message)
+          Alert("Email is already used")
         });
     }
   };
