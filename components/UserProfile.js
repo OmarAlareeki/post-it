@@ -5,8 +5,6 @@ import { RiCloseCircleFill } from "react-icons/ri";
 import { IoMdAddCircle } from "react-icons/io";
 import { TailSpin } from "react-loader-spinner";
 import { Image } from "react-bootstrap";
-import PostsListContainer from "./PostsListContainer";
-//import DeleteConfirmation from "./DeleteConfirmation";
 import {
   ref,
   uploadBytesResumable,
@@ -35,10 +33,10 @@ import {
   TableCell,
   TableRow,
   Paper,
+  Box,
   Typography,
 } from "@material-ui/core";
 import PasswordIcon from "@mui/icons-material/Password";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 function UserProfile({ id, handleClick, setConfirmationMessage }) {
   const [user, setUser] = useState([]);
@@ -46,17 +44,13 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
   const [displayUrl, setDisplayUrl] = useState([]);
   const [progress, setProgress] = useState("getUpload");
   const [showIcons, setShowIcons] = useState(false);
-  // const [dTitle, setDTitle] = useState("");
-  // const [uid, setUid] = useState(null);
-  // const [displayConfirmationModal, setDisplayConfirmationModal] =
-  //   useState(false);
-  // const [deleteMessage, setDeleteMessage] = useState(null);
 
   const postsRef = collection(db, "posts");
-  const docRef = doc(db, "users", id);
+
   let q;
 
   useEffect(async () => {
+    const docRef = doc(db, "users", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const userData = { ...docSnap.data(), id: docSnap.id };
@@ -135,7 +129,7 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
               fontSize: "30px",
               cursor: "pointer",
             }}
-            onClick={(e) => deleteImage(dUrl)}
+            onClick={(e) => deleteImage(dUrl, e)}
           />
         </div>
         {progress === "uploading" ? (
@@ -149,8 +143,10 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
     );
   };
 
-  const deleteImage = (dUrl) => {
-    setDisplayUrl(displayUrl.filter((imageurl) => imageurl !== dUrl));
+  const deleteImage = (dUrl, event) => {
+    event.preventDefault();
+    const newDisplayUrl = displayUrl.filter((imageurl) => imageurl !== dUrl);
+    setDisplayUrl(newDisplayUrl);
     const deleteRef = ref(storage, dUrl);
     deleteObject(deleteRef)
       .then(() => {
@@ -167,7 +163,9 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
     console.log(displayUrl);
     event.preventDefault();
     try {
-      docRef.updateDoc("photo", displayUrl);
+      const docRef = doc(db, "users", id);
+      console.log(docRef);
+      docRef.updateDoc("photo", displayUrl.toString());
       setDisplayUrl([]);
       setProgress("getUpload");
       setShowIcons(false);
@@ -188,7 +186,7 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
           justify="space-evenly"
           key={data.id}
         >
-          <Grid item xs={12} direction="row">
+          <Grid item xs={12}>
             <img src={data.photo} className={style.DisplayImagediv} />
             <div>
               <FormControl onSubmit={(e) => handleSubmit(e)}>
@@ -236,109 +234,155 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm container>
+          <Grid item xs={12} xs container>
             <TableContainer>
-              <Paper elevation={12} variant="outlined" maxwidth={600}>
-                <Typography
-                  gutterBottom
-                  variant="subtitle1"
-                  fontWeight="bold"
-                  fontSize="25px"
-                  p="10px"
+              <Paper elevation={6} maxwidth={600}>
+                <Box
+                  p={5}
+                  sx={{
+                    boxShadow: 3,
+                    bgcolor: (theme) =>
+                      theme.palette.mode === "dark" ? "#101010" : "#fff",
+                  }}
                 >
-                  {data.name}
-                </Typography>
-                <Table aria-label="simple table">
-                  <TableBody>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Email :
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {data.email}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Signup Method :
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {data.provider.split(".")[0].toUpperCase()}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                      <TableCell colSpan={2}>
-                        <Button
-                          variant="outlined"
-                          startIcon={<PasswordIcon />}
-                          size="small"
-                          onClick
-                        >
+                  <Typography
+                    gutterBottom
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    fontSize="25px"
+                    p="10px"
+                  >
+                    {data.name}
+                  </Typography>
+                  <Table aria-label="simple table">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell component="th" scope="row">
                           <Typography
-                            sx={{ cursor: "pointer" }}
-                            variant="body2"
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
                           >
-                            Change Password
+                            Email :
                           </Typography>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.email}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
 
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Account Creation Date :
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {data.accountCreatedDate
-                            .toDate()
-                            .toLocaleDateString()}
-                        </Typography>
-                      </TableCell>
-                      <TableCell />
-                      <TableCell />
-                    </TableRow>
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            Signup Method :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.provider.split(".")[0].toUpperCase()}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
 
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Saved Post :
-                        </Typography>
-                      </TableCell>
+                      <TableRow>
+                        <TableCell colSpan={2}>
+                          <Button
+                            variant="outlined"
+                            startIcon={<PasswordIcon />}
+                            size="small"
+                          >
+                            <Typography
+                              sx={{ cursor: "pointer" }}
+                              variant="body2"
+                            >
+                              Change Password
+                            </Typography>
+                          </Button>
+                        </TableCell>
+                      </TableRow>
 
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {data.savedPosts.length}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            Account Creation Date :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.accountCreatedDate
+                              .toDate()
+                              .toLocaleDateString()}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
 
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          My Posts :
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {postCount.length}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            Saved Post :
+                          </Typography>
+                        </TableCell>
+
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.savedPosts.length}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            My Posts :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {postCount.length}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </Box>
               </Paper>
             </TableContainer>
           </Grid>
@@ -373,7 +417,18 @@ export default UserProfile;
 }
 
 {
-  /* <Grid item xs={12}>
+  /*
+import PostsListContainer from "./PostsListContainer";
+import DeleteConfirmation from "./DeleteConfirmation";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+  const [dTitle, setDTitle] = useState("");
+  const [uid, setUid] = useState(null);
+  const [displayConfirmationModal, setDisplayConfirmationModal] =
+  useState(false);
+  const [deleteMessage, setDeleteMessage] = useState(null);
+  
+  <Grid item xs={12}>
             <Button
               variant="outlined"
               startIcon={<DeleteIcon />}

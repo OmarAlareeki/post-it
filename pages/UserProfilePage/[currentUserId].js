@@ -1,12 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import NavBar from "../../components/NavBar/NavBar";
 import { db, storage } from "../config/fire-config";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { IoMdAddCircle } from "react-icons/io";
 import { TailSpin } from "react-loader-spinner";
 import { Image } from "react-bootstrap";
-import PostsListContainer from "./PostsListContainer";
-//import DeleteConfirmation from "./DeleteConfirmation";
 import {
   ref,
   uploadBytesResumable,
@@ -38,20 +37,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import PasswordIcon from "@mui/icons-material/Password";
-// import DeleteIcon from "@mui/icons-material/Delete";
 
 function UserProfile({ id, handleClick, setConfirmationMessage }) {
   const [user, setUser] = useState([]);
   const [postCount, setPostCount] = useState([]);
   const [displayUrl, setDisplayUrl] = useState([]);
   const [progress, setProgress] = useState("getUpload");
-  // const [dTitle, setDTitle] = useState("");
-  // const [uid, setUid] = useState(null);
-  // const [displayConfirmationModal, setDisplayConfirmationModal] =
-  //   useState(false);
-  // const [deleteMessage, setDeleteMessage] = useState(null);
+  const [showIcons, setShowIcons] = useState(false);
 
   const postsRef = collection(db, "posts");
+
   let q;
 
   useEffect(async () => {
@@ -72,19 +67,6 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
     });
   }, [id]);
   console.log(postCount);
-
-  const imageContent = () => {
-    switch (progress) {
-      case "getUpload":
-        return <div>Preview new photo here!</div>;
-      case "uploading":
-        return <div>{displayUrl ? displayImage(displayUrl) : ""}</div>;
-      case "uploaded":
-        return <div>{displayUrl ? displayImage(displayUrl) : ""}</div>;
-      case "failedUpload":
-        return <div> Upload failed </div>;
-    }
-  };
 
   const handleImageUpload = (e) => {
     console.log(e.target);
@@ -108,46 +90,29 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
           setDisplayUrl(url);
           console.log(url);
           setProgress("uploaded");
+          setShowIcons(true);
         });
       }
     );
   };
-
-  const deleteImage = (url, e) => {
-    e.preventDefault();
-    setDisplayUrl([]);
-    const deleteRef = ref(storage, url);
-    deleteObject(deleteRef)
-      .then(() => {
-        console.log("picture deleted");
-      })
-      .catch((error) => {
-        console.error("error occurd: ", error);
-      });
-  };
-
-  const handleSubmit = (url, event) => {
-    console.log(displayUrl);
-    event.preventDefault();
-    try {
-      updateDoc(doc(db, "user", id), {
-        photo: url,
-      });
-      setDisplayUrl([]);
-      setProgress("getUpload");
-    } catch {
-      (error) => {
-        console.error("Error adding Document: ", error);
-      };
+  const imageContent = () => {
+    switch (progress) {
+      case "getUpload":
+        return <div>Preview new photo here!</div>;
+      case "uploading":
+        return <div>{displayUrl ? displayImage(displayUrl) : ""}</div>;
+      case "uploaded":
+        return <div>{displayUrl ? displayImage(displayUrl) : ""}</div>;
+      case "failedUpload":
+        return <div> Upload failed </div>;
     }
   };
 
   const displayImage = (dUrl) => {
     return (
-      <div className={style.imageContainer}>
-        <div className={style.imageDiv}>
+      <>
+        <div>
           <Image
-            key={user.id}
             src={dUrl}
             alt={dUrl}
             height={200}
@@ -157,25 +122,15 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
               console.log("image clicked");
             }}
           />
-          <div style={{ display: "flex", justifyContent: "spaceAround" }}>
-            <RiCloseCircleFill
-              style={{
-                fill: "red",
-                fontSize: "30px",
-                cursor: "pointer",
-              }}
-              onClick={(e) => deleteImage(dUrl, e)}
-            />
-            <IoMdAddCircle
-              style={{
-                fill: "green",
-                fontSize: "30px",
-                cursor: "pointer",
-                display: "flex",
-              }}
-              onClick={(e) => handleSubmit(dUrl, e)}
-            />
-          </div>
+
+          <RiCloseCircleFill
+            style={{
+              fill: "orangered",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => deleteImage(dUrl, e)}
+          />
         </div>
         {progress === "uploading" ? (
           <div className={style.loader}>
@@ -184,224 +139,258 @@ function UserProfile({ id, handleClick, setConfirmationMessage }) {
         ) : (
           <></>
         )}
-      </div>
+      </>
     );
   };
-  // //Show Delete Popup.
-  // const showDeleteModal = (uid, email) => {
-  //   setDTitle(email);
-  //   setUid(uid);
-  //   setDeleteMessage(
-  //     `Are you sure you want to delete this Account? Email : ${dTitle}`
-  //   );
-  //   setDisplayConfirmationModal(true);
-  // };
 
-  // // Hide the modal
-  // const hideConfirmationModal = () => {
-  //   setDisplayConfirmationModal(false);
-  // };
+  const deleteImage = (dUrl, event) => {
+    event.preventDefault();
+    const newDisplayUrl = displayUrl.filter((imageurl) => imageurl !== dUrl);
+    setDisplayUrl(newDisplayUrl);
+    const deleteRef = ref(storage, dUrl);
+    deleteObject(deleteRef)
+      .then(() => {
+        console.log("picture deleted");
+        console.log(displayUrl);
+        setShowIcons(false);
+      })
+      .catch((error) => {
+        console.error("error occurd: ", error);
+      });
+  };
 
-  // // Handle the actual deletion of the item
-  // const submitDelete = async (dTitle, uid) => {
-  //   setConfirmationMessage(`${dTitle}  was deleted successfully.`);
-  //   await deleteDoc(doc(db, "users", uid));
-  //   setDisplayConfirmationModal(false);
-  //   handleClick();
-  // };
+  const handleSubmit = (event) => {
+    console.log(displayUrl);
+    event.preventDefault();
+    try {
+      const docRef = doc(db, "users", id);
+      docRef.updateDoc("photo", displayUrl);
+      setDisplayUrl([]);
+      setProgress("getUpload");
+      setShowIcons(false);
+    } catch {
+      (error) => {
+        console.error("Error adding Document: ", error);
+      };
+    }
+  };
 
   return (
     <main className={style.UserProfileContainer}>
-      {user.map((data) => (
-        <Grid
-          container
-          spacing={2}
-          direction="row"
-          justify="space-evenly"
-          key={data.id}
-        >
-          <Grid item xs={12} direction="row">
-            <img src={data.photo} className={style.DisplayImagediv} />
-            <div>
-              <FormControl>
-                <label htmlFor="contained-button-file">
-                  <Input
-                    id="contained-button-file"
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={(e) => {
-                      handleImageUpload(e);
-                    }}
-                  />
-                  <Button
-                    variant="contained"
-                    component="span"
-                    color="success"
-                    justify="center"
-                    size="small"
-                    sx={{ margin: 2, backgroundColor: "#ef9d06" }}
+      <NavBar />
+      <container>
+        {user.map((data) => (
+          <Grid
+            container
+            spacing={2}
+            direction="row"
+            justify="space-evenly"
+            key={data.id}
+          >
+            <Grid item xs={12} direction="row">
+              <img src={data.photo} className={style.DisplayImagediv} />
+              <div>
+                <FormControl onSubmit={(e) => handleSubmit(e)}>
+                  <label htmlFor="contained-button-file">
+                    <Input
+                      id="contained-button-file"
+                      type="file"
+                      style={{ display: "none" }}
+                      onChange={(e) => {
+                        handleImageUpload(e);
+                      }}
+                    />
+                    <Button
+                      variant="contained"
+                      component="span"
+                      color="success"
+                      justify="center"
+                      size="small"
+                      sx={{ margin: 2, backgroundColor: "#ef9d06" }}
+                    >
+                      Change Photo
+                    </Button>
+
+                    <div style={{ display: "flex" }}>
+                      {imageContent()}
+                      <div style={{ display: "flex" }}>
+                        <Button
+                          style={{
+                            cursor: "pointer",
+                            display: showIcons ? "block" : "none",
+                          }}
+                          type="submit"
+                        >
+                          <IoMdAddCircle
+                            style={{
+                              fill: "green",
+                              fontSize: "30px",
+                            }}
+                          />
+                        </Button>
+                      </div>
+                    </div>
+                  </label>
+                </FormControl>
+              </div>
+            </Grid>
+
+            <Grid item xs={12} sm container>
+              <TableContainer>
+                <Paper elevation={12} variant="outlined" maxwidth={600}>
+                  <Typography
+                    gutterBottom
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    fontSize="25px"
+                    p="10px"
                   >
-                    Change Photo
-                  </Button>
+                    {data.name}
+                  </Typography>
+                  <Table aria-label="simple table">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            Email :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.email}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
 
-                  <>{imageContent()}</>
-                </label>
-              </FormControl>
-            </div>
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            Signup Method :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.provider.split(".")[0].toUpperCase()}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell colSpan={2}>
+                          <Button
+                            variant="outlined"
+                            startIcon={<PasswordIcon />}
+                            size="small"
+                            onClick
+                          >
+                            <Typography
+                              sx={{ cursor: "pointer" }}
+                              variant="body2"
+                            >
+                              Change Password
+                            </Typography>
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            Account Creation Date :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.accountCreatedDate
+                              .toDate()
+                              .toLocaleDateString()}
+                          </Typography>
+                        </TableCell>
+                        <TableCell />
+                        <TableCell />
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            Saved Post :
+                          </Typography>
+                        </TableCell>
+
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.savedPosts.length}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            My Posts :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {postCount.length}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </Paper>
+              </TableContainer>
+            </Grid>
           </Grid>
-
-          <Grid item xs={12} sm container>
-            <TableContainer>
-              <Paper elevation={12} variant="outlined" maxwidth={900}>
-                <Typography
-                  gutterBottom
-                  variant="subtitle1"
-                  fontWeight="bold"
-                  fontSize="25px"
-                  p="10px"
-                >
-                  {data.name}
-                </Typography>
-                <Table aria-label="simple table">
-                  <TableBody>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Email :
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {data.email}
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell component="th" scope="row" width={150}>
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Phone :
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell width={200} align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          250-1245-5646
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography
-                          variant="body1"
-                          gutterBottom
-                          p="5px"
-                          wrap="nowrap"
-                        >
-                          Signup Method :
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={13}>
-                          {data.provider.split(".")[0].toUpperCase()}
-                        </Typography>
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        <Typography
-                          variant="body1"
-                          gutterBottom
-                          p="5px"
-                          wrap="nowrap"
-                        >
-                          Account Creation Date :
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={13}>
-                          {data.accountCreatedDate.toDate().toLocaleDateString}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography
-                          variant="body1"
-                          gutterBottom
-                          p="5px"
-                          wrap="nowrap"
-                        >
-                          Saved Post :
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={13}>
-                          {data.savedPosts.length}
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell component="th" scope="row">
-                        <Typography
-                          variant="body1"
-                          gutterBottom
-                          p="5px"
-                          wrap="nowrap"
-                        >
-                          My Posts :
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={13}>
-                          {postCount.length}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <Button
-                        variant="outlined"
-                        startIcon={<PasswordIcon />}
-                        size="small"
-                        onClick
-                      >
-                        <Typography sx={{ cursor: "pointer" }} variant="body2">
-                          Change Password
-                        </Typography>
-                      </Button>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </Paper>
-            </TableContainer>
-          </Grid>
-          {/* <Grid item xs={12}>
-            <Button
-              variant="outlined"
-              startIcon={<DeleteIcon />}
-              onClick={() => showDeleteModal(data.uid, data.email)}
-            >
-              <Typography sx={{ cursor: "pointer" }} variant="body2">
-                Delete My Account
-              </Typography>
-            </Button>
-          </Grid> */}
-        </Grid>
-      ))}
-      {/* <DeleteConfirmation
-        showModal={displayConfirmationModal}
-        confirmModal={submitDelete}
-        hideModal={hideConfirmationModal}
-        dTitle={dTitle}
-        id={uid}
-        message={deleteMessage}
-      /> */}
+        ))}
+      </container>
     </main>
   );
 }
 export default UserProfile;
 
-/* <TextField
+{
+  /* <TextField
     ref="phone"
     name="phone"
     type="text"
@@ -421,3 +410,61 @@ export default UserProfile;
       }
       overwrite
     /> */
+}
+
+{
+  /*
+import PostsListContainer from "./PostsListContainer";
+import DeleteConfirmation from "./DeleteConfirmation";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+  const [dTitle, setDTitle] = useState("");
+  const [uid, setUid] = useState(null);
+  const [displayConfirmationModal, setDisplayConfirmationModal] =
+  useState(false);
+  const [deleteMessage, setDeleteMessage] = useState(null);
+  
+  <Grid item xs={12}>
+            <Button
+              variant="outlined"
+              startIcon={<DeleteIcon />}
+              onClick={() => showDeleteModal(data.uid, data.email)}
+            >
+              <Typography sx={{ cursor: "pointer" }} variant="body2">
+                Delete My Account
+              </Typography>
+            </Button>
+          </Grid>
+        </Grid>
+      ))}
+      <DeleteConfirmation
+        showModal={displayConfirmationModal}
+        confirmModal={submitDelete}
+        hideModal={hideConfirmationModal}
+        dTitle={dTitle}
+        id={uid}
+        message={deleteMessage}
+      /> */
+}
+// Show Delete Popup.
+// const showDeleteModal = (uid, email) => {
+//   setDTitle(email);
+//   setUid(uid);
+//   setDeleteMessage(
+//     `Are you sure you want to delete this Account? Email : ${dTitle}`
+//   );
+//   setDisplayConfirmationModal(true);
+// };
+
+// // Hide the modal
+// const hideConfirmationModal = () => {
+//   setDisplayConfirmationModal(false);
+// };
+
+// // Handle the actual deletion of the item
+// const submitDelete = async (dTitle, uid) => {
+//   setConfirmationMessage(`${dTitle}  was deleted successfully.`);
+//   await deleteDoc(doc(db, "users", uid));
+//   setDisplayConfirmationModal(false);
+//   handleClick();
+// };
