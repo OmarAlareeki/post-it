@@ -12,26 +12,15 @@
   margin-left: 20%;
   width: 100%;
 }
-
-.imageContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-.imageDiv {
-  position: relative;
+.userImage {
+  padding: 5px 15px;
+  width: 200px;
+  height: auto;
 }
 
 .DisplayImagediv {
   height: 175px;
   width: 175px;
-}
-
-.userImage {
-  padding: 5px 15px;
-  width: 200px;
-  height: auto;
 }
 
 .userImage:hover {
