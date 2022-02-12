@@ -2,6 +2,7 @@ import style from "../../styles/NavBar.module.css";
 import { useState } from "react";
 import { MdFilterList } from "react-icons/md";
 import Router from "next/router";
+import { PropTypes } from "prop-types";
 
 const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
   const [clickStatus, setclcikStatus] = useState(false);
@@ -104,6 +105,12 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
       </span>
     </div>
   );
+};
+
+SideNavBar.propTypes = {
+  setQueryCriteria: PropTypes.func,
+  setDeleteBtnStatus: PropTypes.func,
+  currUser: PropTypes.object,
 };
 
 export default SideNavBar;

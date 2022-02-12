@@ -164,7 +164,6 @@ function UserProfile({ id }) {
     updateDoc(docRef, { photo: displayUrl })
       .then(() => {
         setDisplayUrl("");
-        setProgress("getUpload");
         setShowIcons(false);
         window.location.reload();
       })
@@ -270,6 +269,8 @@ function UserProfile({ id }) {
                             .toLocaleDateString()}
                         </Typography>
                       </TableCell>
+                      <TableCell />
+                      <TableCell />
                     </TableRow>
 
                     <TableRow>
