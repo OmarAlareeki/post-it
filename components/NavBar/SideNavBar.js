@@ -110,7 +110,7 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
 SideNavBar.propTypes = {
   setQueryCriteria: PropTypes.func,
   setDeleteBtnStatus: PropTypes.func,
-  currUser: PropTypes.object,
+  currUser: PropTypes.string,
 };
 
 export default SideNavBar;
