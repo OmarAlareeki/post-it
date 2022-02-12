@@ -185,7 +185,6 @@ const PostsListContainer = () => {
                     <option value="title,desc">Title Desc</option>
                     <option value="postDate,asc">Post Date </option>
                     <option value="postDate,desc">Post Date Desc</option>
-                    <option value="zip,desc">Location</option>
                   </select>
                 </>
                 <Button variant="warning" onClick={() => postNewItem()}>

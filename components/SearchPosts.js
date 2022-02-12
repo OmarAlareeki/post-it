@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Style from "../styles/NavBar.module.css";
 import { BsSearch } from "react-icons/bs";
+import { PropTypes } from "prop-types";
 
 const SearchPosts = ({ setQueryCriteria }) => {
   const [searchedValue, setSearchedValue] = useState("");
@@ -27,11 +28,19 @@ const SearchPosts = ({ setQueryCriteria }) => {
         }}
         onKeyUp={onkeypressed}
       />
-      <button className={Style.SearchButton} onClick={handleSearch}>
+      <button
+        aria-label="search"
+        className={Style.SearchButton}
+        onClick={handleSearch}
+      >
         <BsSearch />
       </button>
     </div>
   );
+};
+
+SearchPosts.propTypes = {
+  setQueryCriteria: PropTypes.func,
 };
 
 export default SearchPosts;

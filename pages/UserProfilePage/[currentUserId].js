@@ -164,7 +164,6 @@ function UserProfile({ id }) {
     updateDoc(docRef, { photo: displayUrl })
       .then(() => {
         setDisplayUrl("");
-        setProgress("getUpload");
         setShowIcons(false);
         window.location.reload();
       })
@@ -179,7 +178,6 @@ function UserProfile({ id }) {
         <Grid
           container
           spacing={2}
-          xs={12}
           direction="row"
           justify="center"
           key={data.id}
@@ -270,6 +268,8 @@ function UserProfile({ id }) {
                             .toLocaleDateString()}
                         </Typography>
                       </TableCell>
+                      <TableCell />
+                      <TableCell />
                     </TableRow>
 
                     <TableRow>
