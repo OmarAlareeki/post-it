@@ -4,7 +4,7 @@ import { MdFilterList } from "react-icons/md";
 import Router from "next/router";
 import { PropTypes } from "prop-types";
 
-const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
+const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUserId }) => {
   const [clickStatus, setclcikStatus] = useState(false);
   const [liValue, setLiValue] = useState("");
 
@@ -46,8 +46,8 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
               clickStatus && liValue === "SavedPosts" ? style.Active : ""
             }
             onClick={() => {
-              setQueryCriteria({ saved: currUser.uid });
-              currUser.uid === undefined ? Router.push("/signIn/SignIn") : "";
+              setQueryCriteria({ saved: currUserId });
+              currUserId === undefined ? Router.push("/signIn/SignIn") : "";
               setDeleteBtnStatus(false);
               setclcikStatus(true);
               setLiValue("SavedPosts");
@@ -61,11 +61,9 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
             onClick={() => {
               setLiValue("MyPosts");
               setclcikStatus(true);
-              setQueryCriteria({ userID: currUser.uid });
-              currUser.uid
-                ? setDeleteBtnStatus(true)
-                : setDeleteBtnStatus(false);
-              currUser.uid === undefined ? Router.push("/signIn/SignIn") : "";
+              setQueryCriteria({ userID: currUserId });
+              currUserId ? setDeleteBtnStatus(true) : setDeleteBtnStatus(false);
+              currUserId === undefined ? Router.push("/signIn/SignIn") : "";
             }}
           >
             My Posts
@@ -110,7 +108,7 @@ const SideNavBar = ({ setQueryCriteria, setDeleteBtnStatus, currUser }) => {
 SideNavBar.propTypes = {
   setQueryCriteria: PropTypes.func,
   setDeleteBtnStatus: PropTypes.func,
-  currUser: PropTypes.string,
+  currUserId: PropTypes.string,
 };
 
 export default SideNavBar;

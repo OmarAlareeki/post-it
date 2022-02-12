@@ -27,7 +27,7 @@ import { Rings } from "react-loader-spinner";
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
   const [queryCriteria, setQueryCriteria] = useState({});
-  const [currUser, setCurrUser] = useState("");
+  const [currUser, setCurrUser] = useState([]);
   const [deleteBtnStatus, setDeleteBtnStatus] = useState(false);
   const [sortValue, setSortValue] = useState("postDate");
   const [sortType, setSortType] = useState("desc");
@@ -153,7 +153,7 @@ const PostsListContainer = () => {
           <SideNavBar
             setQueryCriteria={setQueryCriteria}
             setDeleteBtnStatus={setDeleteBtnStatus}
-            currUser={currUser}
+            currUserId={currUser.uid}
           />
         </div>
         {userProfile ? (
