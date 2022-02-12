@@ -178,6 +178,7 @@ function UserProfile({ id }) {
         <Grid
           container
           spacing={2}
+          xs={12}
           direction="row"
           justify="center"
           key={data.id}
