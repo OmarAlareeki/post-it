@@ -14,8 +14,6 @@ describe("SearchPosts", () => {
 
     expect(screen.getByRole("button", { name: /search/i })).toBeInTheDocument();
 
-    //(screen.getByText("Search")).toBeInTheDocument();
-
     screen.debug();
   });
 
