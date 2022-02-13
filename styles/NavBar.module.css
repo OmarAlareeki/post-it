@@ -68,6 +68,40 @@
   padding: 0;
 }
 
+.ProfileDiv {
+  display: none;
+}
+
+.ProfileUl > li:hover {
+  font-weight: bold;
+}
+
+.userIcon:hover > .ProfileDiv {
+  display: block;
+  position: absolute;
+  top: 94px;
+  right: 2px;
+  height: 100px;
+  width: 95px;
+  font-size: 15px;
+  z-index: 1;
+  margin-top: 0px;
+  padding: 10px;
+  background-color: #ffc107;
+  color: #00243d;
+  border-radius: 9%;
+}
+
+.ProfileUl {
+  cursor: pointer;
+  list-style: none;
+  height: 75px;
+  width: 80px;
+  padding: 0;
+  text-align: center;
+  line-height: 2.5rem;
+}
+
 .userIcon {
   display: flex;
   justify-content: center;
@@ -77,7 +111,8 @@
 .userIcon p {
   margin-bottom: 0;
   margin-right: 1rem;
-  font-size: 0.8rem;
+  font-size: 17px;
+  /* font-size: 0.8rem; */
 }
 
 .FilterIcon {
@@ -167,15 +202,16 @@
     display: block;
     font-size: 30px;
     position: relative;
-    left: 470px;
-    bottom: -70px;
+    left: 20px;
+    bottom: -27px;
+    /* left: 470px; */
   }
 
   .Menu:hover > .SideBar {
     display: block;
     position: absolute;
     top: 123px;
-    right: 26px;
+    /* right: 26px; */
     text-align: center;
     font-size: 14px;
     z-index: 1;
@@ -217,17 +253,18 @@
     display: block;
     font-size: 30px;
     position: relative;
-    right: -365px;
-    bottom: -70px;
+    left: 10px;
+    bottom: -27px;
+    /* right: -365px; */
   }
 
   .Menu:hover > .SideBar {
     display: block;
     position: absolute;
     top: 123px;
-    right: 26px;
+    /* right: 26px; */
     text-align: center;
-    font-size: 14px;
+    font-size: 15px;
     z-index: 1;
     margin-top: 0px;
     padding: 15px;

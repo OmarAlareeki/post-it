@@ -63,10 +63,8 @@ function UserProfile({ id }) {
       setPostCount(queryList);
     });
   }, [id]);
-  console.log(postCount);
 
   const handleImageUpload = (e) => {
-    console.log(e.target);
     const userImage = e.target.files[0];
     const imageRef = ref(storage, `userProfileImages/${userImage.name}`);
     const uploadImages = uploadBytesResumable(imageRef, userImage);
@@ -124,7 +122,7 @@ function UserProfile({ id }) {
 
             <RiCloseCircleFill
               style={{
-                fill: "orangered",
+                fill: "#D50005",
                 fontSize: "30px",
                 cursor: "pointer",
               }}
@@ -133,7 +131,7 @@ function UserProfile({ id }) {
 
             <IoMdCheckmarkCircle
               style={{
-                fill: "green",
+                fill: "#008000",
                 fontSize: "30px",
                 cursor: "pointer",
               }}
@@ -150,8 +148,6 @@ function UserProfile({ id }) {
     const deleteRef = ref(storage, dUrl);
     deleteObject(deleteRef)
       .then(() => {
-        console.log("picture deleted");
-        console.log(displayUrl);
         setProgress("getUpload");
         setShowIcons(false);
       })
