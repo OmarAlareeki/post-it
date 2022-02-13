@@ -1,11 +1,11 @@
 import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { mock } from "jest-mock-extended";
-import PostListContainer from "./PostsListContainer";
+import PostsListContainer from "./PostsListContainer";
 import { getAuth } from "firebase/auth";
 export const onAuthStateChanged = jest.fn();
 
-describe("PostListContainer", () => {
+describe("PostsListContainer", () => {
   test("Find the Add Post button exist in the document", () => {
     getAuth.mockReturnValue({
       currentUser: {
@@ -16,7 +16,7 @@ describe("PostListContainer", () => {
     expect(onAuthStateChanged).toBeCalledWith("my auth");
     expect(getByText("true,false")).toBeTruthy();
 
-    // render(<PostListContainer />);
+    // render(<PostsListContainer />);
 
     // expect(screen.getByText("Add Post")).toBeInTheDocument();
 
