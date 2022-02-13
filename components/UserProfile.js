@@ -65,7 +65,6 @@ function UserProfile({ id }) {
   }, [id]);
 
   const handleImageUpload = (e) => {
-    console.log(userImage);
     const userImage = e.target.files[0];
     const imageRef = ref(storage, `userProfileImages/${userImage.name}`);
     const uploadImages = uploadBytesResumable(imageRef, userImage);
