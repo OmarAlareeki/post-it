@@ -138,15 +138,23 @@ const PostsListContainer = () => {
       : Router.push("/signIn/SignIn");
   };
 
-  function userProfilePage() {
-    currUser ? setUserProfile(true) : Router.push("/signIn/SignIn");
-  }
-
   return (
     <main>
-      <NavBar />
+      <NavBar setUserProfile={setUserProfile} />
       <div>
         <SearchPosts setQueryCriteria={setQueryCriteria} />
+        <>
+          {show ? (
+            <AlertWrapper
+              message={confirmationMessage}
+              show={show}
+              handleClose={handleClose}
+              bgColor="green"
+            />
+          ) : (
+            ""
+          )}
+        </>
       </div>
       <div className={style.mainContainer}>
         <div>
@@ -156,6 +164,34 @@ const PostsListContainer = () => {
             currUserId={currUser.uid}
           />
         </div>
+        <div className={style.SortDiv}>
+          <>
+            <select
+              style={{
+                marginRight: "40px",
+                border: "solid 1px #f0f8ff",
+                textAlign: "center",
+                fontSize: ".8rem",
+                background: "#fff",
+              }}
+              onChange={(e) => {
+                setSortValue(e.target.value.split(",")[0]);
+                setSortType(e.target.value.split(",")[1]);
+              }}
+            >
+              <option value="postDate,asc">Sort by</option>
+              <option value="price,asc">Price </option>
+              <option value="price,desc">Price Desc</option>
+              <option value="title,asc">Title</option>
+              <option value="title,desc">Title Desc</option>
+              <option value="postDate,asc">Post Date </option>
+              <option value="postDate,desc">Post Date Desc</option>
+            </select>
+          </>
+          <Button variant="warning" height={56} onClick={() => postNewItem()}>
+            Add Post
+          </Button>
+        </div>
         {userProfile ? (
           <UserProfile id={currentUserId} />
         ) : showPostItem ? (
@@ -163,53 +199,6 @@ const PostsListContainer = () => {
         ) : (
           <div>
             <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
-              <div className={style.SortDiv}>
-                <>
-                  <select
-                    style={{
-                      marginRight: "40px",
-                      border: "solid 1px #f0f8ff",
-                      textAlign: "center",
-                      fontSize: ".8rem",
-                      background: "#fff",
-                    }}
-                    onChange={(e) => {
-                      setSortValue(e.target.value.split(",")[0]);
-                      setSortType(e.target.value.split(",")[1]);
-                    }}
-                  >
-                    <option value="postDate,asc">Sort by</option>
-                    <option value="price,asc">Price </option>
-                    <option value="price,desc">Price Desc</option>
-                    <option value="title,asc">Title</option>
-                    <option value="title,desc">Title Desc</option>
-                    <option value="postDate,asc">Post Date </option>
-                    <option value="postDate,desc">Post Date Desc</option>
-                  </select>
-                </>
-                <Button variant="warning" onClick={() => postNewItem()}>
-                  Add Post
-                </Button>
-                <p
-                  onClick={() => userProfilePage()}
-                  style={{ cursor: "pointer" }}
-                >
-                  My profile
-                </p>
-                <>
-                  {show ? (
-                    <AlertWrapper
-                      message={confirmationMessage}
-                      show={show}
-                      handleClose={handleClose}
-                      bgColor="green"
-                    />
-                  ) : (
-                    ""
-                  )}
-                </>
-              </div>
-
               {userProfile ? (
                 <UserProfile
                   id={currentUserId}

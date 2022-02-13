@@ -6,7 +6,13 @@ export default function AlertSuccessWrapper({ message, handleClose, bgColor }) {
       <Alert
         variant="success"
         onClose={handleClose}
-        style={{ backgroundColor: bgColor, color: "white", height: "50px" }}
+        style={{
+          backgroundColor: bgColor,
+          color: "white",
+          height: "fit-content",
+          width: "fit-content",
+          marfin: "0px",
+        }}
         dismissible
       >
         <p>{message}</p>
