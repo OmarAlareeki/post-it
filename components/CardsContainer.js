@@ -87,8 +87,7 @@ const CardsContainer = ({
                   </Card.Title>
                   <Card.Text>$ {post.price}</Card.Text>
                   <Card.Text>
-                    <>
-                      Posted
+                    Posted
                       {Math.floor(
                         (timeNow - post.postDate.toDate()) / 3600000
                       ) < 24
@@ -105,8 +104,7 @@ const CardsContainer = ({
                             (timeNow - post.postDate.toDate()) / 3600000 / 24
                           )} day `}
                       ago
-                    </>
-                  </Card.Text>
+                   </Card.Text>
                 </Card.Body>
               </Card.Link>
             </Card>
