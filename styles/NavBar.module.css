@@ -211,6 +211,7 @@
     display: block;
     position: absolute;
     top: 123px;
+    bottom: 0;
     /* right: 26px; */
     text-align: center;
     font-size: 14px;
@@ -262,6 +263,7 @@
     display: block;
     position: absolute;
     top: 123px;
+    bottom: 0;
     /* right: 26px; */
     text-align: center;
     font-size: 15px;
