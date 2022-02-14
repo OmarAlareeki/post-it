@@ -6,9 +6,10 @@ import {
 import { db } from "../../config/fire-config";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-// import { FavoriteIcon, FavoriteBorderIcon } from '@mui/icons-material';
 import styles from "./Title.module.css";
-// import { IconButton } from "@mui/material";
+import DeletePostDP from "./DeletePostDP";
+import EditPostDP from "./EditPostDP";
+
 
 export default function Title({ post, setLoginAlert, currentUser, user, setUser }) {
     const liked = user &&
@@ -58,6 +59,11 @@ export default function Title({ post, setLoginAlert, currentUser, user, setUser 
                     )}
             </span>
             <h1 className={styles.title}>{post.title} </h1>
+            {/* <div className={styles.lineBreak}></div> */}
+            <p>
+                <DeletePostDP />
+                <EditPostDP />
+            </p>
         </div>
     )
 }

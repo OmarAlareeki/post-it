@@ -18,6 +18,15 @@
 
 }
 
+.lineBreak {
+    flex-basis: 100%;
+    height: 0; 
+}
+.actionIcons {
+  width: 100%;
+}
+
+
 /* tablet, */
 @media (min-width:1024px) {
 
