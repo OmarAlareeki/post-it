@@ -2,6 +2,12 @@
   text-align: center;
 }
 
+.PostsContainer,
+.inputContainer {
+  padding-top: 40px;
+  /* width: calc(100vw - 400px); */
+}
+
 .PostsDisplay {
   display: flex;
   flex-direction: row;
@@ -25,16 +31,17 @@
 .imageDiv {
   position: relative;
 }
+
 .deleteImageButton {
   fill: #ef9d06;
 }
-
 
 .postImage {
   padding: 5px 15px;
   width: 200px;
   height: auto;
 }
+
 .postImage:hover {
   cursor: pointer;
   opacity: 0.3;
@@ -52,12 +59,14 @@
   display: flex;
   flex-direction: row;
 }
+
 .container {
   width: 40vw;
   padding: 10px;
   margin: auto;
-  text-align: center
+  text-align: center;
 }
+
 .facebookButton {
   border: none;
   background-color: none;
@@ -70,21 +79,27 @@
 
 .SortDiv {
   display: flex;
+  position: absolute;
+  right: 35%;
+  left: 30%;
+  padding: 27px;
   flex-direction: row-reverse;
   justify-content: space-evenly;
-  padding-bottom: 20px;
+  align-items: center;
+  /* padding-bottom: 20px; */
 }
 
 .Cards {
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid #e0e0e0;
   border-radius: 0.25rem;
   width: 220px;
   margin-top: 10px;
   margin-right: 10px;
   background: #fef2eb;
-  margin: 2px
+  margin: 2px;
+  /* border: 1px solid rgba(0, 0, 0, 0.125); */
 }
 
 .CardImage {
@@ -92,30 +107,33 @@
   min-height: 210px;
 }
 
-.DeleteButton {
+.DeleteButtonCard {
   position: relative;
   left: 187px;
   bottom: 45px;
   font-size: 1.5rem;
-  color: red;
+  color: #d50005;
   border: 1px solid #fff;
   border-radius: 3px;
   padding: 2px;
-  background: aliceblue;
+  border: none;
+  background-color: transparent;
 }
-.DeleteButtonMobile {
+
+.DeleteButtonMobileCard {
   position: relative;
-  left: 163px;
+  left: 124px;
   bottom: 45px;
   font-size: 1.5rem;
-  color: red;
-  border: 1px solid #fff;
+  color: #d50005;
   border-radius: 3px;
   padding: 2px;
-  background: aliceblue;
+  border: none;
+  background-color: transparent;
+  /* border: 1px solid #fff; */
+  /* background: aliceblue; 
+  left: 163px;*/
 }
-
-
 
 .mainScreenLoader {
   width: 80vw;
@@ -127,20 +145,14 @@
 
 .providerButtons {
   display: flex;
-  flex-direction: row
+  flex-direction: row;
 }
 
 .providerButtons > * {
   background: none;
   border: none;
-  font-size: 2.5rem
-
+  font-size: 2.5rem;
 }
-
-/* .formContainer {
-  width: 80%;
-  margin: auto
-} */
 
 /* Media queries for responsive design */
 /* 
@@ -167,9 +179,16 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) {
+  /* CSS */
   .InputField {
     width: 70vw;
     margin-left: 10px;
+  }
+
+  .SortDiv {
+    position: absolute;
+    right: 22%;
+    padding: 27px;
   }
 }
 
@@ -179,7 +198,6 @@
 */
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-
 }
 
 /* 
@@ -192,6 +210,11 @@
     width: 90vw;
     margin-left: 10px;
   }
+
+  .SortDiv {
+    position: absolute;
+    left: 18%;
+  }
 }
 
 /* 
@@ -200,10 +223,8 @@
 */
 
 @media (min-width: 320px) and (max-width: 480px) {
-
-  /* CSS */
   .Cards {
-    width: 190px
+    width: 155px;
   }
 
   .InputField {
@@ -211,4 +232,8 @@
     margin-left: 10px;
   }
 
+  .SortDiv {
+    position: absolute;
+    right: 2%;
+  }
 }

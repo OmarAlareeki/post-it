@@ -4,11 +4,15 @@ import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmation from "./DeleteConfirmation";
-import AlertWrapper from "./AlertWrapper";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
 
-const CardsContainer = ({ posts, deleteBtnStatus }) => {
+const CardsContainer = ({
+  posts,
+  deleteBtnStatus,
+  handleClick,
+  setConfirmationMessage,
+}) => {
   const timeNow = new Date();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
   const [dTitle, setDTitle] = useState("");
@@ -16,18 +20,6 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
   const [displayConfirmationModal, setDisplayConfirmationModal] =
     useState(false);
   const [deleteMessage, setDeleteMessage] = useState(null);
-  const [confirmationMessage, setConfirmationMessage] = useState(null);
-  const [show, setShow] = useState(false);
-
-  console.log(show);
-
-  const handleClick = () => {
-    setShow(true);
-  };
-
-  const handleClose = () => {
-    setShow(false);
-  };
 
   useEffect(() => {
     window.addEventListener(
@@ -64,18 +56,6 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
 
   return (
     <div>
-      <div>
-        {show ? (
-          <AlertWrapper
-            message={confirmationMessage}
-            show={show}
-            handleClose={handleClose}
-            bgColor="green"
-          />
-        ) : (
-          ""
-        )}
-      </div>
       <Container className={style.PostsDisplay}>
         {posts.map((post) => (
           <div key={post.id}>
@@ -107,7 +87,7 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
                   </Card.Title>
                   <Card.Text>$ {post.price}</Card.Text>
                   <Card.Text>
-                    Posted
+                    Posted{" "}
                     {Math.floor((timeNow - post.postDate.toDate()) / 3600000) <
                     24
                       ? `${Math.floor(
@@ -121,7 +101,7 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
                         )} days`
                       : `${Math.floor(
                           (timeNow - post.postDate.toDate()) / 3600000 / 24
-                        )} day`}
+                        )} day`}{" "}
                     ago
                   </Card.Text>
                 </Card.Body>
@@ -133,7 +113,9 @@ const CardsContainer = ({ posts, deleteBtnStatus }) => {
                 display: deleteBtnStatus ? "block" : "none",
               }}
               className={`${
-                !isMobile ? style.DeleteButton : style.DeleteButtonMobile
+                !isMobile
+                  ? style.DeleteButtonCard
+                  : style.DeleteButtonMobileCard
               }`}
             >
               <RiDeleteBin6Line />

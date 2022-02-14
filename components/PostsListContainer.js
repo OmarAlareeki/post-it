@@ -6,6 +6,9 @@ import NavBar from "./NavBar/NavBar";
 import CardsContainer from "./CardsContainer.js";
 import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
+import UserProfile from "./UserProfile";
+import AlertWrapper from "./AlertWrapper";
+
 import {
   collection,
   query,
@@ -24,11 +27,24 @@ import { Rings } from "react-loader-spinner";
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
   const [queryCriteria, setQueryCriteria] = useState({});
-  const [currUser, setCurrUser] = useState("");
+  const [currUser, setCurrUser] = useState([]);
   const [deleteBtnStatus, setDeleteBtnStatus] = useState(false);
   const [sortValue, setSortValue] = useState("postDate");
   const [sortType, setSortType] = useState("desc");
   const [showPostItem, setShowPostItem] = useState(false);
+  const [userProfile, setUserProfile] = useState(false);
+  const [show, setShow] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState(null);
+
+  const handleClick = () => {
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const currentUserId = currUser.uid;
 
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
@@ -76,6 +92,7 @@ const PostsListContainer = () => {
           ...doc.data(),
         }));
         setPosts(queryList);
+        setUserProfile(false);
       });
     } else if (queryCriteria.searchCriteria) {
       if (sortValue && sortType) {
@@ -93,6 +110,7 @@ const PostsListContainer = () => {
             post.title.toLowerCase().includes(queryCriteria.searchCriteria)
           )
         );
+        setUserProfile(false);
       });
     } else if (queryCriteria.saved) {
       const docRef = doc(db, "users", currUser.uid);
@@ -103,8 +121,10 @@ const PostsListContainer = () => {
             .data()
             .savedPosts.map((arr) => ({ id: arr.postId, ...arr }));
           setPosts(savedArray);
+          setUserProfile(false);
         } else {
           setPosts([]);
+          setUserProfile(false);
         }
       } else {
         Router.push("/signIn/SignIn");
@@ -113,58 +133,79 @@ const PostsListContainer = () => {
   }, [queryCriteria, sortValue, sortType]);
 
   const postNewItem = () => {
-    currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
+    currUser
+      ? setShowPostItem(true) && setUserProfile(false)
+      : Router.push("/signIn/SignIn");
   };
 
   return (
     <main>
-      <NavBar />
+      <NavBar setUserProfile={setUserProfile} />
       <div>
         <SearchPosts setQueryCriteria={setQueryCriteria} />
+        <>
+          {show ? (
+            <AlertWrapper
+              message={confirmationMessage}
+              show={show}
+              handleClose={handleClose}
+              bgColor="green"
+            />
+          ) : (
+            ""
+          )}
+        </>
       </div>
       <div className={style.mainContainer}>
         <div>
           <SideNavBar
             setQueryCriteria={setQueryCriteria}
             setDeleteBtnStatus={setDeleteBtnStatus}
-            currUser={currUser}
+            currUserId={currUser.uid}
           />
         </div>
-        {showPostItem ? (
+        <div className={style.SortDiv}>
+          <>
+            <select
+              style={{
+                marginRight: "40px",
+                border: "solid 1px #f0f8ff",
+                textAlign: "center",
+                fontSize: ".8rem",
+                background: "#fff",
+              }}
+              onChange={(e) => {
+                setSortValue(e.target.value.split(",")[0]);
+                setSortType(e.target.value.split(",")[1]);
+              }}
+            >
+              <option value="postDate,asc">Sort by</option>
+              <option value="price,asc">Price </option>
+              <option value="price,desc">Price Desc</option>
+              <option value="title,asc">Title</option>
+              <option value="title,desc">Title Desc</option>
+              <option value="postDate,asc">Post Date </option>
+              <option value="postDate,desc">Post Date Desc</option>
+            </select>
+          </>
+          <Button variant="warning" height={56} onClick={() => postNewItem()}>
+            Add Post
+          </Button>
+        </div>
+        {userProfile ? (
+          <UserProfile id={currentUserId} />
+        ) : showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
           <div>
             <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
-              <div className={style.SortDiv}>
-                <>
-                  <select
-                    style={{
-                      marginRight: "40px",
-                      border: "solid 1px #f0f8ff",
-                      textAlign: "center",
-                      fontSize: ".8rem",
-                      background: "#fff",
-                    }}
-                    onChange={(e) => {
-                      setSortValue(e.target.value.split(",")[0]);
-                      setSortType(e.target.value.split(",")[1]);
-                    }}
-                  >
-                    <option value="postDate,asc">Sort by</option>
-                    <option value="price,asc">Price </option>
-                    <option value="price,desc">Price Desc</option>
-                    <option value="title,asc">Title</option>
-                    <option value="title,desc">Title Desc</option>
-                    <option value="postDate,asc">Post Date </option>
-                    <option value="postDate,desc">Post Date Desc</option>
-                    <option value="zip,desc">Location</option>
-                  </select>
-                </>
-                <Button variant="warning" onClick={() => postNewItem()}>
-                  Add Post
-                </Button>
-              </div>
-              {posts[0] === "Loading..." ? (
+              {userProfile ? (
+                <UserProfile
+                  id={currentUserId}
+                  handleClick={handleClick}
+                  setConfirmationMessage={setConfirmationMessage}
+                />
+              ) : posts[0] === "Loading..." ? (
                 <div className={style.mainScreenLoader}>
                   <Rings color="#ef9d06" height={140} width={140} />
                 </div>
@@ -184,6 +225,8 @@ const PostsListContainer = () => {
                 <CardsContainer
                   posts={posts}
                   deleteBtnStatus={deleteBtnStatus}
+                  handleClick={handleClick}
+                  setConfirmationMessage={setConfirmationMessage}
                 />
               )}
             </div>

@@ -8,13 +8,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import Logo from "./Logo";
 
-const NavBar = () => {
+const NavBar = ({ setUserProfile }) => {
   const [currentUser, setCurrentUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
-
-  const currentUserId = currentUser.uid;
 
   useEffect(async () => {
     onAuthStateChanged(auth, (user) => {
@@ -33,13 +31,12 @@ const NavBar = () => {
         docSnap.data().photo ? setPhoto(docSnap.data().photo) : "";
       } else {
         await setDoc(doc(db, "users", currentUser.uid), {
-          accountCreatedDate: currentUser.metadata.creationTime,
+          accountCreatedDate: new Date(),
           email: currentUser.email,
           name: currentUser.displayName,
-          password: "",
           phoneNumber: currentUser.phoneNumber,
           photo: currentUser.photoURL,
-          provider: currentUser.providerData[0].providerId,
+          provider: `Login-${currentUser.providerData[0].providerId}`,
           savedPosts: [],
           uid: currentUser.uid,
           zipCode: 0,
@@ -63,12 +60,17 @@ const NavBar = () => {
             : "there"}
           !
         </p>
+
         {loggedIn ? (
           photo ? (
             <img
               src={photo}
-              style={{ borderRadius: "50%", height: "50px", marginBottom: "0" }}
-              onClick={toggleSignOutModal}
+              style={{
+                borderRadius: "50%",
+                height: "50px",
+                width: "50px",
+                marginBottom: "0",
+              }}
             />
           ) : (
             <FaUserCircle
@@ -78,7 +80,6 @@ const NavBar = () => {
                 fill: "#ef9d06",
                 marginBottom: "0",
               }}
-              onClick={toggleSignOutModal}
             />
           )
         ) : (
@@ -94,14 +95,33 @@ const NavBar = () => {
             }}
           />
         )}
+        <div className={style.ProfileDiv}>
+          <ul className={style.ProfileUl}>
+            <li
+              className={style.SignIn}
+              onClick={() => {
+                Router.push("/signIn/SignIn");
+              }}
+              style={{
+                display: currentUser ? "none" : "block",
+                color: "#008000",
+              }}
+            >
+              Sign In
+            </li>
+            <li
+              onClick={toggleSignOutModal}
+              style={{
+                display: currentUser ? "block" : "none",
+                color: "#D50005",
+              }}
+            >
+              Sign Out
+            </li>
+            <li onClick={() => setUserProfile(true)}>My Profile</li>
+          </ul>
+        </div>
       </div>
-      <p
-        onClick={() => {
-          Router.push(`/userProfilePage/${currentUserId}`);
-        }}
-      >
-        My profile
-      </p>
 
       <SignoutModal
         show={signoutModal}

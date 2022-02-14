@@ -34,10 +34,9 @@ function SignUp() {
             accountCreatedDate: serverTimestamp(),
             email: `${email}`,
             name: `${firstName} ${lastName}`,
-            password: { password2 },
             phoneNumber: null,
             photo: "",
-            provider: "Firebase.Signup",
+            provider: "Post-It Signup",
             savedPosts: [],
             uid: userCredential.user.uid,
             zipcode: 0,
@@ -50,8 +49,7 @@ function SignUp() {
           sendEmailVerification(auth.currentUser);
         })
         .catch((error) => {
-          console.log(error);
-          // alert("sorry, we couldn't complete your requrest due to: ", error.message)
+          Alert("Email is already used")
         });
     }
   };
