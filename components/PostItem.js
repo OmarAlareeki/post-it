@@ -14,9 +14,13 @@ import { onAuthStateChanged } from "firebase/auth";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { TailSpin } from "react-loader-spinner";
 import zipcodes from "zipcodes";
-import { zip } from "lodash";
+import { Editor } from "@tinymce/tinymce-react";
 
-const PostItem = ({ back }) => {
+
+
+
+
+const PostItem = ({back}) => {
   const [freeItem, setFreeItem] = useState(false);
   const [postId, setPostId] = useState("");
   const [data, setData] = useState({
@@ -134,7 +138,7 @@ const PostItem = ({ back }) => {
               <div>
                 <RiCloseCircleFill
                   style={{
-                    fill: "#ef9d06",
+                    fill: "#D50005",
                     position: "absolute",
                     top: "20px",
                     right: "20px",
@@ -396,16 +400,17 @@ const PostItem = ({ back }) => {
               </Col>
               <Col md="10">
                 <Form.Group>
-                  <Form.Control
-                    value={data.description}
-                    as="textarea"
-                    placeholder="Description"
-                    rows={4}
+                <Editor
+                  apiKey = {process.env.NEXT_PUBLIC_TINY_API_KEY}
+                  value={data.description}
+                  init={{
+                    height: 300,
+                    menubar: false
+                  }}
+                  onEditorChange={(e) =>
+                    setData({ ...data, description: e})}
                     area-describedby="descriptionHelp"
-                    onChange={(e) =>
-                      setData({ ...data, description: e.target.value })
-                    }
-                  />
+                />
                   <Form.Text id="descriptionHelp" muted>
                     Providing description is optional. However, items with
                     detaild description sell faster!

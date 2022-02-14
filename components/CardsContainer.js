@@ -89,20 +89,20 @@ const CardsContainer = ({
                   <Card.Text>
                     Posted{" "}
                     {Math.floor((timeNow - post.postDate.toDate()) / 3600000) <
+                    1? " Just Now": Math.floor((timeNow - post.postDate.toDate()) / 3600000) <
                     24
                       ? `${Math.floor(
                           (timeNow - post.postDate.toDate()) / 3600000
-                        )} hours`
+                        )} hours ago`
                       : Math.floor(
                           (timeNow - post.postDate.toDate()) / 3600000 / 24
                         ) > 1
                       ? `${Math.floor(
                           (timeNow - post.postDate.toDate()) / 3600000 / 24
-                        )} days`
+                        )} days ago`
                       : `${Math.floor(
                           (timeNow - post.postDate.toDate()) / 3600000 / 24
-                        )} day`}{" "}
-                    ago
+                        )} day ago`}
                   </Card.Text>
                 </Card.Body>
               </Card.Link>
