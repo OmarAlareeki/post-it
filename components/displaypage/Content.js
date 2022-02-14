@@ -10,13 +10,13 @@ import {
 } from "firebase/firestore";
 import { getDatabase, ref, set } from "firebase/database";
 import { db, storage } from "../../config/fire-config";
+import DaysAgo from "../DaysAgo";
+import ShareBtn from "./ShareBtn"
+import Button from '@mui/material/Button';
+
 
 export default function Content({ post, setLoginAlert, currentUser }) {
-  // timestamp= {nanoseconds: 0,
-  //     seconds: 1562524200}
-  // console.log(new Date(timestamp.seconds*1000))
-  console.log(new Date(post.postDate.seconds * 1000));
-
+  
   const [showContacts, setShowContacts] = useState(false);
 
   const handleContactClick = () => {
@@ -32,11 +32,12 @@ export default function Content({ post, setLoginAlert, currentUser }) {
   return (
     <>
       <h2>${post.price} </h2>
-      <p> Posted 3 days ago </p>
+      <p> <DaysAgo post={post} /> </p>
       <p>{post.description} </p>
-      <button onClick={handleContactClick} className={styles.contactBtn}>
+      <Button variant="contained" onClick={handleContactClick} className={styles.contactBtn}>
         Contact seller
-      </button>
+      </Button>
+      <ShareBtn className={styles.shareBtn}/>
       {showContacts && (
         <p>
           {" "}

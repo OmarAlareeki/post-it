@@ -1,16 +1,17 @@
 .contactBtn {
-    border-radius: 2;
     width: 100px;
     height: 60px;
-    background-color: orangered;
-    border: 2px solid orange;
-    font-weight: bold;
+    background-color: rgb(239, 157, 6);
     color: white;
     transition-duration: 0.4s;
-    font-size: 16px;
+    font-size: 0.9rem;
 }
 
 .contactBtn:hover {
-    background-color: gray;
-    font-size: 20px;
+    background-color: rgb(0, 36, 61);
+    font-size: 1rem;
+}
+
+.shareBtn {
+    margin-left: 10px;
 }

@@ -1,0 +1,26 @@
+
+/* black variant */
+.carousel-control-next, .carousel-control-prev  {
+    filter: invert(100%);
+}
+
+
+/* Any color variant: */
+/* .carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 100%, 100%;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 40px;
+  color: #EF9D06;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 40px;
+  color: #EF9D06;
+} */

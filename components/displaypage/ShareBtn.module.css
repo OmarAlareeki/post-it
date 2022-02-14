@@ -1,12 +1,13 @@
-.sideBar {
-    display: none;
+.btn {
+  /* display: none; */
+  margin-left: 10px;
+}
 
-  }
 
 
   /*  landscape mobile */
-@media (min-width:768px) {
-    
+  @media (min-width:768px) {
+
 }
 
 /* tablet, */
@@ -16,8 +17,5 @@
 
 /* desktop */
 @media (min-width: 1280px) {
-  .sideBar {
-    display: contents;
 
-  }
   }

@@ -1,0 +1,29 @@
+.titleWrapper {
+  display: flex;
+  /* align-items: center; */
+}
+
+.title {
+    display: inline-block;
+    padding-left: 10px;
+}
+
+.heart {
+  cursor: pointer;
+  padding-top: 10px;
+}
+
+  /*  landscape mobile */
+  @media (min-width:768px) {
+
+}
+
+/* tablet, */
+@media (min-width:1024px) {
+
+}
+
+/* desktop */
+@media (min-width: 1280px) {
+
+  }

@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(155, 100, 18, 0.5);
+    background-color: rgba(239, 157, 6, 0.7);
     z-index: 1100;
     display: flex;
     justify-content: center;
@@ -12,8 +12,8 @@
 }
 
 .popup {
-    width: 90vw;
-    height: 60vh;
+    width: 95vw;
+    height: 55vh;
     background-color: white;
     position: relative;
 
@@ -28,7 +28,7 @@
     right: 20px;
     top: 20px;
     cursor: pointer;
-    border: 1px solid green;
+    border: 1px solid rgb(239, 157, 6);
     border-radius: 50%;
     width: 25px;
     height: 25px;
@@ -36,3 +36,24 @@
     justify-content: center;
     align-items: center;
 }
+
+
+
+  /*  landscape mobile */
+  @media (min-width:768px) {
+    .popup {
+        width: 70vw;
+    }
+}
+
+/* tablet, */
+@media (min-width:1024px) {
+    .popup {
+        max-width: 950px;;
+    }
+}
+
+/* desktop */
+@media (min-width: 1280px) {
+
+  }
