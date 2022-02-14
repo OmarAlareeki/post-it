@@ -12,21 +12,12 @@
   }
   
   .carouselItem img {
-    /* position: absolute;
-    top: 0;
-    left: 0;
-    min-height: 500px;
-    object-fit: cover;
-    object-position: center;
-    height: 50vp;
-    overflow: hidden; */
+
     height: 100%;
-    /* max-width: none;
-    left: 50%;
-    position: relative;
-    transform: translateX(-50%);
-    -webkit-transform: translateX(-50%); */
+
   }
+
+
 
 
   

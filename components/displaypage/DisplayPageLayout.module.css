@@ -2,3 +2,35 @@
     display: none;
 
   }
+.contentContainer {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 20px;
+}
+
+  /*  landscape mobile */
+@media (min-width:768px) {
+  .contentContainer {
+    width: 740px;
+    margin: 0 auto;
+  }
+}
+
+/* tablet, */
+@media (min-width:1024px) {
+  .contentContainer {
+    width: 960px;
+  }
+}
+
+/* desktop */
+@media (min-width: 1280px) {
+  .sideBar {
+    display: contents;
+
+  }
+  .contentContainer {
+    width: 1240px;
+  }
+  }

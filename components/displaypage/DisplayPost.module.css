@@ -1,7 +1,7 @@
 .mainField {
     display: grid;
     width: 100%;
-    grid-template-columns: 1fr !important; 
+    grid-template-columns: 1fr; 
     grid-gap:10px;
     grid-template-areas:
         "title"
@@ -35,12 +35,12 @@
 /* tablet, */
 @media (min-width:1024px) {
     .mainField {
-        grid-template-columns: 2fr 1fr !important; 
+        grid-template-columns: 1.5fr 1fr !important; 
         grid-gap:10px;
         grid-template-areas:
-            "title"
-            "photoGallery content"
-            "map content"
+            "title title"
+            "photoGallery map"
+            "content content"
     }
 }
 
@@ -50,7 +50,7 @@
         grid-template-columns: 2fr 1fr !important; 
         grid-gap:10px;
         grid-template-areas:
-            "title"
+            "title title"
             "photoGallery content"
             "map content"
     }
