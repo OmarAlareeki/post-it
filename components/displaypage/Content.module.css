@@ -5,6 +5,7 @@
     color: white;
     transition-duration: 0.4s;
     font-size: 0.9rem;
+    margin-bottom: 10px;
 }
 
 .contactBtn:hover {

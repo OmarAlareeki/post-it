@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { getDatabase, ref, set } from "firebase/database";
 import { db, storage } from "../../config/fire-config";
-import DaysAgo from "../DaysAgo";
+import DaysAgo, {formatDay} from "../DaysAgo";
 import ShareBtn from "./ShareBtn"
 import Button from '@mui/material/Button';
 
@@ -32,8 +32,8 @@ export default function Content({ post, setLoginAlert, currentUser }) {
   return (
     <>
       <h2>${post.price} </h2>
-      <p> <DaysAgo post={post} /> </p>
-      <p>{post.description} </p>
+      {/* <p> <DaysAgo post={post} /> </p> */}
+      <p> {formatDay (post.postDate.seconds)} </p>
       <Button variant="contained" onClick={handleContactClick} className={styles.contactBtn}>
         Contact seller
       </Button>
@@ -44,6 +44,7 @@ export default function Content({ post, setLoginAlert, currentUser }) {
           {post.phone} <br /> {post.email}{" "}
         </p>
       )}
+      <p>{post.description} </p>
     </>
   );
 }
