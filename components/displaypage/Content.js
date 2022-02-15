@@ -34,10 +34,12 @@ export default function Content({ post, setLoginAlert, currentUser }) {
       <h2>${post.price} </h2>
       {/* <p> <DaysAgo post={post} /> </p> */}
       <p> {formatDay (post.postDate.seconds)} </p>
-      <Button variant="contained" onClick={handleContactClick} className={styles.contactBtn}>
+      <div className={styles.buttonsGroup}>
+      <Button variant="contained" color="primary" onClick={handleContactClick} className={styles.contactBtn}>
         Contact seller
       </Button>
       <ShareBtn className={styles.shareBtn}/>
+      </div>
       {showContacts && (
         <p>
           {" "}
