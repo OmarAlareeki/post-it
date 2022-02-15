@@ -199,13 +199,7 @@ const PostsListContainer = () => {
         ) : (
           <div>
             <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
-              {userProfile ? (
-                <UserProfile
-                  id={currentUserId}
-                  handleClick={handleClick}
-                  setConfirmationMessage={setConfirmationMessage}
-                />
-              ) : posts[0] === "Loading..." ? (
+              {posts[0] === "Loading..." ? (
                 <div className={style.mainScreenLoader}>
                   <Rings color="#ef9d06" height={140} width={140} />
                 </div>
