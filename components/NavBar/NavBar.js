@@ -118,6 +118,7 @@ const NavBar = ({ setUserProfile }) => {
             >
               Sign Out
             </li>
+
             <li onClick={() => setUserProfile(true)}>My Profile</li>
           </ul>
         </div>

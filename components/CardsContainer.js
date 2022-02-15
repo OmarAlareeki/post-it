@@ -7,7 +7,6 @@ import DeleteConfirmation from "./DeleteConfirmation";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
 import DaysAgo, { formatDay } from "./DaysAgo";
-import { route } from "next/dist/server/router";
 
 const CardsContainer = ({
   posts,

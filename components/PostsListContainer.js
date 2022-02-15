@@ -23,6 +23,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Button } from "react-bootstrap";
 import PostItem from "./PostItem";
 import { Rings } from "react-loader-spinner";
+import Sort from "./Sort";
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
@@ -165,32 +166,16 @@ const PostsListContainer = () => {
           />
         </div>
         <div className={style.SortDiv}>
-          <>
-            <select
-              style={{
-                marginRight: "40px",
-                border: "solid 1px #f0f8ff",
-                textAlign: "center",
-                fontSize: ".8rem",
-                background: "#fff",
-              }}
-              onChange={(e) => {
-                setSortValue(e.target.value.split(",")[0]);
-                setSortType(e.target.value.split(",")[1]);
-              }}
+          <Sort setSortType={setSortType} setSortValue={setSortValue} />
+          <div>
+            <Button
+              variant="warning"
+              onClick={() => postNewItem()}
+              style={{ backgroundColor: "#ffc107" }}
             >
-              <option value="postDate,asc">Sort by</option>
-              <option value="price,asc">Price </option>
-              <option value="price,desc">Price Desc</option>
-              <option value="title,asc">Title</option>
-              <option value="title,desc">Title Desc</option>
-              <option value="postDate,asc">Post Date </option>
-              <option value="postDate,desc">Post Date Desc</option>
-            </select>
-          </>
-          <Button variant="warning" height={56} onClick={() => postNewItem()}>
-            Add Post
-          </Button>
+              Add Post
+            </Button>
+          </div>
         </div>
         {userProfile ? (
           <UserProfile id={currentUserId} />
