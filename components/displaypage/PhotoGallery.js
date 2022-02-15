@@ -4,7 +4,6 @@ import { Carousel } from "react-bootstrap";
 import Head from "next/head";
 
 export default function PhotoGallery({ photos }) {
-  // console.log({ photos });
   return (
     <>
       <Head>
