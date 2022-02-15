@@ -36,7 +36,7 @@ import {
 } from "@material-ui/core";
 import PasswordIcon from "@mui/icons-material/Password";
 
-function UserProfile({ id, setUserProfile }) {
+function UserProfile({ id }) {
   const [user, setUser] = useState([]);
   const [postCount, setPostCount] = useState([]);
   const [displayUrl, setDisplayUrl] = useState("");
