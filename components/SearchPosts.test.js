@@ -1,11 +1,20 @@
 import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import SearchPosts from "./SearchPosts";
+import { JestMockExtended } from "jest-mock-extended";
+
+jest.mock("../config/fire-config.js");
 
 describe("SearchPosts", () => {
   const searchPostsProps = {
-    setPosts: jest.fn(),
+    setPosts: JestMockExtended,
+    sortType: jest.fn(),
   };
+
+  beforeEach(() => {
+    setPosts.mockClear();
+    render(<SearchPosts {...searchPostsProps} />);
+  });
 
   test("Find the search button with Icon exist in the document", () => {
     render(<SearchPosts {...searchPostsProps} />);

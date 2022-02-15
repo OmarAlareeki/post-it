@@ -83,7 +83,7 @@ const SignInPage = () => {
 
   return (
     <Container>
-      <Logo />
+      {/* <Logo /> */}
       <div className={style.container}>
         <h1>Sign In</h1>
 

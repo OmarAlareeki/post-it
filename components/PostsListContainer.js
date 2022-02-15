@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
-import { db, auth } from "../config/fire-config";
+import { useState } from "react";
+import { auth } from "../config/fire-config";
 import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
-import NavBar from "./NavBar/NavBar";
 import CardsContainer from "./CardsContainer.js";
 import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
@@ -44,7 +43,6 @@ const PostsListContainer = () => {
 
   return (
     <main>
-      <NavBar />
       <div>
         <SearchPosts
           setPosts={setPosts}
