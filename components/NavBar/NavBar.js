@@ -13,7 +13,7 @@ const NavBar = ({ setUserProfile }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
-  console.log(currentUser.uid);
+  
   useEffect(async () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
