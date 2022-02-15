@@ -6,7 +6,6 @@ import NavBar from "./NavBar/NavBar";
 import CardsContainer from "./CardsContainer.js";
 import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
-import UserProfile from "./UserProfile";
 import AlertWrapper from "./AlertWrapper";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
@@ -22,7 +21,6 @@ const PostsListContainer = () => {
   const [sortValue, setSortValue] = useState("postDate");
   const [sortType, setSortType] = useState("desc");
   const [showPostItem, setShowPostItem] = useState(false);
-  const [userProfile, setUserProfile] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState(null);
 
@@ -41,18 +39,15 @@ const PostsListContainer = () => {
   );
 
   const postNewItem = () => {
-    currUser
-      ? setShowPostItem(true) && setUserProfile(false)
-      : Router.push("/signIn/SignIn");
+    currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
   };
 
   return (
     <main>
-      <NavBar setUserProfile={setUserProfile} />
+      <NavBar />
       <div>
         <SearchPosts
           setPosts={setPosts}
-          setUserProfile={setUserProfile}
           sortType={sortType}
           sortValue={sortValue}
         />
@@ -77,7 +72,6 @@ const PostsListContainer = () => {
             sortValue={sortValue}
             setDeleteBtnStatus={setDeleteBtnStatus}
             currentUserId={currentUserId}
-            setUserProfile={setUserProfile}
           />
         </div>
         <div className={style.SortDiv}>
@@ -92,9 +86,7 @@ const PostsListContainer = () => {
             </Button>
           </div>
         </div>
-        {userProfile ? (
-          <UserProfile id={currentUserId} />
-        ) : showPostItem ? (
+        {showPostItem ? (
           <PostItem back={setShowPostItem} />
         ) : (
           <div>

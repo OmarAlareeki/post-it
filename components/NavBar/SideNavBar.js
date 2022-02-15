@@ -20,13 +20,10 @@ const SideNavBar = ({
   sortValue,
   setDeleteBtnStatus,
   currentUserId,
-  setUserProfile,
 }) => {
   const [clickStatus, setclcikStatus] = useState(false);
   const [liValue, setLiValue] = useState("");
   const [queryCriteria, setQueryCriteria] = useState({});
-
-  console.log("***" + sortValue + " " + sortType);
 
   const categories = new Map([
     ["Appliance", "appliance"],
@@ -88,7 +85,6 @@ const SideNavBar = ({
           ...doc.data(),
         }));
         setPosts(queryList);
-        setUserProfile(false);
       });
     } else if (queryCriteria.saved) {
       const docRef = doc(db, "users", currentUserId);
@@ -99,10 +95,8 @@ const SideNavBar = ({
             .data()
             .savedPosts.map((arr) => ({ id: arr.postId, ...arr }));
           setPosts(savedArray);
-          setUserProfile(false);
         } else {
           setPosts([]);
-          setUserProfile(false);
         }
       } else {
         Router.push("/signIn/SignIn");

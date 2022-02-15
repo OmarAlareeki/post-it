@@ -63,8 +63,6 @@ const CardsContainer = ({
   //   updateDoc(docRef, { views: view });
   // }
 
-  console.log(view);
-
   return (
     <div>
       <Container className={style.PostsDisplay}>

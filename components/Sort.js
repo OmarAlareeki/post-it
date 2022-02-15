@@ -5,7 +5,6 @@ const Sort = ({ setSortValue, setSortType }) => {
   const [sortOption, setSortOption] = useState("");
 
   const handleSortChange = (e) => {
-    console.log(e.target.value);
     if (e.target.value === "") {
       setSortValue("postDate");
       setSortType("desc");
