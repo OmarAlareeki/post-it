@@ -8,7 +8,6 @@ import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
 import UserProfile from "./UserProfile";
 import AlertWrapper from "./AlertWrapper";
-
 import {
   collection,
   query,
@@ -95,24 +94,6 @@ const PostsListContainer = () => {
         setPosts(queryList);
         setUserProfile(false);
       });
-    } else if (queryCriteria.searchCriteria) {
-      if (sortValue && sortType) {
-        q = query(postsRef, orderBy(sortValue, sortType));
-      } else {
-        q = query(postsRef, orderBy(sortValue, sortType));
-      }
-      onSnapshot(q, (snap) => {
-        const searchPosts = snap.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setPosts(
-          searchPosts.filter((post) =>
-            post.title.toLowerCase().includes(queryCriteria.searchCriteria)
-          )
-        );
-        setUserProfile(false);
-      });
     } else if (queryCriteria.saved) {
       const docRef = doc(db, "users", currUser.uid);
       const docSnap = await getDoc(docRef);
@@ -143,7 +124,12 @@ const PostsListContainer = () => {
     <main>
       <NavBar setUserProfile={setUserProfile} />
       <div>
-        <SearchPosts setQueryCriteria={setQueryCriteria} />
+        <SearchPosts
+          setPosts={setPosts}
+          setUserProfile={setUserProfile}
+          sortType={sortType}
+          sortValue={sortValue}
+        />
         <>
           {show ? (
             <AlertWrapper
