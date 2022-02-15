@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Style from "../styles/NavBar.module.css";
 import { BsSearch } from "react-icons/bs";
 import { PropTypes } from "prop-types";
@@ -8,7 +8,7 @@ import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 const SearchPosts = ({ setPosts, setUserProfile, sortType, sortValue }) => {
   const [searchedValue, setSearchedValue] = useState("");
 
-  const handleSearch = () => {
+  const handleSearch = useEffect(() => {
     const postsRef = collection(db, "posts");
     const q = query(postsRef, orderBy(sortValue, sortType));
 
@@ -24,11 +24,11 @@ const SearchPosts = ({ setPosts, setUserProfile, sortType, sortValue }) => {
       );
       setUserProfile(false);
     });
-  };
+  }, [sortType, sortValue, searchedValue]);
 
   const onkeypressed = (e) => {
     if (e.key === "Enter") {
-      handleSearch();
+      handleSearch;
     }
   };
 

@@ -8,15 +8,6 @@ import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
 import UserProfile from "./UserProfile";
 import AlertWrapper from "./AlertWrapper";
-import {
-  collection,
-  query,
-  where,
-  onSnapshot,
-  orderBy,
-  doc,
-  getDoc,
-} from "firebase/firestore";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { Button } from "react-bootstrap";
@@ -26,22 +17,21 @@ import Sort from "./Sort";
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
-  const [queryCriteria, setQueryCriteria] = useState({});
   const [currUser, setCurrUser] = useState([]);
   const [deleteBtnStatus, setDeleteBtnStatus] = useState(false);
   const [sortValue, setSortValue] = useState("postDate");
   const [sortType, setSortType] = useState("desc");
   const [showPostItem, setShowPostItem] = useState(false);
   const [userProfile, setUserProfile] = useState(false);
-  const [show, setShow] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState(null);
 
   const handleClick = () => {
-    setShow(true);
+    setShowAlert(true);
   };
 
   const handleClose = () => {
-    setShow(false);
+    setShowAlert(false);
   };
 
   const currentUserId = currUser.uid;
@@ -49,70 +39,6 @@ const PostsListContainer = () => {
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
   );
-
-  useEffect(async () => {
-    const postsRef = collection(db, "posts");
-    let q;
-
-    if (
-      !queryCriteria ||
-      Object.values(queryCriteria).every((value) => value === undefined) ||
-      queryCriteria.category ||
-      queryCriteria.price ||
-      queryCriteria.userID
-    ) {
-      if (
-        !queryCriteria ||
-        Object.values(queryCriteria).every((value) => value === undefined)
-      ) {
-        q = query(postsRef, orderBy(sortValue, sortType));
-      } else if (queryCriteria.category) {
-        q = query(
-          postsRef,
-          orderBy(sortValue, sortType),
-          where("category", "==", queryCriteria.category)
-        );
-      } else if (queryCriteria.price) {
-        q = query(
-          postsRef,
-          orderBy("price", "des"),
-          orderBy(sortValue, sortType),
-          where("price", "<", queryCriteria.price)
-        );
-      } else if (queryCriteria.userID) {
-        q = query(
-          postsRef,
-          orderBy(sortValue, sortType),
-          where("userId", "==", queryCriteria.userID)
-        );
-      }
-      onSnapshot(q, (snap) => {
-        const queryList = snap.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setPosts(queryList);
-        setUserProfile(false);
-      });
-    } else if (queryCriteria.saved) {
-      const docRef = doc(db, "users", currUser.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        if (docSnap.data().savedPosts) {
-          const savedArray = docSnap
-            .data()
-            .savedPosts.map((arr) => ({ id: arr.postId, ...arr }));
-          setPosts(savedArray);
-          setUserProfile(false);
-        } else {
-          setPosts([]);
-          setUserProfile(false);
-        }
-      } else {
-        Router.push("/signIn/SignIn");
-      }
-    }
-  }, [queryCriteria, sortValue, sortType]);
 
   const postNewItem = () => {
     currUser
@@ -131,10 +57,10 @@ const PostsListContainer = () => {
           sortValue={sortValue}
         />
         <>
-          {show ? (
+          {showAlert ? (
             <AlertWrapper
               message={confirmationMessage}
-              show={show}
+              show={showAlert}
               handleClose={handleClose}
               bgColor="green"
             />
@@ -146,9 +72,12 @@ const PostsListContainer = () => {
       <div className={style.mainContainer}>
         <div>
           <SideNavBar
-            setQueryCriteria={setQueryCriteria}
+            setPosts={setPosts}
+            sortType={sortType}
+            sortValue={sortValue}
             setDeleteBtnStatus={setDeleteBtnStatus}
-            currUserId={currUser.uid}
+            currentUserId={currentUserId}
+            setUserProfile={setUserProfile}
           />
         </div>
         <div className={style.SortDiv}>

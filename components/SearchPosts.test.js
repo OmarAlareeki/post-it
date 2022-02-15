@@ -4,12 +4,10 @@ import SearchPosts from "./SearchPosts";
 
 describe("SearchPosts", () => {
   const searchPostsProps = {
-    setQueryCriteria: jest.fn(),
+    setPosts: jest.fn(),
   };
 
   test("Find the search button with Icon exist in the document", () => {
-    //setQueryCriteria
-
     render(<SearchPosts {...searchPostsProps} />);
 
     expect(screen.getByRole("button", { name: /search/i })).toBeInTheDocument();
@@ -28,28 +26,10 @@ describe("SearchPosts", () => {
     screen.debug();
   });
 
-  test("Should call setQueryCriteria when pressed enter", () => {
-    const mockSetQueryCriteria = jest.fn();
+  test("Should set setPosts when pressed enter", () => {
+    const mockSetPosts = jest.fn();
 
-    render(<SearchPosts setQueryCriteria={mockSetQueryCriteria} />);
-
-    const newInputValue = "Tool";
-    const input = screen.getByPlaceholderText("Search");
-    fireEvent.change(input, {
-      target: { value: newInputValue },
-    });
-    const button = screen.getByRole("button", { name: /search/i });
-    fireEvent.click(button);
-
-    expect(mockSetQueryCriteria).toHaveBeenCalled();
-
-    screen.debug();
-  });
-
-  test("Should call setQueryCriteria when pressed enter", () => {
-    const mockSetQueryCriteria = jest.fn();
-
-    render(<SearchPosts setQueryCriteria={mockSetQueryCriteria} />);
+    render(<SearchPosts setPosts={mockSetPosts} />);
 
     const newInputValue = "Tool";
     const input = screen.getByPlaceholderText("Search");
@@ -59,10 +39,28 @@ describe("SearchPosts", () => {
     const button = screen.getByRole("button", { name: /search/i });
     fireEvent.click(button);
 
-    expect(mockSetQueryCriteria).toHaveBeenCalledWith({
-      searchCriteria: "tool",
-    });
+    expect(mockSetPosts).toHaveBeenCalled();
 
     screen.debug();
   });
+
+  // test("Should set setPosts with the searched Term", () => {
+  //   const mockSetQueryCriteria = jest.fn();
+
+  //   render(<SearchPosts setQueryCriteria={mockSetQueryCriteria} />);
+
+  //   const newInputValue = "Tool";
+  //   const input = screen.getByPlaceholderText("Search");
+  //   fireEvent.change(input, {
+  //     target: { value: newInputValue },
+  //   });
+  //   const button = screen.getByRole("button", { name: /search/i });
+  //   fireEvent.click(button);
+
+  //   expect(mockSetQueryCriteria).toHaveBeenCalledWith({
+  //     searchCriteria: "tool",
+  //   });
+
+  //   screen.debug();
+  // });
 });
