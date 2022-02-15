@@ -4,9 +4,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmation from "./DeleteConfirmation";
-import { doc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
-import DaysAgo, {formatDay} from "./DaysAgo";
+import DaysAgo, { formatDay } from "./DaysAgo";
+import { route } from "next/dist/server/router";
 
 const CardsContainer = ({
   posts,
@@ -18,9 +19,11 @@ const CardsContainer = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
   const [dTitle, setDTitle] = useState("");
   const [id, setId] = useState(null);
+  const [viewId, setViewId] = useState("");
   const [displayConfirmationModal, setDisplayConfirmationModal] =
     useState(false);
   const [deleteMessage, setDeleteMessage] = useState(null);
+  const [view, setView] = useState(0);
 
   useEffect(() => {
     window.addEventListener(
@@ -55,6 +58,14 @@ const CardsContainer = ({
     handleClick();
   };
 
+  // if (viewId) {
+  //setView(view + 1);
+  //   const docRef = doc(db, "post", viewId);
+  //   updateDoc(docRef, { views: view });
+  // }
+
+  console.log(view);
+
   return (
     <div>
       <Container className={style.PostsDisplay}>
@@ -87,8 +98,9 @@ const CardsContainer = ({
                     {post.title}
                   </Card.Title>
                   <Card.Text>$ {post.price}</Card.Text>
+                  <Card.Text>{post.views}</Card.Text>
                   <Card.Text>
-                    {formatDay (post.postDate.seconds)}
+                    {formatDay(post.postDate.seconds)}
                     {/* Posted{" "}
                     {Math.floor((timeNow - post.postDate.toDate()) / 3600000) <
                     24
