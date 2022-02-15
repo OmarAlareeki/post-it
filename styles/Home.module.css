@@ -205,6 +205,10 @@
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
+  .container {
+    width: 60vw;
+  }
+
   .InputField {
     width: 90vw;
     margin-left: 10px;
@@ -217,6 +221,10 @@
 */
 
 @media (min-width: 320px) and (max-width: 480px) {
+  .container {
+    width: 70vw;
+  }
+
   .Cards {
     width: 155px;
   }
