@@ -13,7 +13,7 @@ const NavBar = ({ setUserProfile }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
-
+  
   useEffect(async () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -118,7 +118,9 @@ const NavBar = ({ setUserProfile }) => {
             >
               Sign Out
             </li>
-
+            {/* <li.link href={`/userProfilePage/${currentUser.uid}`}>
+              <span>My Profile</span>
+            </li.link> */}
             <li onClick={() => setUserProfile(true)}>My Profile</li>
           </ul>
         </div>
