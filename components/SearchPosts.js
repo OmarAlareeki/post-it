@@ -5,7 +5,7 @@ import { PropTypes } from "prop-types";
 import { db } from "../config/fire-config";
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 
-const SearchPosts = ({ setPosts, setUserProfile, sortType, sortValue }) => {
+const SearchPosts = ({ setPosts, sortType, sortValue }) => {
   const [searchedValue, setSearchedValue] = useState("");
 
   const handleSearch = useEffect(() => {
@@ -22,7 +22,6 @@ const SearchPosts = ({ setPosts, setUserProfile, sortType, sortValue }) => {
           post.title.toLowerCase().includes(searchedValue)
         )
       );
-      setUserProfile(false);
     });
   }, [sortType, sortValue, searchedValue]);
 
@@ -57,7 +56,6 @@ const SearchPosts = ({ setPosts, setUserProfile, sortType, sortValue }) => {
 
 SearchPosts.propTypes = {
   setPosts: PropTypes.func,
-  setUserProfile: PropTypes.func,
   sortType: PropTypes.string,
   sortValue: PropTypes.string,
 };

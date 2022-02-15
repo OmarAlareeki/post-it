@@ -6,7 +6,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmation from "./DeleteConfirmation";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
-import DaysAgo, { formatDay } from "./DaysAgo";
+import { formatDay } from "./DaysAgo";
 
 const CardsContainer = ({
   posts,
@@ -14,7 +14,6 @@ const CardsContainer = ({
   handleClick,
   setConfirmationMessage,
 }) => {
-  const timeNow = new Date();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
   const [dTitle, setDTitle] = useState("");
   const [id, setId] = useState(null);
@@ -62,8 +61,6 @@ const CardsContainer = ({
   //   const docRef = doc(db, "post", viewId);
   //   updateDoc(docRef, { views: view });
   // }
-
-  console.log(view);
 
   return (
     <div>
