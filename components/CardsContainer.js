@@ -6,7 +6,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteConfirmation from "./DeleteConfirmation";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
-import DaysAgo, {formatDay} from "./DaysAgo";
+import {formatDay} from "./DaysAgo";
 
 const CardsContainer = ({
   posts,
@@ -89,23 +89,6 @@ const CardsContainer = ({
                   <Card.Text>$ {post.price}</Card.Text>
                   <Card.Text>
                     {formatDay (post.postDate.seconds)}
-                    {/* Posted{" "}
-                    {Math.floor((timeNow - post.postDate.toDate()) / 3600000) <
-                    1? " Just Now": Math.floor((timeNow - post.postDate.toDate()) / 3600000) <
-                    24
-                      ? `${Math.floor(
-                          (timeNow - post.postDate.toDate()) / 3600000
-                        )} hours ago`
-                      : Math.floor(
-                          (timeNow - post.postDate.toDate()) / 3600000 / 24
-                        ) > 1
-                      ? `${Math.floor(
-                          (timeNow - post.postDate.toDate()) / 3600000 / 24
-                        )} days ago`
-                      : `${Math.floor(
-                          (timeNow - post.postDate.toDate()) / 3600000 / 24
-                        )} day ago`}
-
                   </Card.Text>
                 </Card.Body>
               </Card.Link>

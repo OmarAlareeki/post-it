@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { db, auth } from "../config/fire-config";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./NavBar/NavBar";
 import CardsContainer from "./CardsContainer.js";
@@ -35,7 +35,7 @@ const PostsListContainer = () => {
   const [userProfile, setUserProfile] = useState(false);
   const [show, setShow] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState(null);
-
+  const router = useRouter();
   const handleClick = () => {
     setShow(true);
   };
@@ -127,7 +127,7 @@ const PostsListContainer = () => {
           setUserProfile(false);
         }
       } else {
-        Router.push("/signIn/SignIn");
+        router.push("/signIn/SignIn");
       }
     }
   }, [queryCriteria, sortValue, sortType]);
@@ -135,7 +135,11 @@ const PostsListContainer = () => {
   const postNewItem = () => {
     currUser
       ? setShowPostItem(true) && setUserProfile(false)
-      : Router.push("/signIn/SignIn");
+      : router.push({
+        pathname: "/signIn/SignIn",
+        query: {
+          routeTo: `postItem`}
+      });
   };
 
   return (
