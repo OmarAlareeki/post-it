@@ -41,7 +41,6 @@ import NavBar from "../../components/NavBar/NavBar";
 function UserProfile() {
   const router = useRouter();
   const id = router && router.query.uid;
-  console.log(id);
 
   const [user, setUser] = useState([]);
   const [postCount, setPostCount] = useState([]);
