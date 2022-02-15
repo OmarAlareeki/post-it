@@ -8,17 +8,13 @@ import { CacheProvider } from "@emotion/react";
 import theme from "../components/mui/theme";
 import createEmotionCache from "../components/mui/createEmotionCache";
 import sliderStyles from "../public/css/slider.css";
-import mainLayout from "../components/mainLayout";
+import MainLayout from "../components/MainLayout";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-
-  // if (Component.getLayout) {
-  //   return Component.getLayout(<Component {...pageProps} />);
-  // }
 
   return (
     <CacheProvider value={emotionCache}>
@@ -35,7 +31,10 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
       </ThemeProvider>
     </CacheProvider>
   );
