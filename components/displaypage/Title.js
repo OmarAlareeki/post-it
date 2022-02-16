@@ -61,8 +61,8 @@ export default function Title({ post, setLoginAlert, currentUser, user, setUser 
             <h1 className={styles.title}>{post.title} </h1>
             {/* <div className={styles.lineBreak}></div> */}
             <p>
-                <DeletePostDP />
-                <EditPostDP />
+                {/* <DeletePostDP />
+                <EditPostDP /> */}
             </p>
         </div>
     )
