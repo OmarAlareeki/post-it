@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { db, storage } from "../config/fire-config";
+import { db, storage } from "../../config/fire-config";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { TailSpin } from "react-loader-spinner";
@@ -20,7 +20,7 @@ import {
   where,
   onSnapshot,
 } from "firebase/firestore";
-import style from "../styles/UserProfile.module.css";
+import style from "../../styles/UserProfile.module.css";
 import {
   Grid,
   Button,
@@ -35,19 +35,25 @@ import {
   Typography,
 } from "@material-ui/core";
 import PasswordIcon from "@mui/icons-material/Password";
+import { useRouter } from "next/router";
+import NavBar from "../../components/NavBar/NavBar";
 
-function UserProfile({ id }) {
+function UserProfile() {
+  const router = useRouter();
+  const id = router && router.query.uid;
+
   const [user, setUser] = useState([]);
   const [postCount, setPostCount] = useState([]);
   const [displayUrl, setDisplayUrl] = useState("");
   const [progress, setProgress] = useState("getUpload");
   const [showIcons, setShowIcons] = useState(false);
 
-  const postsRef = collection(db, "posts");
-  const docRef = doc(db, "users", id);
-  let q;
-
+  // setUserProfile(true);
   useEffect(async () => {
+    if (!id) return false;
+    const postsRef = collection(db, "posts");
+    const docRef = doc(db, "users", id);
+    let q;
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const userData = { ...docSnap.data(), id: docSnap.id };
@@ -169,139 +175,174 @@ function UserProfile({ id }) {
   };
 
   return (
-    <main className={style.UserProfileContainer}>
-      {user.map((data) => (
-        <Grid
-          container
-          spacing={2}
-          direction="row"
-          justify="center"
-          key={data.id}
-        >
-          <Grid item xs={12}>
-            <img src={data.photo} className={style.DisplayImagediv} />
-            <div>
-              <FormControl onSubmit={() => handleSubmit()}>
-                <label htmlFor="contained-button-file">
-                  <Input
-                    id="contained-button-file"
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={(e) => {
-                      handleImageUpload(e);
-                    }}
-                  />
-                  <Button
-                    variant="contained"
-                    component="span"
-                    color="success"
-                    justify="center"
-                    disabled={showIcons}
-                    size="small"
-                    sx={{ margin: 2, backgroundColor: "#ef9d06" }}
+    <>
+      <NavBar />
+      <main className={style.UserProfileContainer}>
+        {user.map((data) => (
+          <Grid
+            container
+            spacing={2}
+            direction="row"
+            justify="center"
+            key={data.id}
+          >
+            <Grid item xs={12}>
+              <img src={data.photo} className={style.DisplayImagediv} />
+              <div>
+                <FormControl onSubmit={() => handleSubmit()}>
+                  <label htmlFor="contained-button-file">
+                    <Input
+                      id="contained-button-file"
+                      type="file"
+                      style={{ display: "none" }}
+                      onChange={(e) => {
+                        handleImageUpload(e);
+                      }}
+                    />
+                    <Button
+                      variant="contained"
+                      component="span"
+                      color="success"
+                      justify="center"
+                      disabled={showIcons}
+                      size="small"
+                      sx={{ margin: 2, backgroundColor: "#ef9d06" }}
+                    >
+                      Change Photo
+                    </Button>
+                  </label>
+                </FormControl>
+                <div style={{ display: "flex" }}>{imageContent()}</div>
+              </div>
+            </Grid>
+
+            <Grid item xs={12} className={style.DisplayCard}>
+              <TableContainer style={{ overflow: "hidden" }}>
+                <Paper variant="outlined">
+                  <Typography
+                    gutterBottom
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    fontSize="25px"
                   >
-                    Change Photo
-                  </Button>
-                </label>
-              </FormControl>
-              <div style={{ display: "flex" }}>{imageContent()}</div>
-            </div>
-          </Grid>
-
-          <Grid item xs={12} className={style.DisplayCard}>
-            <TableContainer style={{ overflow: "hidden" }}>
-              <Paper variant="outlined">
-                <Typography
-                  gutterBottom
-                  variant="subtitle1"
-                  fontWeight="bold"
-                  fontSize="25px"
-                >
-                  {data.name}
-                </Typography>
-                <Table aria-label="simple table">
-                  <TableBody>
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Email :
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {data.email}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                      <TableCell colSpan={2}>
-                        <Button
-                          variant="outlined"
-                          startIcon={<PasswordIcon />}
-                          size="small"
-                        >
+                    {data.name}
+                  </Typography>
+                  <Table aria-label="simple table">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell component="th" scope="row">
                           <Typography
-                            sx={{ cursor: "pointer" }}
-                            variant="body2"
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
                           >
-                            Change Password
+                            Email :
                           </Typography>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.email}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
 
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Account Creation Date :
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {data.accountCreatedDate
-                            .toDate()
-                            .toLocaleDateString()}
-                        </Typography>
-                      </TableCell>
-                      <TableCell />
-                      <TableCell />
-                    </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={2}>
+                          <Button
+                            variant="outlined"
+                            startIcon={<PasswordIcon />}
+                            size="small"
+                          >
+                            <Typography
+                              sx={{ cursor: "pointer" }}
+                              variant="body2"
+                            >
+                              Change Password
+                            </Typography>
+                          </Button>
+                        </TableCell>
+                      </TableRow>
 
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          Saved Post :
-                        </Typography>
-                      </TableCell>
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            Account Creation Date :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.accountCreatedDate
+                              .toDate()
+                              .toLocaleDateString()}
+                          </Typography>
+                        </TableCell>
+                        <TableCell />
+                        <TableCell />
+                      </TableRow>
 
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {data.savedPosts.length}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            Saved Post :
+                          </Typography>
+                        </TableCell>
 
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body1" gutterBottom fontSize={20}>
-                          My Posts :
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body2" gutterBottom fontSize={15}>
-                          {postCount.length}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </Paper>
-            </TableContainer>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.savedPosts.length}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
+                          >
+                            My Posts :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {postCount.length}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </Paper>
+              </TableContainer>
+            </Grid>
           </Grid>
-        </Grid>
-      ))}
-    </main>
+        ))}
+      </main>
+    </>
   );
 }
 export default UserProfile;

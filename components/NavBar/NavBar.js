@@ -7,8 +7,9 @@ import { auth, db } from "../../config/fire-config";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import Logo from "./Logo";
+import Link from "next/link";
 
-const NavBar = ({ setUserProfile }) => {
+const NavBar = () => {
   const [currentUser, setCurrentUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
@@ -118,7 +119,11 @@ const NavBar = ({ setUserProfile }) => {
             >
               Sign Out
             </li>
-            <li onClick={() => setUserProfile(true)}>My Profile</li>
+            <li>
+              <Link href={`/userProfilePage/${currentUser.uid}`}>
+                <span>My Profile</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

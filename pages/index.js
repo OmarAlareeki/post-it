@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import PostsListContainer from "../components/PostsListContainer";
 
 
-
 const Home = () => {
   return (
     <div>

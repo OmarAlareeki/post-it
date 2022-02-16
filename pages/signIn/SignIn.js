@@ -4,9 +4,9 @@ import { Container, Button, Form } from "react-bootstrap";
 import GoogleLogin from "react-google-button";
 import {useRouter} from "next/router";
 import style from "../../styles/Home.module.css";
-import { FcGoogle } from "react-icons/fc"
-import { AiFillFacebook } from "react-icons/ai"
-import Logo from "../../components/NavBar/Logo"
+import { FcGoogle } from "react-icons/fc";
+import { AiFillFacebook } from "react-icons/ai";
+import Logo from "../../components/NavBar/Logo";
 
 import {
   signInWithEmailAndPassword,
@@ -14,7 +14,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   inMemoryPersistence,
-  signInWithCredential
+  signInWithCredential,
 } from "firebase/auth";
 
 const SignInPage = ({}) => {
@@ -87,7 +87,7 @@ const SignInPage = ({}) => {
 
   return (
     <Container>
-      <Logo />
+      {/* <Logo /> */}
       <div className={style.container}>
         <h1>Sign In</h1>
 
@@ -112,10 +112,12 @@ const SignInPage = ({}) => {
             />
             <Form.Control.Feedback type="invalid">
               Please provide a valid Email.
-          </Form.Control.Feedback>
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label className="d-flex align-item-center justify-content-between">Password</Form.Label>
+            <Form.Label className="d-flex align-item-center justify-content-between">
+              Password
+            </Form.Label>
             <Form.Control
               type="password"
               placeholder="Password"
@@ -128,7 +130,7 @@ const SignInPage = ({}) => {
             />
             <Form.Control.Feedback type="invalid">
               Passwords must be at least six letters long.
-          </Form.Control.Feedback>
+            </Form.Control.Feedback>
           </Form.Group>
           <small> {errorMessage} </small><br />
 
@@ -140,13 +142,13 @@ const SignInPage = ({}) => {
               style={{ cursor: "pointer", color: "blue" }}
             >
               Forgot password
-          </u>
+            </u>
           </small>
 
           <div>
             <small style={{ justifyContent: "flex-start" }}>
               Need an account?
-                <span
+              <span
                 style={{ cursor: "pointer", color: "blue" }}
                 className="w-100"
                 onClick={() => Router.push("/signIn/SignUp")}
@@ -158,11 +160,12 @@ const SignInPage = ({}) => {
           </div>
 
           <div className="d-flex w-100 justify-content-center mt-3">
-            <Button style={{
-                background: '#ffc107',
-                border: 'none',
-                color: 'black',
-                width: '60%'
+            <Button
+              style={{
+                background: "#ffc107",
+                border: "none",
+                color: "black",
+                width: "60%",
               }}
               onClick={() => {
                 if (userEmail !== "" || userPassword !== "") {
@@ -171,24 +174,26 @@ const SignInPage = ({}) => {
               }}
             >
               Sign In
-          </Button>
+            </Button>
           </div>
         </Form>
         <hr />
         <p className="m-auto text-center py-3"> Or Login with: </p>
         <div className="d-flex justify-content-center border-top-0">
           <div className={style.providerButtons}>
+
             <button onClick={() => {
               googleLogin();
               router.query.routeTo?
               router.push("/" + router.query.routeTo):
               router.push("/")
             }}
-            >
+          >
               <FcGoogle />
             </button>
 
-            <button style={{ color: "#13315f" }}
+            <button
+              style={{ color: "#13315f" }}
               className={style.facebookButton}
               onClick={() => {
                 facebookLogin();
