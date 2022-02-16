@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { auth } from "../config/fire-config";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import CardsContainer from "./CardsContainer.js";
 import SearchPosts from "./SearchPosts.js";
@@ -22,7 +22,7 @@ const PostsListContainer = () => {
   const [showPostItem, setShowPostItem] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState(null);
-
+  const router = useRouter();
   const handleClick = () => {
     setShowAlert(true);
   };
@@ -37,8 +37,16 @@ const PostsListContainer = () => {
     user ? setCurrUser(user) : setCurrUser("")
   );
 
+
   const postNewItem = () => {
-    currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
+    currUser
+      ? setShowPostItem(true) && setUserProfile(false)
+      : router.push({
+        pathname: "/signIn/SignIn",
+        query: {
+          routeTo: `postItem`}
+      });
+
   };
 
   return (

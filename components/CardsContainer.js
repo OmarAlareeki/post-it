@@ -8,6 +8,7 @@ import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config/fire-config";
 import { formatDay } from "./DaysAgo";
 
+
 const CardsContainer = ({
   posts,
   deleteBtnStatus,
@@ -94,8 +95,10 @@ const CardsContainer = ({
                     {post.title}
                   </Card.Title>
                   <Card.Text>$ {post.price}</Card.Text>
+
                   <Card.Text>{post.views}</Card.Text>
                   <Card.Text>{formatDay(post.postDate.seconds)}</Card.Text>
+
                 </Card.Body>
               </Card.Link>
             </Card>
