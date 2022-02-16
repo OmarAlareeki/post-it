@@ -11,7 +11,6 @@ export default function Post() {
 
   const [postToDisplay, setPosttoDisplay] = useState(null);
 
-  console.log({ postToDisplay });
   useEffect(() => {
     if (!id) return false;
     const docRef = doc(db, "posts", id);

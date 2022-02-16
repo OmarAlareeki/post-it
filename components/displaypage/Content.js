@@ -26,8 +26,8 @@ export default function Content({ post, setLoginAlert, currentUser }) {
     }
     setShowContacts(true);
   };
-
- 
+  
+  const descrHTML = post.description;
 
   return (
     <>
@@ -46,7 +46,10 @@ export default function Content({ post, setLoginAlert, currentUser }) {
           {post.phone} <br /> {post.email}{" "}
         </p>
       )}
-      <p>{post.description} </p>
+    <div
+      dangerouslySetInnerHTML={{__html:descrHTML}}
+    />
+      {/* <p>{post.description} </p> */}
     </>
   );
 }
