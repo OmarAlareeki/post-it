@@ -16,7 +16,6 @@ export default function Post() {
     const docRef = doc(db, "posts", id);
     return onSnapshot(docRef, (doc) => {
       const post = { ...doc.data(), id: doc.id };
-      console.log({ post });
       setPosttoDisplay(post);
     });
   }, [id]);

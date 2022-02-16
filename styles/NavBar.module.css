@@ -203,7 +203,7 @@
     font-size: 30px;
     position: relative;
     left: 20px;
-    bottom: -27px;
+    bottom: -17px;
     /* left: 470px; */
   }
 
@@ -255,7 +255,7 @@
     font-size: 30px;
     position: relative;
     left: 10px;
-    bottom: -27px;
+    bottom: 11px;
     /* right: -365px; */
   }
 
@@ -263,7 +263,6 @@
     display: block;
     position: absolute;
     top: 123px;
-    bottom: 0;
     /* right: 26px; */
     text-align: center;
     font-size: 15px;
