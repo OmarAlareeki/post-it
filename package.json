@@ -52,6 +52,7 @@
     "react-leaflet": "^3.2.5",
     "react-loader-spinner": "^5.1.0",
     "react-lodash": "^0.1.2",
+    "react-number-format": "^4.9.1",
     "styled-components": "^5.3.3",
     "swr": "^1.1.2",
     "zipcodes": "^8.0.0"
