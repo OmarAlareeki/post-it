@@ -1,24 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Content.module.css";
-import {formatDay} from "../DaysAgo";
+import {
+  doc,
+  onSnapshot,
+  collection,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { getDatabase, ref, set } from "firebase/database";
+import { db, storage } from "../../config/fire-config";
+import DaysAgo, {formatDay} from "../DaysAgo";
 import ShareBtn from "./ShareBtn"
 import Button from '@mui/material/Button';
-import { useRouter } from "next/router";
 
 
 export default function Content({ post, setLoginAlert, currentUser }) {
+  
   const [showContacts, setShowContacts] = useState(false);
-  const router = useRouter();
+
   const handleContactClick = () => {
     if (!currentUser) {
-      router.push({
-          pathname: "/signIn/SignIn",
-          query: {
-            routeTo: `displaypage/${post.id}`}
-        })
-    } else{
-      setShowContacts(true)
+      setLoginAlert(true);
+      return;
     }
+    setShowContacts(true);
   };
 
  
