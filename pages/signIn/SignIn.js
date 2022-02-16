@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../config/fire-config";
 import { Container, Button, Form } from "react-bootstrap";
 import GoogleLogin from "react-google-button";
-import {useRouter} from "next/router";
+import Router from "next/router";
 import style from "../../styles/Home.module.css";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
@@ -13,48 +13,44 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
+  signInWithRedirect,
   inMemoryPersistence,
   signInWithCredential,
 } from "firebase/auth";
 
-const SignInPage = ({}) => {
+const SignInPage = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("Error message");
-  const router = useRouter();
-  const login = () => {
-     signInWithEmailAndPassword(
+
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
         auth,
         userEmail,
         userPassword
-      )
-      .then((user)=>{
+      );
       console.log(user);
       setErrorMessage("");
-      router.query.routeTo?
-      router.push("/" + router.query.routeTo):
-      router.push("/")
-
-    }) .catch((error) => {
-        const errMsg = error.message;
-          if (errMsg.includes("invalid-email")) {
-            setErrorMessage(
-             "Invalid Email, Please provide email in 'example@domin.com' format"
-            );
-          } else if (errMsg.includes("user-not-found")) {
-            setErrorMessage("User does not exist. Please sign up.");
-          } else if (errMsg.includes("wrong-password")) {
-            setErrorMessage(
-              "The password you proivded does not match our records. Please check your password or click on 'Forgot password'."
-            );
+    } catch (error) {
+      const errMsg = error.message;
+      if (errMsg.includes("invalid-email")) {
+        setErrorMessage(
+          "Invalid Email, Please provide email in 'example@domin.com' format"
+        );
+      } else if (errMsg.includes("user-not-found")) {
+        setErrorMessage("User does not exist. Please sign up.");
+      } else if (errMsg.includes("wrong-password")) {
+        setErrorMessage(
+          "The password you proivded does not match our records. Please check your password or click on 'Forgot password'."
+        );
       }
-    })
+    }
   };
-
 
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
@@ -92,10 +88,11 @@ const SignInPage = ({}) => {
         <h1>Sign In</h1>
 
         <Form
-          validated={userEmail && userPassword?true:false}
+          validated={userEmail && userPassword}
           className="formContainer"
-          onSubmit={()=>login()}
-          
+          onSubmit={() => {
+            login();
+          }}
         >
           <Form.Group className="mb-3" controlId="validateUserEmail">
             <Form.Label className="d-flex align-item-center justify-content-between">
@@ -132,12 +129,12 @@ const SignInPage = ({}) => {
               Passwords must be at least six letters long.
             </Form.Control.Feedback>
           </Form.Group>
-          <small> {errorMessage} </small><br />
+          <small> {errorMessage} </small>
 
           <small className="">
             <u
               onClick={() => {
-                router.push("/signIn/ForgotPassword");
+                Router.push("/signIn/ForgotPassword");
               }}
               style={{ cursor: "pointer", color: "blue" }}
             >
@@ -168,8 +165,15 @@ const SignInPage = ({}) => {
                 width: "60%",
               }}
               onClick={() => {
-                if (userEmail !== "" || userPassword !== "") {
-                  login()
+                if (userEmail === "" || userPassword === "") {
+                  //do nothing
+                } else if (errorMessage !== "") {
+                  //do nothing
+                } else {
+                  login();
+                  setUserEmail("");
+                  setUserPassword("");
+                  Router.push("/");
                 }
               }}
             >
@@ -181,14 +185,12 @@ const SignInPage = ({}) => {
         <p className="m-auto text-center py-3"> Or Login with: </p>
         <div className="d-flex justify-content-center border-top-0">
           <div className={style.providerButtons}>
-
-            <button onClick={() => {
-              googleLogin();
-              router.query.routeTo?
-              router.push("/" + router.query.routeTo):
-              router.push("/")
-            }}
-          >
+            <button
+              onClick={() => {
+                googleLogin();
+                Router.push("/");
+              }}
+            >
               <FcGoogle />
             </button>
 
@@ -198,9 +200,7 @@ const SignInPage = ({}) => {
               onClick={() => {
                 facebookLogin();
                 console.log("facebook");
-                router.query.routeTo?
-                router.push("/" + router.query.routeTo):
-                router.push("/")
+                Router.push("/");
               }}
             >
               <AiFillFacebook />
