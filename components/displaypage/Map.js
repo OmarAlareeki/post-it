@@ -5,7 +5,7 @@ import Head from "next/head";
 import styles from "./Map.module.css";
 import zipcodes from "zipcodes";
 import "leaflet/dist/images/marker-shadow.png";
-import roundIcon from "./202202-round-PI.png";
+// import roundIcon from "./202202-round-PI.png";
 import L from 'leaflet';
 
 

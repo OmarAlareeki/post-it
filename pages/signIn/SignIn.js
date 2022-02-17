@@ -7,7 +7,6 @@ import style from "../../styles/Home.module.css";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
 import Logo from "../../components/NavBar/Logo";
-
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -80,7 +79,7 @@ const SignInPage = () => {
   useEffect(() => {
     setErrorMessage("");
   }, [userEmail, userPassword]);
-
+  
   return (
     <Container>
       <Logo />

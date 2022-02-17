@@ -17,6 +17,7 @@
   height: 64px;
   width: auto;
   cursor: pointer;
+  margin-top: 15px; 
 }
 
 .SearchContainer {
@@ -124,7 +125,7 @@
   list-style: none;
   width: 220px;
   margin-top: 30px;
-  line-height: 2.5rem;
+  line-height: 1.8rem;
 }
 
 .SideBar:hover {
@@ -133,6 +134,9 @@
 
 .Active {
   font-weight: bold;
+  background: #fafafa;
+  text-align: center;
+  border-left: 4px solid gray
 }
 
 .CategoryList {
@@ -140,6 +144,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   font-weight: bold;
+  font-size: 16px;
 }
 
 /* Media queries for responsive design */
@@ -255,16 +260,15 @@
     font-size: 30px;
     position: relative;
     left: 10px;
-    bottom: 11px;
+    bottom: -11px;
     /* right: -365px; */
   }
 
   .Menu:hover > .SideBar {
     display: block;
-    position: absolute;
-    top: 123px;
+    position: fixed;
+    top: 0;
     bottom: 0;
-    /* right: 26px; */
     text-align: center;
     font-size: 15px;
     z-index: 1;

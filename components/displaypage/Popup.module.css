@@ -12,11 +12,8 @@
 }
 
 .popup {
-    width: 95vw;
-    height: 55vh;
     background-color: white;
     position: relative;
-
 }
 
 .content {
@@ -26,7 +23,7 @@
 .close {
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 50px;
     cursor: pointer;
     border: 1px solid rgb(239, 157, 6);
     border-radius: 50%;
