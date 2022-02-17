@@ -255,8 +255,6 @@ function UserProfile() {
 
 
                       {data.provider === 'Post-It Signup'?<TableRow>
-
-                       <TableRow>
                         <TableCell colSpan={2}>
                           <Button
                             variant="outlined"
