@@ -10,6 +10,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Button } from "react-bootstrap";
 import { Rings } from "react-loader-spinner";
 import Sort from "./Sort";
+import { useRouter } from "next/router"
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
