@@ -184,7 +184,7 @@ function UserProfile() {
             justify="center"
             key={data.id}
           >
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <img src={data.photo} className={style.DisplayImagediv} />
               <div>
                 <FormControl onSubmit={() => handleSubmit()}>
@@ -214,7 +214,7 @@ function UserProfile() {
               </div>
             </Grid>
 
-            <Grid item xs={12} className={style.DisplayCard}>
+            <Grid item xs={20} sm={6} className={style.DisplayCard}>
               <TableContainer style={{ overflow: "hidden" }}>
                 <Paper variant="outlined">
                   <Typography
@@ -232,23 +232,24 @@ function UserProfile() {
                           <Typography
                             variant="body1"
                             gutterBottom
-                            fontSize={20}
+                            // fontSize={20}
                           >
                             Email :
                           </Typography>
                         </TableCell>
+
                         <TableCell align="center">
                           <Typography
                             variant="body2"
                             gutterBottom
-                            fontSize={15}
+                            // fontSize={15}
                           >
                             {data.email}
                           </Typography>
                         </TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      {/* <TableRow>
                         <TableCell colSpan={2}>
                           <Button
                             variant="outlined"
@@ -263,31 +264,30 @@ function UserProfile() {
                             </Typography>
                           </Button>
                         </TableCell>
-                      </TableRow>
+                      </TableRow> */}
 
                       <TableRow>
                         <TableCell component="th" scope="row">
                           <Typography
                             variant="body1"
                             gutterBottom
-                            fontSize={20}
+                            // fontSize={20}
                           >
                             Account Creation Date :
                           </Typography>
                         </TableCell>
+
                         <TableCell align="center">
                           <Typography
                             variant="body2"
                             gutterBottom
-                            fontSize={15}
+                            // fontSize={15}
                           >
                             {data.accountCreatedDate
                               .toDate()
                               .toLocaleDateString()}
                           </Typography>
                         </TableCell>
-                        <TableCell />
-                        <TableCell />
                       </TableRow>
 
                       <TableRow>
@@ -295,7 +295,7 @@ function UserProfile() {
                           <Typography
                             variant="body1"
                             gutterBottom
-                            fontSize={20}
+                            // fontSize={20}
                           >
                             Saved Post :
                           </Typography>
@@ -305,7 +305,7 @@ function UserProfile() {
                           <Typography
                             variant="body2"
                             gutterBottom
-                            fontSize={15}
+                            // fontSize={15}
                           >
                             {data.savedPosts.length}
                           </Typography>
@@ -317,16 +317,17 @@ function UserProfile() {
                           <Typography
                             variant="body1"
                             gutterBottom
-                            fontSize={20}
+                            // fontSize={20}
                           >
                             My Posts :
                           </Typography>
                         </TableCell>
+
                         <TableCell align="center">
                           <Typography
                             variant="body2"
                             gutterBottom
-                            fontSize={15}
+                            // fontSize={15}
                           >
                             {postCount.length}
                           </Typography>
