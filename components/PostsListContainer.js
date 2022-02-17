@@ -49,19 +49,19 @@ const PostsListContainer = () => {
           sortType={sortType}
           sortValue={sortValue}
         />
-        <>
-          {showAlert ? (
-            <AlertWrapper
-              message={confirmationMessage}
-              show={showAlert}
-              handleClose={handleClose}
-              bgColor="green"
-            />
-          ) : (
-            ""
-          )}
-        </>
       </div>
+      <>
+        {showAlert ? (
+          <AlertWrapper
+            message={confirmationMessage}
+            show={showAlert}
+            handleClose={handleClose}
+            bgColor="#008000"
+          />
+        ) : (
+          ""
+        )}
+      </>
       <div className={style.mainContainer}>
         <div>
           <SideNavBar

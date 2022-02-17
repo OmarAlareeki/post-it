@@ -1,60 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import DeleteConfirmation from "./DeleteConfirmation";
-import { doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { db } from "../config/fire-config";
 import { formatDay } from "./DaysAgo";
+import DeletePost from "./DeletePosts";
 
 const CardsContainer = ({
   posts,
   deleteBtnStatus,
-  handleClick,
   setConfirmationMessage,
+  handleClick,
 }) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
-  const [dTitle, setDTitle] = useState("");
-  const [id, setId] = useState(null);
   const [viewId, setViewId] = useState("");
-  const [displayConfirmationModal, setDisplayConfirmationModal] =
-    useState(false);
-  const [deleteMessage, setDeleteMessage] = useState(null);
   const [view, setView] = useState(0);
-
-  useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => {
-        const ismobile = window.innerWidth < 480;
-        if (ismobile !== isMobile) setIsMobile(ismobile);
-      },
-      false
-    );
-  }, [isMobile]);
-
-  const showDeleteModal = (id, title) => {
-    setDTitle(title);
-    setId(id);
-    setDeleteMessage(
-      `Are you sure you want to delete this Post? Title : ${title}`
-    );
-    setDisplayConfirmationModal(true);
-  };
-
-  // Hide the modal
-  const hideConfirmationModal = () => {
-    setDisplayConfirmationModal(false);
-  };
-
-  // Handle the actual deletion of the item
-  const submitDelete = async (dTitle, id) => {
-    setConfirmationMessage(`${dTitle}  was deleted successfully.`);
-    await deleteDoc(doc(db, "posts", id));
-    setDisplayConfirmationModal(false);
-    handleClick();
-  };
 
   // if (viewId) {
   //setView(view + 1);
@@ -94,34 +52,22 @@ const CardsContainer = ({
                     {post.title}
                   </Card.Title>
                   <Card.Text>$ {post.price}</Card.Text>
-                  <Card.Text>{post.views}</Card.Text>
+                  <Card.Text></Card.Text>
                   <Card.Text>{formatDay(post.postDate.seconds)}</Card.Text>
                 </Card.Body>
               </Card.Link>
             </Card>
-            <button
-              onClick={() => showDeleteModal(post.id, post.title)}
-              style={{
-                display: deleteBtnStatus ? "block" : "none",
-              }}
-              className={`${
-                !isMobile
-                  ? style.DeleteButtonCard
-                  : style.DeleteButtonMobileCard
-              }`}
-            >
-              <RiDeleteBin6Line />
-            </button>
+            <>
+              <DeletePost
+                handleClick={handleClick}
+                setConfirmationMessage={setConfirmationMessage}
+                pid={post.id}
+                title={post.title}
+                deleteBtnStatus={deleteBtnStatus}
+              />
+            </>
           </div>
         ))}
-        <DeleteConfirmation
-          showModal={displayConfirmationModal}
-          confirmModal={submitDelete}
-          hideModal={hideConfirmationModal}
-          dTitle={dTitle}
-          id={id}
-          message={deleteMessage}
-        />
       </Container>
     </div>
   );
