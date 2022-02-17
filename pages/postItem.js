@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db, storage, auth } from "../config/fire-config";
 import { Form, Button, Col, Row, Image, InputGroup } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input/input";
-import style from "../styles/Home.module.css";
+import style from "../styles/postItem.module.css";
 import { doc, setDoc } from "firebase/firestore";
 import {
   ref,
@@ -15,12 +15,12 @@ import { RiCloseCircleFill } from "react-icons/ri";
 import { TailSpin } from "react-loader-spinner";
 import zipcodes from "zipcodes";
 import { Editor } from "@tinymce/tinymce-react";
+import { useRouter } from 'next/router'
 
 
 
 
-
-const PostItem = ({back}) => {
+const PostItem = () => {
   const [freeItem, setFreeItem] = useState(false);
   const [postId, setPostId] = useState("");
   const [data, setData] = useState({
@@ -41,9 +41,12 @@ const PostItem = ({back}) => {
     useState(false);
   const [currUser, setCurrUser] = useState("");
   const [validate, setValidate] = useState(false);
-
-  onAuthStateChanged(auth, (user) =>
+  const router  = useRouter();
+  
+  onAuthStateChanged(auth, (user) =>{
     user ? setCurrUser(user) : setCurrUser("")
+    user ? "": router.push("/")
+  }
   );
 
   useEffect(() => {
@@ -396,7 +399,7 @@ const PostItem = ({back}) => {
           <Form.Group controlId="itemDescriptionValidation" className="my-2">
             <Row>
               <Col md="2">
-                <Form.Label className="mb-0">Description:</Form.Label>
+                <Form.Label className="mb-0 d-flex">Description:</Form.Label>
               </Col>
               <Col md="10">
                 <Form.Group>
@@ -423,7 +426,7 @@ const PostItem = ({back}) => {
           <Form.Group className="my-2">
             <Row>
               <Col md="2">
-                <Form.Label className="mt-2">Add photos: </Form.Label>
+                <Form.Label className="mt-2 d-flex">Add photos: </Form.Label>
               </Col>
               <Col md="10">
                 <Form.Control
@@ -447,25 +450,29 @@ const PostItem = ({back}) => {
           <Form.Group />
           <Row>
             <Col md="2" />
-            <Col md="10">{imageContent()}</Col>
+            <Col md="10" className="d-flex my-3">{imageContent()}</Col>
           </Row>
-          <Form.Group className="d-flex flex-column justify-content-">
+          <Form.Group className="d-flex flex-column">
             <Row>
               <Col md="2" />
               <Col md="10">
                 <Form.Check
+                  className="d-flex my-2"
                   required
                   name="terms"
-                  label="Agree to terms and conditions"
+                  label="	&nbsp; Agree to terms and conditions"
                   onChange={agreeToTerms}
                 />
               </Col>
             </Row>
-            <Row>
+            <Row className={style.lastRow}>
               <Col md="2" />
               <Col md="4">
+                <Button type="submit" className={style.submitButton}>POST IT</Button>
+              </Col>
+              <Col md="4">
                 <Button
-                  variant="warning"
+                  className={style.cancelButton}
                   onClick={() => {
                     imageTitles.map((name) => {
                       const deleteRef = ref(storage, `postImages/${name}`);
@@ -477,15 +484,13 @@ const PostItem = ({back}) => {
                           console.error("error occurd: ", error);
                         });
                     });
-                    back(false);
+                    router.push('/')
                   }}
                 >
                   Cancel
                 </Button>
               </Col>
-              <Col md="4">
-                <Button type="submit">POST IT</Button>
-              </Col>
+             
             </Row>
           </Form.Group>
         </Form>

@@ -4,7 +4,8 @@ import {formatDay} from "../DaysAgo";
 import ShareBtn from "./ShareBtn"
 import Button from '@mui/material/Button';
 import { useRouter } from "next/router";
-
+import { auth } from '../../config/fire-config'
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Content({ post, setLoginAlert, currentUser }) {
   const [showContacts, setShowContacts] = useState(false);
@@ -21,7 +22,9 @@ export default function Content({ post, setLoginAlert, currentUser }) {
     }
   };
 
- 
+ onAuthStateChanged(auth, (user)=>
+  user?"":setShowContacts(false)
+ )
 
   return (
     <>

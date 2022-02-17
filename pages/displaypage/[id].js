@@ -11,13 +11,11 @@ export default function Post() {
 
   const [postToDisplay, setPosttoDisplay] = useState(null);
 
-  console.log({ postToDisplay });
   useEffect(() => {
     if (!id) return false;
     const docRef = doc(db, "posts", id);
     return onSnapshot(docRef, (doc) => {
       const post = { ...doc.data(), id: doc.id };
-      console.log({ post });
       setPosttoDisplay(post);
     });
   }, [id]);

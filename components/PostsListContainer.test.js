@@ -16,10 +16,10 @@ describe("PostsListContainer", () => {
     expect(onAuthStateChanged).toBeCalledWith("my auth");
     expect(getByText("true,false")).toBeTruthy();
 
-    // render(<PostsListContainer />);
+    render(<PostsListContainer />);
 
-    // expect(screen.getByText("Add Post")).toBeInTheDocument();
+    expect(screen.getByText("Add Post")).toBeInTheDocument();
 
-    // screen.debug();
+    screen.debug();
   });
 });
