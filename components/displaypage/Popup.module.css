@@ -55,5 +55,7 @@
 
 /* desktop */
 @media (min-width: 1280px) {
-
+    .popup {
+        max-width: 1100px;;
+    }
   }

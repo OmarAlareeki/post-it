@@ -7,7 +7,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider } from "@emotion/react";
 import theme from "../components/mui/theme";
 import createEmotionCache from "../components/mui/createEmotionCache";
-import sliderStyles from "../public/css/slider.css";
 import MainLayout from "../components/MainLayout";
 
 // Client-side cache, shared for the whole session of the user in the browser.
