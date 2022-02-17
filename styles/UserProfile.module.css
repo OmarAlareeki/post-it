@@ -1,10 +1,3 @@
-/* .bgImageUserProfile {
-  background-repeat: no-repeat;
-  height: 350px;
-  background-size: cover;
-  background-image: url(../public/BgImagePost-it.jpg);
-} */
-
 .UserProfileContainer {
   margin-top: 70px;
   margin-left: 100px;
@@ -12,23 +5,59 @@
   margin-left: 10%;
   margin-bottom: 10%;
 }
-.userImage {
-  padding: 5px 15px;
-  width: 200px;
-  height: auto;
-}
-
-.DisplayImagediv {
-  height: 175px;
-  width: 175px;
-}
-
-.userImage:hover {
-  cursor: pointer;
-  opacity: 0.3;
-}
 
 .DisplayCard {
   margin: 0px;
   padding: 0px;
+}
+
+/* Media queries for responsive design */
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  /* CSS */
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
 }

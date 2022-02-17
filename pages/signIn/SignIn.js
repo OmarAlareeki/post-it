@@ -15,22 +15,19 @@ import {
   onAuthStateChanged
 } from "firebase/auth";
 
-const SignInPage = ({}) => {
+const SignInPage = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("Error message");
+
   const [currUser, setCurrUser] = useState('')
   const router = useRouter();
-  const login = () => {
-
-    
-
+  const login = () => 
      signInWithEmailAndPassword(
         auth,
         userEmail,
         userPassword
-      )
-      .then((user)=>{
+      );
       console.log(user);
       setErrorMessage("");
       router.query.routeTo?
@@ -51,14 +48,14 @@ const SignInPage = ({}) => {
             setErrorMessage(
               "The password you proivded does not match our records. Please check your password or click on 'Forgot password'."
             );
-      }
-    })
-  };
 
+      }
+    }
+  };
 
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
@@ -108,10 +105,11 @@ const SignInPage = ({}) => {
         <h1>Sign In</h1>
 
         <Form
-          validated={userEmail && userPassword?true:false}
+          validated={userEmail && userPassword}
           className="formContainer"
-          onSubmit={()=>login()}
-          
+          onSubmit={() => {
+            login();
+          }}
         >
           <Form.Group className="mb-3" controlId="validateUserEmail">
             <Form.Label className="d-flex align-item-center justify-content-between">
@@ -148,12 +146,12 @@ const SignInPage = ({}) => {
               Passwords must be at least six letters long.
             </Form.Control.Feedback>
           </Form.Group>
-          <small> {errorMessage} </small><br />
+          <small> {errorMessage} </small>
 
           <small className="">
             <u
               onClick={() => {
-                router.push("/signIn/ForgotPassword");
+                Router.push("/signIn/ForgotPassword");
               }}
               style={{ cursor: "pointer", color: "blue" }}
             >
@@ -184,8 +182,15 @@ const SignInPage = ({}) => {
                 width: "60%",
               }}
               onClick={() => {
-                if (userEmail !== "" || userPassword !== "") {
-                  login()
+                if (userEmail === "" || userPassword === "") {
+                  //do nothing
+                } else if (errorMessage !== "") {
+                  //do nothing
+                } else {
+                  login();
+                  setUserEmail("");
+                  setUserPassword("");
+                  Router.push("/");
                 }
               }}
             >
@@ -199,10 +204,10 @@ const SignInPage = ({}) => {
           <div className={style.providerButtons}>
 
             <button onClick={() => {
-              googleLogin();
-              
+              googleLogin();  
             }}
           >
+
               <FcGoogle />
             </button>
 
