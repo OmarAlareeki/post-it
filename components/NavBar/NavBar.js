@@ -1,7 +1,7 @@
 import style from "../../styles/NavBar.module.css";
 import { FaUserCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import SignoutModal from "../../pages/signIn/SignoutModal";
 import { auth, db } from "../../config/fire-config";
 import { onAuthStateChanged } from "firebase/auth";
@@ -14,7 +14,8 @@ const NavBar = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
-
+  const router = useRouter();
+  
   useEffect(async () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -92,7 +93,7 @@ const NavBar = () => {
               fill: "#afafaf",
             }}
             onClick={() => {
-              Router.push("/signIn/SignIn");
+              router.push("/signIn/SignIn");
             }}
           />
         )}
@@ -101,7 +102,7 @@ const NavBar = () => {
             <li
               className={style.SignIn}
               onClick={() => {
-                Router.push("/signIn/SignIn");
+                router.push("/signIn/SignIn");
               }}
               style={{
                 display: currentUser ? "none" : "block",
