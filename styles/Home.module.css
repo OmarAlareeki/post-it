@@ -2,10 +2,8 @@
   text-align: center;
 }
 
-.PostsContainer,
-.inputContainer {
+.PostsContainer{
   padding-top: 40px;
-  /* width: calc(100vw - 400px); */
 }
 
 .PostsDisplay {
@@ -23,28 +21,9 @@
   list-style: inside;
   color: blue;
 }
-.imageContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-.imageDiv {
-  position: relative;
-}
 
 .deleteImageButton {
   fill: #ef9d06;
-}
-
-.postImage {
-  padding: 5px 15px;
-  width: 200px;
-  height: auto;
-}
-
-.postImage:hover {
-  cursor: pointer;
-  opacity: 0.3;
 }
 
 .postedMain {
@@ -163,12 +142,20 @@
   }
 }
 @media (min-width: 481px) and (max-width: 767px) {
+  .container {
+    width: 60vw;
+  }
+
   .InputField {
     width: 90vw;
     margin-left: 10px;
   }
 }
 @media (min-width: 320px) and (max-width: 480px) {
+  .container {
+    width: 70vw;
+  }
+
   .Cards {
     width: 155px;
   }
