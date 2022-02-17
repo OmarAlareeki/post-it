@@ -47,7 +47,7 @@
 /* desktop */
 @media (min-width: 1280px) {
     .mainField {
-        grid-template-columns: 2fr 1fr !important; 
+        grid-template-columns: 1.5fr 1fr !important; 
         grid-gap:10px;
         grid-template-areas:
             "title title"
