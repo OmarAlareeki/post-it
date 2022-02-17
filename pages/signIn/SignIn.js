@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../config/fire-config";
 import { Container, Button, Form } from "react-bootstrap";
-import GoogleLogin from "react-google-button";
 import {useRouter} from "next/router";
 import style from "../../styles/Home.module.css";
 import { FcGoogle } from "react-icons/fc";
@@ -13,16 +12,19 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
-  inMemoryPersistence,
-  signInWithCredential,
+  onAuthStateChanged
 } from "firebase/auth";
 
 const SignInPage = ({}) => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("Error message");
+  const [currUser, setCurrUser] = useState('')
   const router = useRouter();
   const login = () => {
+
+    
+
      signInWithEmailAndPassword(
         auth,
         userEmail,
@@ -33,7 +35,9 @@ const SignInPage = ({}) => {
       setErrorMessage("");
       router.query.routeTo?
       router.push("/" + router.query.routeTo):
-      router.push("/")
+      router.query.routeBack?
+        router.push( `${router.query.routeBack}${user.user.uid}`):
+        router.push("/")
 
     }) .catch((error) => {
         const errMsg = error.message;
@@ -58,8 +62,13 @@ const SignInPage = ({}) => {
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        console.log("Signed in Using google");
-        console.log(token);
+      }).then(()=>{
+        onAuthStateChanged(auth, (user) =>
+        router.query.routeTo?
+        router.push("/" + router.query.routeTo):
+        router.query.routeBack?
+          router.push( `${router.query.routeBack}${user.uid}`):
+          router.push("/"))
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -75,7 +84,13 @@ const SignInPage = ({}) => {
         setErrorMessage("");
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const accessToken = credential.accessToken;
-        console.log("Signed in Using Facebook");
+      }).then(()=>{
+        onAuthStateChanged(auth, (user) =>
+        router.query.routeTo?
+        router.push("/" + router.query.routeTo):
+        router.query.routeBack?
+          router.push( `${router.query.routeBack}${user.uid}`):
+          router.push("/"))
       })
       .catch((error) => {
         console.log(error);
@@ -84,6 +99,7 @@ const SignInPage = ({}) => {
   useEffect(() => {
     setErrorMessage("");
   }, [userEmail, userPassword]);
+
 
   return (
     <Container>
@@ -151,7 +167,7 @@ const SignInPage = ({}) => {
               <span
                 style={{ cursor: "pointer", color: "blue" }}
                 className="w-100"
-                onClick={() => Router.push("/signIn/SignUp")}
+                onClick={() => router.push("/signIn/SignUp")}
               >
                 {" "}
                 Sign up{" "}
@@ -184,9 +200,7 @@ const SignInPage = ({}) => {
 
             <button onClick={() => {
               googleLogin();
-              router.query.routeTo?
-              router.push("/" + router.query.routeTo):
-              router.push("/")
+              
             }}
           >
               <FcGoogle />
@@ -197,10 +211,7 @@ const SignInPage = ({}) => {
               className={style.facebookButton}
               onClick={() => {
                 facebookLogin();
-                console.log("facebook");
-                router.query.routeTo?
-                router.push("/" + router.query.routeTo):
-                router.push("/")
+                console.log("facebook")
               }}
             >
               <AiFillFacebook />

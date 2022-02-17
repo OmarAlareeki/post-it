@@ -40,7 +40,7 @@ const PostsListContainer = () => {
 
   const postNewItem = () => {
     currUser
-      ? setShowPostItem(true) && setUserProfile(false)
+      ? router.push('/postItem')
       : router.push({
         pathname: "/signIn/SignIn",
         query: {
@@ -92,9 +92,6 @@ const PostsListContainer = () => {
             </Button>
           </div>
         </div>
-        {showPostItem ? (
-          <PostItem back={setShowPostItem} />
-        ) : (
           <div>
             <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
               {posts[0] === "Loading..." ? (
@@ -123,7 +120,6 @@ const PostsListContainer = () => {
               )}
             </div>
           </div>
-        )}
       </div>
     </main>
   );
