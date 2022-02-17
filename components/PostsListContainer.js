@@ -21,7 +21,7 @@ const PostsListContainer = () => {
   const [showPostItem, setShowPostItem] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState(null);
-
+  const router = useRouter();
   const handleClick = () => {
     setShowAlert(true);
   };
