@@ -13,11 +13,7 @@ import { db, storage } from "../../config/fire-config";
 import DaysAgo, { formatDay } from "../DaysAgo";
 import ShareBtn from "./ShareBtn"
 import Button from '@mui/material/Button';
-import { useRouter } from "next/router";
-import { auth } from '../../config/fire-config'
-import { onAuthStateChanged } from "firebase/auth";
 import NumberFormat from 'react-number-format';
-
 
 export default function Content({ post, setLoginAlert, currentUser }) {
 
@@ -31,10 +27,6 @@ export default function Content({ post, setLoginAlert, currentUser }) {
     setShowContacts(true);
   };
 
-
- onAuthStateChanged(auth, (user)=>
-  user?"":setShowContacts(false)
- )
   const descrHTML = post.description;
 
   //adding tag <a> to the links in the string
