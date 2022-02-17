@@ -5,7 +5,7 @@ import Head from "next/head";
 import styles from "./Map.module.css";
 import zipcodes from "zipcodes";
 import "leaflet/dist/images/marker-shadow.png";
-import roundIcon from "./202202-round-PI.png";
+// import roundIcon from "./202202-round-PI.png";
 import L from 'leaflet';
 
 
@@ -30,7 +30,7 @@ export default function Map({ zip, title, price }) {
 
     // delete L.Icon.Default.prototype._getIconUrl;
     const myIcon = new Icon({
-        iconUrl: "202202 round PI.jpg",
+        iconUrl: "202202-round-pi.jpg",
         iconSize: [75, 75]
       });
     
