@@ -36,6 +36,7 @@ import {
 } from "@material-ui/core";
 import PasswordIcon from "@mui/icons-material/Password";
 import { useRouter } from "next/router";
+import NavBar from "../../components/NavBar/NavBar";
 
 function UserProfile() {
   const router = useRouter();
@@ -47,6 +48,25 @@ function UserProfile() {
   const [progress, setProgress] = useState("getUpload");
   const [showIcons, setShowIcons] = useState(false);
 
+//      useEffect(async () => {
+//     if (!id) return false;
+
+//     const docSnap = await getDoc(docRef);
+//     if (docSnap.exists()) {
+//       onSnapshot(docRef, (doc) => {
+//         const userData = { ...doc.data(), id: doc.id };
+//         setUser(userData);
+//       });
+//     }
+//     // q = query(postsRef, where("userId", "==", id));
+//     // onSnapshot(q, (snap) => {
+//     //   const queryList = snap.docs.map((doc) => ({
+//     //     id: doc.id,
+//     //     ...doc.data(),
+//     //   }));
+//     //   setPostCount(queryList);
+//     // });
+//   }, [id]);
   // setUserProfile(true);
   useEffect(async () => {
     if (!id) return false;
@@ -175,6 +195,7 @@ function UserProfile() {
 
   return (
     <>
+      <NavBar />
       <main className={style.UserProfileContainer}>
         {user.map((data) => (
           <Grid
