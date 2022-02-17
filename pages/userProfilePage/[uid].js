@@ -252,10 +252,7 @@ function UserProfile() {
                           </Typography>
                         </TableCell>
                       </TableRow>
-
-
-                      {data.provider === 'Post-It Signup'?<TableRow>
-
+                      {data.provider === 'Post-It Signup'?
                        <TableRow>
                         <TableCell colSpan={2}>
                           <Button
