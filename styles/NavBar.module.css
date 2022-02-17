@@ -7,6 +7,9 @@
   width: 98vw;
   background: transparent;
   z-index: 1;
+  position: fixed;
+  background-color: #fff;
+  top: 0;
 }
 
 .LogoDiv {
@@ -125,6 +128,7 @@
   width: 220px;
   margin-top: 30px;
   line-height: 2.5rem;
+  position: fixed;
 }
 
 .SideBar:hover {
@@ -204,18 +208,19 @@
     position: relative;
     left: 20px;
     bottom: -17px;
+    z-index: 2;
+    top: 6px;
     /* left: 470px; */
   }
 
   .Menu:hover > .SideBar {
     display: block;
     position: absolute;
-    top: 123px;
-    bottom: 0;
+    top: -65px;
     /* right: 26px; */
     text-align: center;
     font-size: 14px;
-    z-index: 1;
+    z-index: 7;
     margin-top: 0px;
     padding: 15px;
     background-color: #ffc107;
@@ -256,13 +261,14 @@
     position: relative;
     left: 10px;
     bottom: 11px;
+    top: 6px;
     /* right: -365px; */
   }
 
   .Menu:hover > .SideBar {
     display: block;
     position: absolute;
-    top: 123px;
+    top: -65px;
     /* right: 26px; */
     text-align: center;
     font-size: 15px;

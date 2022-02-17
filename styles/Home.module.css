@@ -2,8 +2,12 @@
   text-align: center;
 }
 
-.PostsContainer{
+.PostsContainer {
   padding-top: 40px;
+  margin-top: 115px;
+  z-index: 0;
+  margin-left: 20%;
+  width: 100%;
 }
 
 .PostsDisplay {
@@ -35,7 +39,7 @@
 }
 
 .mainContainer {
-  margin-top: 30px;
+  margin-top: 100px;
   display: flex;
   flex-direction: row;
 }
@@ -60,11 +64,13 @@
 .SortDiv {
   display: flex;
   position: absolute;
-  right: 12%;
-  left: 11%;
+  /* right: 12%;
+  left: 11%; */
   flex-direction: row-reverse;
   justify-content: space-evenly;
   align-items: center;
+  width: 100%;
+  padding: 15px;
   /* padding-bottom: 20px; */
 }
 
@@ -150,8 +156,17 @@
 
 @media (min-width: 1025px) and (max-width: 1280px) {
   /* CSS */
-}
 
+  .SortDiv {
+    right: 12%;
+    left: 11%;
+  }
+
+  .PostsContainer {
+    margin-left: 30%;
+    width: 75%;
+  }
+}
 /* 
   ##Device = Tablets, Ipads (portrait)
   ##Screen = B/w 768px to 1024px
@@ -165,9 +180,19 @@
   }
 
   .SortDiv {
+    right: 12%;
+    left: 11%;
+  }
+
+  .PostsContainer {
+    margin-left: 30%;
+    width: 75%;
+  }
+
+  /* .SortDiv {
     position: absolute;
     right: -68px;
-  }
+  } */
 }
 
 /* 
@@ -192,6 +217,15 @@
     width: 90vw;
     margin-left: 10px;
   }
+
+  .SortDiv {
+    margin-left: 62px;
+    width: 85%;
+  }
+
+  .PostsContainer {
+    width: 65%;
+  }
 }
 
 /* 
@@ -215,5 +249,9 @@
 
   .SortDiv {
     right: -9%;
+  }
+
+  .PostsContainer {
+    width: 74%;
   }
 }
