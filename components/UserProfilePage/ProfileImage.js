@@ -20,7 +20,7 @@ const ProfileImage = ({ photo, docRef }) => {
   const [showIcons, setShowIcons] = useState(false);
 
   //console.log("************userId: " + id);
-  //const docRef = doc(db, "users", id);
+  const docRef = doc(db, "users", id);
 
   const handleImageUpload = (e) => {
     const userImage = e.target.files[0];
@@ -77,25 +77,25 @@ const ProfileImage = ({ photo, docRef }) => {
               width={200}
               className={style.userImage}
             />
-            {/* <div> */}
-            <RiCloseCircleFill
-              style={{
-                fill: "#D50005",
-                fontSize: "30px",
-                cursor: "pointer",
-              }}
-              onClick={() => deleteImage(dUrl)}
-            />
+            <div>
+              <RiCloseCircleFill
+                style={{
+                  fill: "#D50005",
+                  fontSize: "30px",
+                  cursor: "pointer",
+                }}
+                onClick={() => deleteImage(dUrl)}
+              />
 
-            <IoMdCheckmarkCircle
-              style={{
-                fill: "#008000",
-                fontSize: "30px",
-                cursor: "pointer",
-              }}
-              onClick={(e) => handleSubmit()}
-            />
-            {/* </div> */}
+              <IoMdCheckmarkCircle
+                style={{
+                  fill: "#008000",
+                  fontSize: "30px",
+                  cursor: "pointer",
+                }}
+                onClick={(e) => handleSubmit()}
+              />
+            </div>
           </>
         )}
       </>

@@ -11,6 +11,9 @@
   padding: 0px;
 }
 
+.TableCell {
+  border: none;
+}
 /* Media queries for responsive design */
 /* 
   ##Device = Desktops

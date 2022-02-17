@@ -219,8 +219,8 @@ function UserProfile() {
             </Grid>
 
             <Grid item xs={20} sm={6} className={style.DisplayCard}>
-              <TableContainer style={{ overflow: "hidden" }}>
-                <Paper variant="outlined">
+              <TableContainer>
+                <Paper>
                   <Typography
                     gutterBottom
                     variant="subtitle1"
@@ -232,11 +232,15 @@ function UserProfile() {
                   <Table aria-label="simple table">
                     <TableBody>
                       <TableRow>
-                        <TableCell component="th" scope="row">
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          className={style.TableCell}
+                        >
                           <Typography
                             variant="body1"
                             gutterBottom
-                            // fontSize={20}
+                            fontSize={20}
                           >
                             Email :
                           </Typography>
@@ -246,7 +250,8 @@ function UserProfile() {
                           <Typography
                             variant="body2"
                             gutterBottom
-                            // fontSize={15}
+                            fontSize={15}
+                            className={style.TableCell}
                           >
                             {data.email}
                           </Typography>
