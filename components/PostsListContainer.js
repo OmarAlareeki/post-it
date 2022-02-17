@@ -9,7 +9,6 @@ import AlertWrapper from "./AlertWrapper";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { Button } from "react-bootstrap";
-import PostItem from "./PostItem";
 import { Rings } from "react-loader-spinner";
 import Sort from "./Sort";
 

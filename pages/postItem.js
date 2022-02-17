@@ -43,8 +43,10 @@ const PostItem = () => {
   const [validate, setValidate] = useState(false);
   const router  = useRouter();
   
-  onAuthStateChanged(auth, (user) =>
+  onAuthStateChanged(auth, (user) =>{
     user ? setCurrUser(user) : setCurrUser("")
+    user ? "": router.push("/")
+  }
   );
 
   useEffect(() => {
