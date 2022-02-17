@@ -5,7 +5,6 @@ import {useRouter} from "next/router";
 import style from "../../styles/Home.module.css";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
-import { useRouter } from "next/router"
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
