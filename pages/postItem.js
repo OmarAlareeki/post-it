@@ -126,7 +126,7 @@ const PostItem = () => {
             setPhoneNumber(undefined);
             setProgress("getUpload");
             console.log("document written: ", postId);
-            back(false);
+            router.push(`/displaypage/${postId}`)
           })
           .catch((error) => {
             console.error("Error adding Document: ", error);
