@@ -30,7 +30,7 @@ export default function Map({ zip, title, price }) {
 
     // delete L.Icon.Default.prototype._getIconUrl;
     const myIcon = new Icon({
-        iconUrl: "202202 round PI.jpg",
+        iconUrl: "202202-round-pi.jpg",
         iconSize: [75, 75]
       });
     

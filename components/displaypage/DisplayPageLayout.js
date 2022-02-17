@@ -8,7 +8,7 @@ import "../../styles/NavBar.module.css";
 export default function DisplayPageLayout({ children }) {
   return (
     <main>
-      <NavBar />
+      {/* <NavBar /> */}
       <div className={homeStyle.mainContainer}>
         {/* <div>
             <SideNavBar />

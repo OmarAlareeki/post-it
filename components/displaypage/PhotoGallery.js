@@ -7,7 +7,7 @@ export default function PhotoGallery({ photos }) {
   return (
     <>
       <Head>
-        <link rel="stylesheet" href="sliderStyles" />
+        <link rel="stylesheet" href="/CSS/slider.css" />
       </Head>
       <Carousel className={styles.carousel}>
         {photos.map((photo, i) => (
