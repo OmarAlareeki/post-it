@@ -5,7 +5,6 @@ import {useRouter} from "next/router";
 import style from "../../styles/Home.module.css";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
-import Logo from "../../components/NavBar/Logo";
 
 import {
   signInWithEmailAndPassword,
@@ -27,8 +26,7 @@ const SignInPage = () => {
         auth,
         userEmail,
         userPassword
-      );
-      console.log(user);
+      ).then(()=>{
       setErrorMessage("");
       router.query.routeTo?
       router.push("/" + router.query.routeTo):
@@ -50,8 +48,7 @@ const SignInPage = () => {
             );
 
       }
-    }
-  };
+    });
 
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
