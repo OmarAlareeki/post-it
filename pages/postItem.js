@@ -64,6 +64,7 @@ const PostItem = () => {
     agreedToTermsAndConditions
       ? setValidate(true)
       : setValidate(false);
+    return()=>setValidation(false)
   }, [
     data.title,
     data.category,
