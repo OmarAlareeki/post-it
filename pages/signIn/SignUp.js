@@ -1,4 +1,4 @@
-import {useRouter} from "next/router";
+import Router from "next/router";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import style from "../../styles/Home.module.css";
@@ -17,7 +17,7 @@ function SignUp() {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [passwordAlert, setPasswordAlert] = useState(false);
-  const router = useRouter()
+
   useEffect(() => {
     if (password1 !== password2) {
       setPasswordAlert(true);
@@ -144,7 +144,7 @@ function SignUp() {
             variant="light"
             className="w-25 mt-5 mx-2"
             onClick={() => {
-              router.push("/");
+              Router.push("/");
             }}
           >
             Cancel
@@ -154,7 +154,7 @@ function SignUp() {
             className="w-25 mt-5 mx-2"
             onClick={() => {
               signUp();
-              router.push("/");
+              Router.push("/");
             }}
           >
             Sign Up

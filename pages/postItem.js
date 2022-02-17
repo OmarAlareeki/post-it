@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { db, storage, auth } from "../config/fire-config";
 import { Form, Button, Col, Row, Image } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input/input";
-import style from "../styles/postItem.module.css";
+import CurrencyInput from "react-currency-input-field";
+import * as _ from "lodash";
+import Router from "next/router";
+import style from "../styles/Home.module.css";
 import { doc, setDoc } from "firebase/firestore";
 import {
   ref,
@@ -11,11 +14,6 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { onAuthStateChanged } from "firebase/auth";
-import { RiCloseCircleFill } from "react-icons/ri";
-import { TailSpin } from "react-loader-spinner";
-import zipcodes from "zipcodes";
-import { Editor } from "@tinymce/tinymce-react";
-import { useRouter } from 'next/router'
 
 const PostItem = () => {
   const [freeItem, setFreeItem] = useState(false);
@@ -37,9 +35,7 @@ const PostItem = () => {
   const [agreedToTermsAndConditions, setAgreedtoTermsAndConditions] =
     useState(false);
   const [currUser, setCurrUser] = useState("");
-  const [validate, setValidate] = useState(false);
-  const router  = useRouter();
-  
+
   onAuthStateChanged(auth, (user) =>
     user ? setCurrUser(user) : setCurrUser("")
   );
@@ -264,40 +260,64 @@ const PostItem = () => {
           Please provide a valid Email.
         </Form.Control.Feedback>
 
-          <Form.Group controlId="itemDescriptionValidation" className="my-2">
-            <Row>
-              <Col md="2">
-                <Form.Label className="mb-0 d-flex">Description:</Form.Label>
-              </Col>
-              <Col md="10">
-                <Form.Group>
-                <Editor
-                  apiKey = {process.env.NEXT_PUBLIC_TINY_API_KEY}
-                  value={data.description}
-                  init={{
-                    height: 300,
-                    menubar: false
-                  }}
-                  onEditorChange={(e) =>
-                    setData({ ...data, description: e})}
-                    area-describedby="descriptionHelp"
-                />
-                  <Form.Text id="descriptionHelp" muted>
-                    Providing description is optional. However, items with
-                    detaild description sell faster!
-                  </Form.Text>
-                </Form.Group>
-              </Col>
-            </Row>
-          </Form.Group>
+        <Form.Group controlId="itemOwnerPhoneValidation" className="my-2">
+          <Row>
+            <Col md="2" className="d-flex align-items-center">
+              <Form.Label className="mb-0">Phone:</Form.Label>
+            </Col>
+            <Col md="10">
+              <PhoneInput
+                value={phoneNumber}
+                type="phone"
+                withCountryCallingCode
+                placeholder="(000) 000-0000"
+                country="US"
+                required
+                onChange={setPhoneNumber}
+                maxLength={14}
+                className="form-control"
+              />
+            </Col>
+          </Row>
+        </Form.Group>
+        <Form.Control.Feedback type="invalid">
+          Please provide a valid Phone number.
+        </Form.Control.Feedback>
+        <Form.Group controlId="itemPriceValidation" className="my-2">
+          <Row>
+            <Col md="2" className="d-flex align-items-center">
+              <Form.Label className="mb-0">Price:</Form.Label>
+            </Col>
+            <Col md="8">
+              <CurrencyInput
+                defaultValue={data.price}
+                //placeholder="$ 00.00"
+                required
+                prefix="$ "
+                decimalsLimit={2}
+                disabled={freeItem ? true : false}
+                onChange={(e) =>
+                  setData({ ...data, price: e.target.value.split(" ")[1] })
+                }
+                className="form-control"
+              />
+            </Col>
+            <Col
+              md="2"
+              className="d-flex justify-content-center align-items-center "
+            >
+              <Form.Check label="Free" onChange={toggleFree} />
+            </Col>
+          </Row>
+        </Form.Group>
 
-          <Form.Group className="my-2">
-            <Row>
-              <Col md="2">
-                <Form.Label className="mt-2 d-flex">Add photos: </Form.Label>
-              </Col>
-              <Col md="10">
-
+        <Form.Group controlId="itemDescriptionValidation" className="my-2">
+          <Row>
+            <Col md="2">
+              <Form.Label className="mb-0">Description:</Form.Label>
+            </Col>
+            <Col md="10">
+              <Form.Group>
                 <Form.Control
                   value={data.description}
                   as="textarea"
@@ -353,51 +373,49 @@ const PostItem = () => {
         <Form.Group className="d-flex flex-column justify-content-">
           <Row>
             <Col md="2" />
-            <Col md="10" className="d-flex my-3">{imageContent()}</Col>
+            <Col md="10">
+              <Form.Check
+                required
+                name="terms"
+                label="Agree to terms and conditions"
+                onChange={agreeToTerms}
+              />
+            </Col>
           </Row>
-          <Form.Group className="d-flex flex-column">
-            <Row>
-              <Col md="2" />
-              <Col md="10">
-                <Form.Check
-                  className="d-flex my-2"
-                  required
-                  name="terms"
-                  label="	&nbsp; Agree to terms and conditions"
-                  onChange={agreeToTerms}
-                />
-              </Col>
-            </Row>
-            <Row className={style.lastRow}>
-              <Col md="2" />
-              <Col md="4">
-                <Button type="submit" className={style.submitButton}>POST IT</Button>
-              </Col>
-              <Col md="4">
-                <Button
-                  className={style.cancelButton}
-                  onClick={() => {
-                    imageTitles.map((name) => {
-                      const deleteRef = ref(storage, `postImages/${name}`);
-                      deleteObject(deleteRef)
-                        .then(() => {
-                          console.log("picture deleted");
-                        })
-                        .catch((error) => {
-                          console.error("error occurd: ", error);
-                        });
-                    });
-                    router.push('/')
-                  }}
-                >
-                  Cancel
-                </Button>
-              </Col>
-             
-            </Row>
-          </Form.Group>
-        </Form>
-      </div>
+          <Row>
+            <Col md="8" />
+            <Col md="2">
+              <Button
+                variant="danger"
+                onClick={() => {
+                  imageTitles.map((name) => {
+                    deleteRef = ref(storage, name);
+                    deleteObject(deleteRef)
+                      .then(() => {
+                        console.log("picture deleted");
+                      })
+                      .catch((error) => {
+                        console.error("error occurd: ", error);
+                      });
+                  });
+                  Router.push("/");
+                }}
+              >
+                Cancel
+              </Button>
+            </Col>
+            <Col md="2">
+              <Button type="submit"
+              style={{                 
+              border: 'none',
+              background: '#e38a17',
+              color: '#fff',
+              marginRight: '20px',}}
+              >POST IT</Button>
+            </Col>
+          </Row>
+        </Form.Group>
+      </Form>
     </div>
   );
 };

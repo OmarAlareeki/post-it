@@ -120,15 +120,7 @@ const NavBar = () => {
               Sign Out
             </li>
             <li>
-              <Link href= {
-                currentUser?
-                `/userProfilePage/${currentUser.uid}`:
-                {
-                pathname:"/signIn/SignIn",
-                query:{
-                  routeBack: `/userProfilePage/`
-                }}
-              }>
+              <Link href={`/userProfilePage/${currentUser.uid}`}>
                 <span>My Profile</span>
               </Link>
             </li>
