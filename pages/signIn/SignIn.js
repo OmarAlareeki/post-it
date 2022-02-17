@@ -5,7 +5,6 @@ import {useRouter} from "next/router";
 import style from "../../styles/Home.module.css";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
-import Logo from "../../components/NavBar/Logo";
 
 import {
   signInWithEmailAndPassword,
@@ -48,10 +47,8 @@ const SignInPage = () => {
             setErrorMessage(
               "The password you proivded does not match our records. Please check your password or click on 'Forgot password'."
             );
-
       }
-    }
-  };
+    });
 
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
