@@ -28,12 +28,12 @@ export function formatDay(seconds) {
         if (diffHours ===0) {
             const oneMin = 60 * 1000; // minutes*seconds*milliseconds
             const diffMin = Math.round(Math.abs((firstDate - secondDate) / oneMin));
-            return `Posted ${diffMin} min ago`
+            return `${diffMin} min ago`
         } 
-        return `Posted ${diffHours} hours ago`
+        return `${diffHours} hours ago`
     } 
     if (diffDays ===1) {
-        return "Posted 1 day ago"
+        return "1 day ago"
     } 
-    return `Posted ${diffDays} days ago`
+    return `${diffDays} days ago`
 }
