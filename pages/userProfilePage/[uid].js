@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { db, storage } from "../../config/fire-config";
+import { db, storage, auth } from "../../config/fire-config";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { TailSpin } from "react-loader-spinner";
@@ -36,16 +36,17 @@ import {
 } from "@material-ui/core";
 import PasswordIcon from "@mui/icons-material/Password";
 import { useRouter } from "next/router";
+import { onAuthStateChanged } from 'firebase/auth'
+
 
 function UserProfile() {
   const router = useRouter();
   const id = router && router.query.uid;
-
   const [user, setUser] = useState([]);
   const [postCount, setPostCount] = useState([]);
   const [displayUrl, setDisplayUrl] = useState("");
   const [progress, setProgress] = useState("getUpload");
-  const [showIcons, setShowIcons] = useState(false);
+  const [showIcons, setShowIcons] = useState(false);  
 
   // setUserProfile(true);
   useEffect(async () => {
@@ -69,6 +70,9 @@ function UserProfile() {
     });
   }, [id]);
 
+  onAuthStateChanged(auth, (user)=>
+    user? "": router.push('/')
+  )
   const handleImageUpload = (e) => {
     const userImage = e.target.files[0];
     const imageRef = ref(storage, `userProfileImages/${userImage.name}`);
@@ -111,7 +115,7 @@ function UserProfile() {
   const displayImage = (dUrl) => {
     return (
       <>
-        {progress === "uploading" ? (
+      {progress === "uploading" ? (
           <div className={style.loader}>
             <TailSpin color="#ef9d06" height={40} width={40} />
           </div>
@@ -162,6 +166,7 @@ function UserProfile() {
   };
 
   const handleSubmit = () => {
+    const docRef = doc(db, "users", id);
     updateDoc(docRef, { photo: displayUrl })
       .then(() => {
         setDisplayUrl("");
@@ -174,9 +179,8 @@ function UserProfile() {
   };
 
   return (
-    <>
       <main className={style.UserProfileContainer}>
-        {user.map((data) => (
+        {user?.map((data) => (
           <Grid
             container
             spacing={2}
@@ -249,12 +253,18 @@ function UserProfile() {
                         </TableCell>
                       </TableRow>
 
-                      {/* <TableRow>
+
+                      {data.provider === 'Post-It Signup'?<TableRow>
+
+                       <TableRow>
                         <TableCell colSpan={2}>
                           <Button
                             variant="outlined"
                             startIcon={<PasswordIcon />}
                             size="small"
+                            onClick={()=>{
+                              router.push('/signIn/changePassword')
+                            }}
                           >
                             <Typography
                               sx={{ cursor: "pointer" }}
@@ -264,7 +274,9 @@ function UserProfile() {
                             </Typography>
                           </Button>
                         </TableCell>
-                      </TableRow> */}
+
+                      </TableRow>: <></>}
+
 
                       <TableRow>
                         <TableCell component="th" scope="row">
@@ -341,7 +353,6 @@ function UserProfile() {
           </Grid>
         ))}
       </main>
-    </>
   );
 }
 export default UserProfile;

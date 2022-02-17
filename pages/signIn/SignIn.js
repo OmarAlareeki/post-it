@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../config/fire-config";
 import { Container, Button, Form } from "react-bootstrap";
-import GoogleLogin from "react-google-button";
-import Router from "next/router";
+import {useRouter} from "next/router";
 import style from "../../styles/Home.module.css";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
@@ -13,9 +12,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
-  signInWithRedirect,
-  inMemoryPersistence,
-  signInWithCredential,
+  onAuthStateChanged
 } from "firebase/auth";
 
 const SignInPage = () => {
@@ -23,27 +20,35 @@ const SignInPage = () => {
   const [userPassword, setUserPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("Error message");
 
-  const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(
+  const [currUser, setCurrUser] = useState('')
+  const router = useRouter();
+  const login = () => 
+     signInWithEmailAndPassword(
         auth,
         userEmail,
         userPassword
       );
       console.log(user);
       setErrorMessage("");
-    } catch (error) {
-      const errMsg = error.message;
-      if (errMsg.includes("invalid-email")) {
-        setErrorMessage(
-          "Invalid Email, Please provide email in 'example@domin.com' format"
-        );
-      } else if (errMsg.includes("user-not-found")) {
-        setErrorMessage("User does not exist. Please sign up.");
-      } else if (errMsg.includes("wrong-password")) {
-        setErrorMessage(
-          "The password you proivded does not match our records. Please check your password or click on 'Forgot password'."
-        );
+      router.query.routeTo?
+      router.push("/" + router.query.routeTo):
+      router.query.routeBack?
+        router.push( `${router.query.routeBack}${user.user.uid}`):
+        router.push("/")
+
+    }) .catch((error) => {
+        const errMsg = error.message;
+          if (errMsg.includes("invalid-email")) {
+            setErrorMessage(
+             "Invalid Email, Please provide email in 'example@domin.com' format"
+            );
+          } else if (errMsg.includes("user-not-found")) {
+            setErrorMessage("User does not exist. Please sign up.");
+          } else if (errMsg.includes("wrong-password")) {
+            setErrorMessage(
+              "The password you proivded does not match our records. Please check your password or click on 'Forgot password'."
+            );
+
       }
     }
   };
@@ -54,8 +59,13 @@ const SignInPage = () => {
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        console.log("Signed in Using google");
-        console.log(token);
+      }).then(()=>{
+        onAuthStateChanged(auth, (user) =>
+        router.query.routeTo?
+        router.push("/" + router.query.routeTo):
+        router.query.routeBack?
+          router.push( `${router.query.routeBack}${user.uid}`):
+          router.push("/"))
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -71,7 +81,13 @@ const SignInPage = () => {
         setErrorMessage("");
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const accessToken = credential.accessToken;
-        console.log("Signed in Using Facebook");
+      }).then(()=>{
+        onAuthStateChanged(auth, (user) =>
+        router.query.routeTo?
+        router.push("/" + router.query.routeTo):
+        router.query.routeBack?
+          router.push( `${router.query.routeBack}${user.uid}`):
+          router.push("/"))
       })
       .catch((error) => {
         console.log(error);
@@ -80,6 +96,7 @@ const SignInPage = () => {
   useEffect(() => {
     setErrorMessage("");
   }, [userEmail, userPassword]);
+
 
   return (
     <Container>
@@ -148,7 +165,7 @@ const SignInPage = () => {
               <span
                 style={{ cursor: "pointer", color: "blue" }}
                 className="w-100"
-                onClick={() => Router.push("/signIn/SignUp")}
+                onClick={() => router.push("/signIn/SignUp")}
               >
                 {" "}
                 Sign up{" "}
@@ -185,12 +202,12 @@ const SignInPage = () => {
         <p className="m-auto text-center py-3"> Or Login with: </p>
         <div className="d-flex justify-content-center border-top-0">
           <div className={style.providerButtons}>
-            <button
-              onClick={() => {
-                googleLogin();
-                Router.push("/");
-              }}
-            >
+
+            <button onClick={() => {
+              googleLogin();  
+            }}
+          >
+
               <FcGoogle />
             </button>
 
@@ -199,8 +216,7 @@ const SignInPage = () => {
               className={style.facebookButton}
               onClick={() => {
                 facebookLogin();
-                console.log("facebook");
-                Router.push("/");
+                console.log("facebook")
               }}
             >
               <AiFillFacebook />
