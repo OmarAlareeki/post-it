@@ -22,13 +22,17 @@ import NumberFormat from 'react-number-format';
 export default function Content({ post, setLoginAlert, currentUser }) {
 
   const [showContacts, setShowContacts] = useState(false);
-
+  const router = useRouter();
   const handleContactClick = () => {
     if (!currentUser) {
-      setLoginAlert(true);
-      return;
+      router.push({
+          pathname: "/signIn/SignIn",
+          query: {
+            routeTo: `displaypage/${post.id}`}
+        })
+    } else{
+      setShowContacts(true)
     }
-    setShowContacts(true);
   };
 
 
