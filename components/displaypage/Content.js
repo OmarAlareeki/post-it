@@ -23,16 +23,12 @@ export default function Content({ post, setLoginAlert, currentUser }) {
 
   const [showContacts, setShowContacts] = useState(false);
   const router = useRouter();
-  const handleContactClick = () => {
+   const handleContactClick = () => {
     if (!currentUser) {
-      router.push({
-          pathname: "/signIn/SignIn",
-          query: {
-            routeTo: `displaypage/${post.id}`}
-        })
-    } else{
-      setShowContacts(true)
+      setLoginAlert(true);
+      return;
     }
+    setShowContacts(true);
   };
 
 
