@@ -26,8 +26,7 @@ const SignInPage = () => {
         auth,
         userEmail,
         userPassword
-      );
-      console.log(user);
+      ).then(()=>{
       setErrorMessage("");
       router.query.routeTo?
       router.push("/" + router.query.routeTo):
