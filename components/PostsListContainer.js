@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { auth } from "../config/fire-config";
-import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import CardsContainer from "./CardsContainer.js";
 import SearchPosts from "./SearchPosts.js";
@@ -9,9 +8,9 @@ import AlertWrapper from "./AlertWrapper";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { Button } from "react-bootstrap";
-import PostItem from "./PostItem";
 import { Rings } from "react-loader-spinner";
 import Sort from "./Sort";
+import { useRouter } from "next/router"
 
 const PostsListContainer = () => {
   const [posts, setPosts] = useState(["Loading..."]);
@@ -22,7 +21,7 @@ const PostsListContainer = () => {
   const [showPostItem, setShowPostItem] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState(null);
-
+  const router = useRouter();
   const handleClick = () => {
     setShowAlert(true);
   };
@@ -38,7 +37,15 @@ const PostsListContainer = () => {
   );
 
   const postNewItem = () => {
-    currUser ? setShowPostItem(true) : Router.push("/signIn/SignIn");
+    currUser
+      ? router.push('/postItem')
+      : router.push({
+        pathname: "/signIn/SignIn",
+        query: {
+          routeTo: `postItem`}
+      });
+
+
   };
 
   return (
@@ -49,19 +56,19 @@ const PostsListContainer = () => {
           sortType={sortType}
           sortValue={sortValue}
         />
-        <>
-          {showAlert ? (
-            <AlertWrapper
-              message={confirmationMessage}
-              show={showAlert}
-              handleClose={handleClose}
-              bgColor="green"
-            />
-          ) : (
-            ""
-          )}
-        </>
       </div>
+      <>
+        {showAlert ? (
+          <AlertWrapper
+            message={confirmationMessage}
+            show={showAlert}
+            handleClose={handleClose}
+            bgColor="#008000"
+          />
+        ) : (
+          ""
+        )}
+      </>
       <div className={style.mainContainer}>
         <div>
           <SideNavBar
@@ -84,9 +91,6 @@ const PostsListContainer = () => {
             </Button>
           </div>
         </div>
-        {showPostItem ? (
-          <PostItem back={setShowPostItem} />
-        ) : (
           <div>
             <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
               {posts[0] === "Loading..." ? (
@@ -115,7 +119,6 @@ const PostsListContainer = () => {
               )}
             </div>
           </div>
-        )}
       </div>
     </main>
   );

@@ -1,0 +1,27 @@
+.userImage {
+  padding: 5px 15px;
+  display: flex;
+}
+
+.userImage:hover {
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.DisplayImage {
+  height: 175px;
+  width: 175px;
+  transition: transform 0.2s;
+}
+
+.DisplayImage:hover {
+  transform: scale(1.2);
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .userImage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

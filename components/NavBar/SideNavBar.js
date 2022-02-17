@@ -1,7 +1,7 @@
 import style from "../../styles/NavBar.module.css";
 import { useState, useEffect } from "react";
 import { MdFilterList } from "react-icons/md";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { PropTypes } from "prop-types";
 import { db } from "../../config/fire-config";
 import {
@@ -24,7 +24,7 @@ const SideNavBar = ({
   const [clickStatus, setclcikStatus] = useState(false);
   const [liValue, setLiValue] = useState("");
   const [queryCriteria, setQueryCriteria] = useState({});
-
+  const router = useRouter();
   const categories = new Map([
     ["Appliance", "appliance"],
     ["Baby and Kids", "babyAndKids"],
@@ -129,7 +129,7 @@ const SideNavBar = ({
             }
             onClick={() => {
               setQueryCriteria({ saved: currentUserId });
-              currentUserId === undefined ? Router.push("/signIn/SignIn") : "";
+              currentUserId === undefined ? router.push("/signIn/SignIn") : "";
               setDeleteBtnStatus(false);
               setclcikStatus(true);
               setLiValue("SavedPosts");

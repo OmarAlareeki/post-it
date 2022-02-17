@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { db, storage, auth } from "../../config/fire-config";
+import { db, storage } from "../../config/fire-config";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { TailSpin } from "react-loader-spinner";
@@ -36,18 +36,37 @@ import {
 } from "@material-ui/core";
 import PasswordIcon from "@mui/icons-material/Password";
 import { useRouter } from "next/router";
-import { onAuthStateChanged } from 'firebase/auth'
-
+import NavBar from "../../components/NavBar/NavBar";
 
 function UserProfile() {
   const router = useRouter();
   const id = router && router.query.uid;
+
   const [user, setUser] = useState([]);
   const [postCount, setPostCount] = useState([]);
   const [displayUrl, setDisplayUrl] = useState("");
   const [progress, setProgress] = useState("getUpload");
-  const [showIcons, setShowIcons] = useState(false);  
+  const [showIcons, setShowIcons] = useState(false);
 
+//      useEffect(async () => {
+//     if (!id) return false;
+
+//     const docSnap = await getDoc(docRef);
+//     if (docSnap.exists()) {
+//       onSnapshot(docRef, (doc) => {
+//         const userData = { ...doc.data(), id: doc.id };
+//         setUser(userData);
+//       });
+//     }
+//     // q = query(postsRef, where("userId", "==", id));
+//     // onSnapshot(q, (snap) => {
+//     //   const queryList = snap.docs.map((doc) => ({
+//     //     id: doc.id,
+//     //     ...doc.data(),
+//     //   }));
+//     //   setPostCount(queryList);
+//     // });
+//   }, [id]);
   // setUserProfile(true);
   useEffect(async () => {
     if (!id) return false;
@@ -70,9 +89,6 @@ function UserProfile() {
     });
   }, [id]);
 
-  onAuthStateChanged(auth, (user)=>
-    user? "": router.push('/')
-  )
   const handleImageUpload = (e) => {
     const userImage = e.target.files[0];
     const imageRef = ref(storage, `userProfileImages/${userImage.name}`);
@@ -115,7 +131,7 @@ function UserProfile() {
   const displayImage = (dUrl) => {
     return (
       <>
-      {progress === "uploading" ? (
+        {progress === "uploading" ? (
           <div className={style.loader}>
             <TailSpin color="#ef9d06" height={40} width={40} />
           </div>
@@ -166,7 +182,6 @@ function UserProfile() {
   };
 
   const handleSubmit = () => {
-    const docRef = doc(db, "users", id);
     updateDoc(docRef, { photo: displayUrl })
       .then(() => {
         setDisplayUrl("");
@@ -179,8 +194,10 @@ function UserProfile() {
   };
 
   return (
+    <>
+      <NavBar />
       <main className={style.UserProfileContainer}>
-        {user?.map((data) => (
+        {user.map((data) => (
           <Grid
             container
             spacing={2}
@@ -188,7 +205,7 @@ function UserProfile() {
             justify="center"
             key={data.id}
           >
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <img src={data.photo} className={style.DisplayImagediv} />
               <div>
                 <FormControl onSubmit={() => handleSubmit()}>
@@ -218,7 +235,7 @@ function UserProfile() {
               </div>
             </Grid>
 
-            <Grid item xs={20} sm={6} className={style.DisplayCard}>
+            <Grid item xs={12} className={style.DisplayCard}>
               <TableContainer style={{ overflow: "hidden" }}>
                 <Paper variant="outlined">
                   <Typography
@@ -236,32 +253,28 @@ function UserProfile() {
                           <Typography
                             variant="body1"
                             gutterBottom
-                            // fontSize={20}
+                            fontSize={20}
                           >
                             Email :
                           </Typography>
                         </TableCell>
-
                         <TableCell align="center">
                           <Typography
                             variant="body2"
                             gutterBottom
-                            // fontSize={15}
+                            fontSize={15}
                           >
                             {data.email}
                           </Typography>
                         </TableCell>
                       </TableRow>
-                      {data.provider === 'Post-It Signup'?
-                       <TableRow>
+
+                      <TableRow>
                         <TableCell colSpan={2}>
                           <Button
                             variant="outlined"
                             startIcon={<PasswordIcon />}
                             size="small"
-                            onClick={()=>{
-                              router.push('/signIn/changePassword')
-                            }}
                           >
                             <Typography
                               sx={{ cursor: "pointer" }}
@@ -271,32 +284,6 @@ function UserProfile() {
                             </Typography>
                           </Button>
                         </TableCell>
-
-                      </TableRow>: <></>}
-
-
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          <Typography
-                            variant="body1"
-                            gutterBottom
-                            // fontSize={20}
-                          >
-                            Account Creation Date :
-                          </Typography>
-                        </TableCell>
-
-                        <TableCell align="center">
-                          <Typography
-                            variant="body2"
-                            gutterBottom
-                            // fontSize={15}
-                          >
-                            {data.accountCreatedDate
-                              .toDate()
-                              .toLocaleDateString()}
-                          </Typography>
-                        </TableCell>
                       </TableRow>
 
                       <TableRow>
@@ -304,7 +291,32 @@ function UserProfile() {
                           <Typography
                             variant="body1"
                             gutterBottom
-                            // fontSize={20}
+                            fontSize={20}
+                          >
+                            Account Creation Date :
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            fontSize={15}
+                          >
+                            {data.accountCreatedDate
+                              .toDate()
+                              .toLocaleDateString()}
+                          </Typography>
+                        </TableCell>
+                        <TableCell />
+                        <TableCell />
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontSize={20}
                           >
                             Saved Post :
                           </Typography>
@@ -314,7 +326,7 @@ function UserProfile() {
                           <Typography
                             variant="body2"
                             gutterBottom
-                            // fontSize={15}
+                            fontSize={15}
                           >
                             {data.savedPosts.length}
                           </Typography>
@@ -326,17 +338,16 @@ function UserProfile() {
                           <Typography
                             variant="body1"
                             gutterBottom
-                            // fontSize={20}
+                            fontSize={20}
                           >
                             My Posts :
                           </Typography>
                         </TableCell>
-
                         <TableCell align="center">
                           <Typography
                             variant="body2"
                             gutterBottom
-                            // fontSize={15}
+                            fontSize={15}
                           >
                             {postCount.length}
                           </Typography>
@@ -350,6 +361,7 @@ function UserProfile() {
           </Grid>
         ))}
       </main>
+    </>
   );
 }
 export default UserProfile;
