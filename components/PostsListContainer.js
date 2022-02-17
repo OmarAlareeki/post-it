@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { auth } from "../config/fire-config";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import "bootstrap/dist/css/bootstrap.css";
 import CardsContainer from "./CardsContainer.js";
 import SearchPosts from "./SearchPosts.js";
@@ -22,7 +22,7 @@ const PostsListContainer = () => {
   const [showPostItem, setShowPostItem] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState(null);
-  const router = useRouter();
+
   const handleClick = () => {
     setShowAlert(true);
   };
@@ -37,7 +37,6 @@ const PostsListContainer = () => {
     user ? setCurrUser(user) : setCurrUser("")
   );
 
-
   const postNewItem = () => {
     currUser
       ? router.push('/postItem')
@@ -46,6 +45,7 @@ const PostsListContainer = () => {
         query: {
           routeTo: `postItem`}
       });
+
 
   };
 
@@ -57,19 +57,19 @@ const PostsListContainer = () => {
           sortType={sortType}
           sortValue={sortValue}
         />
-        <>
-          {showAlert ? (
-            <AlertWrapper
-              message={confirmationMessage}
-              show={showAlert}
-              handleClose={handleClose}
-              bgColor="green"
-            />
-          ) : (
-            ""
-          )}
-        </>
       </div>
+      <>
+        {showAlert ? (
+          <AlertWrapper
+            message={confirmationMessage}
+            show={showAlert}
+            handleClose={handleClose}
+            bgColor="#008000"
+          />
+        ) : (
+          ""
+        )}
+      </>
       <div className={style.mainContainer}>
         <div>
           <SideNavBar

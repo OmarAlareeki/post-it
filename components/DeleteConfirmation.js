@@ -15,7 +15,7 @@ const DeleteConfirmation = ({
         <Modal.Title>Delete Confirmation</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="alert alert-danger">"{message}"</div>
+        <div className="alert alert-danger">{message}</div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="default" onClick={hideModal}>
