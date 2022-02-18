@@ -177,8 +177,8 @@
 
   .Menu:hover > .SideBar {
     display: block;
-    position: absolute;
-    top: 123px;
+    position: fixed;
+    top: 0;
     bottom: 0;
     /* right: 26px; */
     text-align: center;
