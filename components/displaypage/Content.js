@@ -18,7 +18,8 @@ import NumberFormat from 'react-number-format';
 export default function Content({ post, setLoginAlert, currentUser }) {
 
   const [showContacts, setShowContacts] = useState(false);
-   const handleContactClick = () => {
+
+  const handleContactClick = () => {
     if (!currentUser) {
       setLoginAlert(true);
       return;

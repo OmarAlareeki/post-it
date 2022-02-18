@@ -25,12 +25,15 @@ export default function DisplayPost({ post }) {
     const [user, setUser] = useState(null);
     const [loginAlert, setLoginAlert] = useState(false);
     useEffect(() => {
+        let isSubscribed = true
         onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if (user) { if (isSubscribed) {
                 setCurrentUser(user);
-            } else {
+            }
+         } else {
                 setCurrentUser("");
             }
+            return () => isSubscribed = false
         });
     }, []);
     useEffect(() => {
