@@ -1,4 +1,4 @@
-import Router from 'next/router'
+import {useRouter} from 'next/router'
 import React, { useState } from 'react'
 import { Modal, Button, Form, } from 'react-bootstrap'
 
@@ -11,7 +11,7 @@ function ForgotPassword() {
   const [successEmailSent, setSuccessEmailSent] = useState(false)
   const [failedEmailSent, setFailedEmailSent] = useState(false)
   const [errMsg, setErrMsg] = useState('')
-
+  const router = useRouter();
   const sendPasswordEmail = () => {
     sendPasswordResetEmail(email)
       .then(() => {
@@ -44,7 +44,7 @@ function ForgotPassword() {
             <p> Please follow the instructions to reset Your password</p>
             <Button variant='warning' onClick={() => {
               okayMessage()
-              Router.push('/')
+              router.push('/')
             }}>OK</Button>
           </div> :
           (failedEmailSent ?
@@ -54,7 +54,7 @@ function ForgotPassword() {
               <div><div className='d-flex flex-column' style={{ padding: '20px' }}> <p> Your email does not match our records. Please check your email or Sign up.</p>
                 <Button variant='warning' onClick={() => {
                   okayMessage()
-                  Router.push('/')
+                  router.push('/')
                 }}> OK</Button></div></div>) :
 
             <div>

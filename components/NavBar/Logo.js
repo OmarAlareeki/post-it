@@ -1,15 +1,16 @@
 import React from "react";
 import style from "../../styles/NavBar.module.css";
-import Router from "next/router";
+import {useRouter} from "next/router";
 
 const Logo = () => {
+  const router = useRouter();
   return (
     <>
       <img
         src="../Logo3.png"
         className={style.Logo}
         onClick={() => {
-          Router.push("/");
+          router.push("/");
         }}
       />
     </>
