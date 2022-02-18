@@ -37,15 +37,17 @@ export default function DisplayPost({ post }) {
         });
     }, []);
     useEffect(() => {
+        let isSubscribed = true
         if (!currentUser) {
             setUser(null);
             return;
         }
-        const docRef = doc(db, "users", currentUser.uid);
-        return onSnapshot(docRef, (doc) => {
+        if (isSubscribed) {const docRef = doc(db, "users", currentUser.uid);
+        return (onSnapshot(docRef, (doc) => {
             const userDataBase = doc.data();
             setUser(userDataBase);
-        });
+            isSubscribed = false;
+        }))};
     }, [currentUser]);
 
 
