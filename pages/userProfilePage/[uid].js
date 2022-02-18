@@ -70,9 +70,9 @@ function UserProfile() {
     });
   }, [id]);
 
-  onAuthStateChanged(auth, (user)=>
-    user? "": router.push('/')
-  )
+  // onAuthStateChanged(auth, (user)=>
+  //   user? "": router.push('/')
+  // )
   const handleImageUpload = (e) => {
     const userImage = e.target.files[0];
     const imageRef = ref(storage, `userProfileImages/${userImage.name}`);
@@ -255,7 +255,7 @@ function UserProfile() {
                       {data.provider === 'Post-It Signup'?
                        <TableRow>
                         <TableCell colSpan={2}>
-                          {/* <Button
+                          <Button
                             variant="outlined"
                             startIcon={<PasswordIcon />}
                             size="small"
@@ -269,7 +269,7 @@ function UserProfile() {
                             >
                               Change Password
                             </Typography>
-                          </Button> */}
+                          </Button>
                         </TableCell>
 
                       </TableRow>: <></>}

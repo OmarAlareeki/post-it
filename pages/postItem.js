@@ -45,7 +45,7 @@ const PostItem = () => {
   
   onAuthStateChanged(auth, (user) =>{
     user ? setCurrUser(user) : setCurrUser("")
-    user ? "": router.push("/")
+    // user ? "": router.push("/")
   }
   );
 
