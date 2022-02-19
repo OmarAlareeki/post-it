@@ -43,11 +43,12 @@ const PostItem = () => {
   const [validate, setValidate] = useState(false);
   const router  = useRouter();
   
+  useEffect(()=>{
   onAuthStateChanged(auth, (user) =>{
     user ? setCurrUser(user) : setCurrUser("")
-    // user ? "": router.push("/")
-  }
-  );
+    user ? "": router.push("/")
+  });
+},[])
 
   useEffect(() => {
     setPostId(
@@ -64,7 +65,7 @@ const PostItem = () => {
     agreedToTermsAndConditions
       ? setValidate(true)
       : setValidate(false);
-      return()=>setValidate(false)
+    return()=>setValidate(false)
   }, [
     data.title,
     data.category,
@@ -220,7 +221,6 @@ const PostItem = () => {
   };
 
   return (
-    <div>
       <div className={style.inputContainer}>
         <h1 className="d-flex justify-content-center mt-4">Post an Item</h1>
         {/* Post item form and validation */}
@@ -496,7 +496,6 @@ const PostItem = () => {
           </Form.Group>
         </Form>
       </div>
-    </div>
   );
 };
 

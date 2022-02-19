@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../config/fire-config";
-import { Container, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import {useRouter} from "next/router";
 import style from "../../styles/Home.module.css";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
+
+
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -17,26 +19,26 @@ const SignInPage = ({}) => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("Error message");
-  const [currUser, setCurrUser] = useState('')
   const router = useRouter();
+
+  const routing =(user)=>{
+    router.query.routeTo?
+    router.push("/" + router.query.routeTo):
+    (router.query.routeBack?
+      router.push( `${router.query.routeBack}${user.uid}`):
+      router.push("/"))
+  }
+
+
   const login = () => {
-
-    
-
      signInWithEmailAndPassword(
         auth,
         userEmail,
         userPassword
       )
       .then((user)=>{
-      console.log(user);
       setErrorMessage("");
-      router.query.routeTo?
-      router.push("/" + router.query.routeTo):
-      router.query.routeBack?
-        router.push( `${router.query.routeBack}${user.user.uid}`):
-        router.push("/")
-
+      routing(user)
     }) .catch((error) => {
         const errMsg = error.message;
           if (errMsg.includes("invalid-email")) {
@@ -62,17 +64,11 @@ const SignInPage = ({}) => {
         const token = credential.accessToken;
       }).then(()=>{
         onAuthStateChanged(auth, (user) =>
-        router.query.routeTo?
-        router.push("/" + router.query.routeTo):
-        router.query.routeBack?
-          router.push( `${router.query.routeBack}${user.uid}`):
-          router.push("/"))
+        routing(user))
       })
       .catch((error) => {
         const errorMessage = error.message;
-        alert("sorry, try again. ", errorMessage);
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log("sorry, try again. ", errorMessage);
       });
   };
   const facebookLogin = () => {
@@ -84,11 +80,7 @@ const SignInPage = ({}) => {
         const accessToken = credential.accessToken;
       }).then(()=>{
         onAuthStateChanged(auth, (user) =>
-        router.query.routeTo?
-        router.push("/" + router.query.routeTo):
-        router.query.routeBack?
-          router.push( `${router.query.routeBack}${user.uid}`):
-          router.push("/"))
+        routing(user))
       })
       .catch((error) => {
         console.log(error);
@@ -98,16 +90,15 @@ const SignInPage = ({}) => {
     setErrorMessage("");
   }, [userEmail, userPassword]);
 
+  
 
   return (
-    <Container>
-      {/* <Logo /> */}
-      <div className={style.container}>
+      <div className={style.signInContainer}>
         <h1>Sign In</h1>
 
         <Form
           validated={userEmail && userPassword?true:false}
-          className="formContainer"
+          className={style.formContainer}
           onSubmit={()=>login()}
           
         >
@@ -198,6 +189,7 @@ const SignInPage = ({}) => {
 
             <button onClick={() => {
               googleLogin();
+              routing()
               
             }}
           >
@@ -209,7 +201,7 @@ const SignInPage = ({}) => {
               className={style.facebookButton}
               onClick={() => {
                 facebookLogin();
-                console.log("facebook")
+
               }}
             >
               <AiFillFacebook />
@@ -217,8 +209,9 @@ const SignInPage = ({}) => {
           </div>
         </div>
       </div>
-    </Container>
   );
 };
 
 export default SignInPage;
+
+
