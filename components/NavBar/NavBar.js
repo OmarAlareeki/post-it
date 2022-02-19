@@ -16,8 +16,9 @@ const NavBar = () => {
   const [photo, setPhoto] = useState("");
   const router = useRouter();
   
-  useEffect(async () => {
-    onAuthStateChanged(auth, (user) => {
+  useEffect(()=>{
+    async function authChange() {
+   onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
         setLoggedIn(true);
@@ -45,10 +46,13 @@ const NavBar = () => {
         });
       }
     }
+  } authChange();
   }, [loggedIn]);
 
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
-
+  useEffect(() => {
+    router.prefetch('/signIn/SignIn')
+  },[])
   return (
     <nav className={style.NavContainer}>
       <div className={style.LogoDiv}>
@@ -93,7 +97,7 @@ const NavBar = () => {
               fill: "#afafaf",
             }}
             onClick={() => {
-              router.push("/signIn/SignIn");
+              router.push({pathname:"/signIn/SignIn"});
             }}
           />
         )}
@@ -102,7 +106,7 @@ const NavBar = () => {
             <li
               className={style.SignIn}
               onClick={() => {
-                router.push("/signIn/SignIn");
+                router.push({pathname:"/signIn/SignIn"});
               }}
               style={{
                 display: currentUser ? "none" : "block",
