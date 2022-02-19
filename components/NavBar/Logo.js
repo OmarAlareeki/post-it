@@ -4,13 +4,18 @@ import {useRouter} from "next/router";
 
 const Logo = () => {
   const router = useRouter();
+
+  React.useEffect(()=>{
+    router.prefetch('/')
+  },[])
+  
   return (
     <>
       <img
         src="../Logo3.png"
         className={style.Logo}
         onClick={() => {
-          router.push("/");
+          router.push({pathname:"/"});
         }}
       />
     </>
