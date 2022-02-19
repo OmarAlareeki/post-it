@@ -68,8 +68,10 @@ function UserProfile() {
       setPostCount(queryList);
     });
   }, [id]);
-
-  onAuthStateChanged(auth, (user) => (user ? "" : router.push("/")));
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => (user ? "" : router.push("/")))
+  },[])
+  ;
   const handleImageUpload = (e) => {
     const userImage = e.target.files[0];
     const imageRef = ref(storage, `userProfileImages/${userImage.name}`);
