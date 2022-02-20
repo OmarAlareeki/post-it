@@ -18,7 +18,8 @@ import NumberFormat from 'react-number-format';
 export default function Content({ post, setLoginAlert, currentUser }) {
 
   const [showContacts, setShowContacts] = useState(false);
-   const handleContactClick = () => {
+
+  const handleContactClick = () => {
     if (!currentUser) {
       setLoginAlert(true);
       return;
@@ -48,7 +49,7 @@ export default function Content({ post, setLoginAlert, currentUser }) {
         )}
 
       {/* <p> <DaysAgo post={post} /> </p> */}
-      <p> {formatDay(post.postDate.seconds)} </p>
+      <p> Posted {formatDay(post.postDate.seconds)} </p>
       <div className={styles.buttonsGroup}>
         <Button variant="contained" color="primary" onClick={handleContactClick} className={styles.contactBtn}>
           Contact seller
