@@ -21,3 +21,7 @@
 .buttonsGroup {
     display: flex;
 }
+
+.description {
+    word-break: break-all;
+}
