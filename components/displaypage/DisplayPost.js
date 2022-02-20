@@ -25,29 +25,27 @@ export default function DisplayPost({ post }) {
     const [user, setUser] = useState(null);
     const [loginAlert, setLoginAlert] = useState(false);
     useEffect(() => {
-        let isSubscribed = true
-        onAuthStateChanged(auth, (user) => {
-            if (user) { if (isSubscribed) {
+        return onAuthStateChanged(auth, (user) => {
+            if (user)  {
                 setCurrentUser(user);
             }
-         } else {
+          else {
                 setCurrentUser("");
             }
-            return () => isSubscribed = false
         });
     }, []);
     useEffect(() => {
-        let isSubscribed = true
+
         if (!currentUser) {
             setUser(null);
             return;
         }
-        if (isSubscribed) {const docRef = doc(db, "users", currentUser.uid);
+        const docRef = doc(db, "users", currentUser.uid);
         return (onSnapshot(docRef, (doc) => {
             const userDataBase = doc.data();
             setUser(userDataBase);
-            isSubscribed = false;
-        }))};
+
+        }));
     }, [currentUser]);
 
 
