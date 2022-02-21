@@ -54,9 +54,7 @@ const NavBar = () => {
 
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
   console.log(currentUser);
-  useEffect(() => {
-    router.prefetch("/signIn/SignIn");
-  }, []);
+ 
   return (
     <nav className={style.NavContainer}>
       <div className={style.LogoDiv}>

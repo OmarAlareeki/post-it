@@ -101,7 +101,7 @@ const SideNavBar = ({
           setPosts([]);
         }
       } else {
-        Router.push("/signIn/SignIn");
+        router.push("/signIn/SignIn");
       }
     }
   }, [queryCriteria, sortValue, sortType]);
@@ -148,7 +148,7 @@ const SideNavBar = ({
               currentUserId
                 ? setDeleteBtnStatus(true)
                 : setDeleteBtnStatus(false);
-              currentUserId === undefined ? Router.push("/signIn/SignIn") : "";
+              currentUserId === undefined ? router.push("/signIn/SignIn") : "";
             }}
           >
             My Posts

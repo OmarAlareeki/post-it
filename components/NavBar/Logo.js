@@ -5,9 +5,6 @@ import {useRouter} from "next/router";
 const Logo = () => {
   const router = useRouter();
 
-  React.useEffect(()=>{
-    router.prefetch('/')
-  },[])
   
   return (
     <>
