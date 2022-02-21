@@ -5,6 +5,8 @@ import style from "../styles/Home.module.css";
 import { formatDay } from "./DaysAgo";
 import DeletePost from "./DeletePosts";
 import ZipToCity from "./ZipToCity";
+import NumberFormat from "react-number-format";
+
 const CardsContainer = ({
   posts,
   deleteBtnStatus,
@@ -44,8 +46,14 @@ const CardsContainer = ({
                 {post.price === 0 ? (
                   <Card.Text>Free</Card.Text>
                 ) : (
-                  <Card.Text style={{ marginBottom: "10px" }}>
-                    $ {post.price}
+                  <Card.Text>
+                    {/* ${post.price} */}
+                    <NumberFormat
+                      value={post.price}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      prefix={"$"}
+                    />
                   </Card.Text>
                 )}
                 <Card.Text style={{ marginBottom: "0" }}>
