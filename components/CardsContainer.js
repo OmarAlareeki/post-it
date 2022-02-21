@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
 import { formatDay } from "./DaysAgo";
 import DeletePost from "./DeletePosts";
-
+import ZipToCity from "./ZipToCity";
 const CardsContainer = ({
   posts,
   deleteBtnStatus,
@@ -43,8 +43,12 @@ const CardsContainer = ({
                     {post.title}
                   </Card.Title>
                   <Card.Text>$ {post.price}</Card.Text>
-                  <Card.Text></Card.Text>
-                  <Card.Text className={style.timeAgo}>{formatDay(post.postDate.seconds)}</Card.Text>
+                  <Card.Text>
+                    <ZipToCity zip={post.zip} />
+                  </Card.Text>
+                  <Card.Text className={style.timeAgo}>
+                    {formatDay(post.postDate.seconds)}
+                  </Card.Text>
                 </Card.Body>
               </Card.Link>
             </Card>
