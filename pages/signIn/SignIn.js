@@ -137,7 +137,7 @@ const SignInPage = ({}) => {
               Passwords must be at least six letters long.
             </Form.Control.Feedback>
           </Form.Group>
-          <small> {errorMessage} </small><br />
+          <small style={{color:"#D50005"}}> {errorMessage} </small><br />
 
           <small className="">
             <u

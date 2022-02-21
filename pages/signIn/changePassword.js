@@ -4,62 +4,61 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 import style from "../../styles/changePassword.module.css";
 import { auth } from "../../config/fire-config";
 import { updatePassword } from 'firebase/auth'
-
+import AlertWrapper from '../../components/AlertWrapper'
 function changePassword() {
-    const [currPassword, setCurrPassword] = useState("");
-    const [password1, setPassword1] = useState("");
-    const [password2, setPassword2] = useState("");
-    const [passwordAlert, setPasswordAlert] = useState(false);
-    const [matchAlert, setMatchAlert ] = useState(false)
+    const [ password1, setPassword1 ] = useState("");
+    const [ password2, setPassword2 ] = useState("");
+    const [ passwordAlert, setPasswordAlert ] = useState(false);
+    const [ showSuccess, setShowSuccess ] = useState(false)
+    const [ showFailure, setShowFailure ] = useState(false)
+    const [ showAlert, setShowAlert ] = useState(false)
+    const [ errorMessage, setErrorMessage ] = useState('')
     const router = useRouter()
+
+   const handleClose = ()=>{
+     setShowSuccess(false)
+     setShowFailure(false)
+     setShowAlert(false)
+   }
+
+
     useEffect(() => {
       if (password1 !== password2) {
         setPasswordAlert(true);
       } else if (password1 === password2) {
         setPasswordAlert(false);
       }
-      if (currPassword === password2){
-          currPassword.length>0?
-          setMatchAlert(true):
-          setMatchAlert(false)
-      }
-    }, [currPassword, password1, password2]);
+    }, [ password1, password2]);
   
     const changePassword = () =>{
+      if( password1 && password2 && password2 === password1){
         const user = auth.currentUser;
         updatePassword(user, password2)
         .then(()=>{
-            router.push('/')
-            alert('Password Changed Successfully')
+            setShowSuccess(true) 
         }).catch((error)=>{
-            alert(error)
+            setErrorMessage(error.message)
+            setShowFailure(true)
         })
+      }else{
+      setShowAlert(true)
+      }
     }
   
   
     return (
       <>
         <div className={style.passwordContainer}>
-          <h1 className="m-4">Change Current Passward</h1>
+        <AlertWrapper message={'Password Changed Successfully'} handleClose={handleClose} bgColor={"#008000"} show={showSuccess} route={"/"}/>
+        <AlertWrapper message={errorMessage.includes('recent')?"Recent sign in is required to change password":{errorMessage}} handleClose={handleClose} bgColor={"#D50005"} show={showFailure}/>
+        <AlertWrapper message={'Please check provided passwords and try again.'} handleClose={handleClose} bgColor={"#EF9D06"} show={showAlert}/>
+          <h1 className="m-4">Change Passward</h1>
   
           <div className=''>
             <Form
-              validated={true}
+              validated={password1 && password2?true:false}
               onSubmit={() => signUp()}
             >
-              
-              <Form.Group className="mb-3" controlId="formGridEmail">
-                <Form.Label> Current Password:</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="CurrentPassword"
-                  onChange={(e) => setCurrPassword(e.target.value)}
-                  minLength={6}
-                />
-                 <Form.Control.Feedback type="invalid">
-                  Password must be longer than 6 characters.
-                </Form.Control.Feedback>
-              </Form.Group>
               <Form.Group className="mb-3" controlId="validatedPassword1">
                 <Form.Label>New Password</Form.Label>
                 <Form.Control
@@ -83,7 +82,7 @@ function changePassword() {
                 <Form.Control.Feedback type="invalid">
                   Password must be longer than 6 characters.
                 </Form.Control.Feedback>
-                <p
+                <small
                   style={
                     passwordAlert
                       ? { diplay: "block", color: "red" }
@@ -91,16 +90,7 @@ function changePassword() {
                   }
                 >
                   Password does not match.
-                </p>
-                <p
-                  style={
-                    matchAlert
-                      ? { diplay: "block", color: "red" }
-                      : { display: "none" }
-                  }
-                >
-                  You cannot use the same password.
-                </p>
+                </small>
               </Form.Group>
             </Form>
           </div>
