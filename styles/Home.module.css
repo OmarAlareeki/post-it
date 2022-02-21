@@ -3,7 +3,9 @@
 }
 
 .PostsContainer{
-  padding-top: 40px;
+  margin: 70px 0  60px 300px ;
+  width: calc(100vw - 400px);
+  
 }
 
 .PostsDisplay {
@@ -13,7 +15,7 @@
   align-content: space-around;
   justify-content: space-evenly;
   align-items: flex-start;
-  margin-top: 20px;
+  margin-top: 13rem;
 }
 
 .listOrders {
@@ -32,12 +34,13 @@
   justify-content: center;
   align-items: center;
   margin-top: 100px;
+  width: 100vw;
 }
 
 .mainContainer {
-  margin-top: 30px;
   display: flex;
   flex-direction: row;
+  width: calc(100vw- 400px)
 }
 
 .container {
@@ -59,14 +62,14 @@
 
 .SortDiv {
   display: flex;
-  position: absolute;
-  right: 12%;
-  /* left: 11%; */
+  position: fixed;
+  top: 170px;
   flex-direction: row-reverse;
   justify-content: space-evenly;
   align-items: center;
-  /* padding-bottom: 20px; */
-  width: 70vw
+  width: 100vw;
+  z-index: 1;
+  background-color: #fff;
 }
 
 .Cards {
@@ -140,10 +143,11 @@
   align-items: center;
   height: 3rem;
   margin-top: 3rem;
-  background-color: #EF9D06ac;
+  background-color: #EF9D06;
   position: absolute;
   bottom: 0;
   left: 0;
+  z-index: 99;
 }
 
 /* Media queries for responsive design */
@@ -157,17 +161,24 @@
   .container {
     width: 60vw;
   }
-
+ 
   .InputField {
     width: 90vw;
     margin-left: 10px;
   }
 }
-@media (min-width: 320px) and (max-width: 480px) {
+@media (min-width: 360px) and (max-width: 480px) {
   .container {
-    width: 70vw;
+    width: 100vw;
   }
-
+  .mainContainer{
+    width: 100vw;
+    margin:0;
+  }
+  .PostsContainer{
+    width: 100vw;
+    margin: 50px 0;
+  }
   .Cards {
     width: 155px;
   }

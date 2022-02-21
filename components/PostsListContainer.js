@@ -91,8 +91,7 @@ const PostsListContainer = () => {
             </Button>
           </div>
         </div>
-          <div>
-            <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
+            <div className={style.PostsContainer}>
               {posts[0] === "Loading..." ? (
                 <div className={style.mainScreenLoader}>
                   <Rings color="#ef9d06" height={140} width={140} />
@@ -101,7 +100,7 @@ const PostsListContainer = () => {
                 <div
                   style={{
                     textAlign: "center",
-                    padding: "110px",
+                    padding: "180px",
                     fontSize: "50px",
                   }}
                 >
@@ -118,7 +117,6 @@ const PostsListContainer = () => {
                 />
               )}
             </div>
-          </div>
       </div>
     </main>
   );
