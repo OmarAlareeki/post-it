@@ -1,6 +1,7 @@
 .NavContainer {
   display:flex;
   justify-content: space-between;
+
   margin: 0 30px;
   padding: 20px 0;
   position: fixed; 
@@ -197,12 +198,14 @@
     color: #00243d;
   }
 }
+
 @media (min-width: 360px) and (max-width: 480px) {
   .NavContainer {
     width: 100vw;
     padding: 10px;
     margin: 0;
   }
+
   .SearchBar {
     width: 150px;
   }
@@ -211,12 +214,12 @@
     left: -15px;
   }
   .userIcon p {
-    margin:0;
-    
+    margin:0; 
   }
   .userIcon{
     display: flex;
     flex-direction: row;
+
   }
 
   .SideBar {

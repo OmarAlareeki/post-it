@@ -1,6 +1,42 @@
-.userImage {
-  padding: 5px 15px;
+.mainDiv {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.DisplayImage {
+  margin-left: 100px;
+  width: auto;
+  max-height: 300px;
+  transition: transform 0.2s;
+  height: 250px;
+}
+
+.DisplayImage:hover {
+  transform: scale(1.15);
+}
+
+.DisplayBtnPhoto {
+  display: flex;
+  position: absolute;
+  left: 40px;
+  top: 300px;
+}
+
+.userImgDiv {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  margin-left: 60px;
+  margin-top: 20px;
+  margin-bottom: 2px;
+}
+
+.userImage {
+  display: flex;
+  justify-content: center;
+  width: 300px;
 }
 
 .userImage:hover {
@@ -8,20 +44,107 @@
   opacity: 0.3;
 }
 
-.DisplayImage {
-  height: 175px;
-  width: 175px;
-  transition: transform 0.2s;
+.userImageBtn {
+  display: flex;
+  justify-content: space-evenly;
+  margin-left: 25px;
 }
 
-.DisplayImage:hover {
-  transform: scale(1.2);
+@media (min-width: 1300px) and (max-width: 1500px) {
+  .DisplayImage {
+    margin-left: 60px;
+    height: 282px;
+  }
+
+  .DisplayBtnPhoto {
+    display: flex;
+    position: absolute;
+    left: 20px;
+    top: 318px;
+  }
+
+  .userImage {
+    width: 260px;
+  }
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .mainDiv {
+    margin: 0;
+  }
+  .DisplayImage {
+    max-width: 70%;
+    max-height: 70%;
+    margin-left: 46px;
+  }
+
+  .DisplayBtnPhoto {
+    top: 87%;
+  }
+
+  .userImage {
+    width: 280px;
+    margin-left: 46px;
+  }
+
+  .userImageBtn {
+    display: flex;
+    justify-content: space-evenly;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .mainDiv {
+    margin: 0;
+  }
+  .DisplayImage {
+    margin-left: 53px;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .DisplayBtnPhoto {
+    top: 308px;
+  }
+
+  .userImage {
+    width: 280px;
+  }
+
+  .userImageBtn {
+    display: flex;
+    justify-content: space-evenly;
+  }
+}
+
+@media (min-width: 786px) and (max-width: 1280px) {
+}
+@media (min-width: 360px) and (max-width: 640px) {
+  .mainDiv {
+    height: 340px;
+    width: auto;
+    margin: 0;
+  }
+
+  .DisplayImage {
+    height: 200px;
+    margin-left: 0;
+  }
+
+  .DisplayBtnPhoto {
+    top: 275px;
+    left: 15px;
+  }
+
+  .userImgDiv {
+    margin: 0;
+    height: max-content;
+  }
+
   .userImage {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 240px;
   }
 }

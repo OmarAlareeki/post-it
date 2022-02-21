@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../config/fire-config";
-import { Button, Form } from "react-bootstrap";
+import { Container, Button, Form } from "react-bootstrap";
 import {useRouter} from "next/router";
 import style from "../../styles/Home.module.css";
 import { FcGoogle } from "react-icons/fc";
@@ -93,6 +93,7 @@ const SignInPage = ({}) => {
   
 
   return (
+    <Container>
       <div className={style.signInContainer}>
         <h1>Sign In</h1>
 
@@ -209,6 +210,7 @@ const SignInPage = ({}) => {
           </div>
         </div>
       </div>
+      </Container>
   );
 };
 
