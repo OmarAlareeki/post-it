@@ -4,7 +4,6 @@
   flex-direction: row;
   align-content: center;
   padding: 15px;
-  width: 98vw;
   background: transparent;
   z-index: 1;
 }
@@ -191,9 +190,6 @@
   }
 }
 @media (min-width: 320px) and (max-width: 480px) {
-  .NavContainer {
-    width: 100vw;
-  }
   .SearchBar {
     width: 150px;
   }
@@ -206,6 +202,7 @@
     position: relative;
     bottom: -40px;
     right: -50px;
+    font-size: 14px
   }
 
   .SideBar {

@@ -25,24 +25,27 @@ export default function DisplayPost({ post }) {
     const [user, setUser] = useState(null);
     const [loginAlert, setLoginAlert] = useState(false);
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
+        return onAuthStateChanged(auth, (user) => {
+            if (user)  {
                 setCurrentUser(user);
-            } else {
+            }
+          else {
                 setCurrentUser("");
             }
         });
     }, []);
     useEffect(() => {
+
         if (!currentUser) {
             setUser(null);
             return;
         }
         const docRef = doc(db, "users", currentUser.uid);
-        return onSnapshot(docRef, (doc) => {
+        return (onSnapshot(docRef, (doc) => {
             const userDataBase = doc.data();
             setUser(userDataBase);
-        });
+
+        }));
     }, [currentUser]);
 
 

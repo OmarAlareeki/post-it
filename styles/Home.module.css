@@ -83,8 +83,12 @@
 }
 
 .CardImage {
-  max-height: 210px;
-  min-height: 210px;
+  max-height: 160px;
+  min-height: 160px;
+}
+
+.timeAgo {
+  font-size: 12px
 }
 
 .DeleteButtonCard {
@@ -134,6 +138,11 @@
   font-size: 2.5rem;
 }
 
+.signInContainer {
+  width: 50%;
+  margin: auto
+}
+
 /* Media queries for responsive design */
 @media (min-width: 768px) and (max-width: 1024px) {
   .InputField {
@@ -155,7 +164,6 @@
   .container {
     width: 70vw;
   }
-
   .Cards {
     width: 155px;
   }
@@ -163,4 +171,12 @@
     width: 90vw;
     margin-left: 10px;
   }
+  .signInContainer {
+    width: 90%
+  }
+  .CardImage {
+    max-height: 120px;
+    min-height: 120px;
+  }
+  
 }

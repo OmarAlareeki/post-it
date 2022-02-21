@@ -21,29 +21,12 @@ export default function Map({ zip, title, price }) {
     if (!latitude && !longitude) {
         return "No location available"
     }
-    // const myIcon = L.icon({
-    //     iconUrl: "./202202-round-PI.png",
-    //     iconSize: [50, 50],
-    //     // iconAnchor: [latitude, longitude],
-    // });
-    // L.Marker.prototype.options.icon = myIcon;
 
-    // delete L.Icon.Default.prototype._getIconUrl;
     const myIcon = new Icon({
-        iconUrl: "202202-round-pi.jpg",
-        iconSize: [75, 75]
+        iconUrl: "/202202-round-pi.png",
+        iconSize: [150, 150]
       });
     
-    // L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
-
- 
-    // function GetIcon () {
-    //     return L.icon( {
-    //         iconUrl: roundIcon,
-    //         iconSize: [75, 75]
-    //     })
-    // }
-
     return (
         <>
             <Head>
