@@ -1,0 +1,12 @@
+        <Grid container spacing={2} className={style.MainGrid} wrap="nowrap">
+          <ProfileImage />
+          <Grid
+            item
+            justify="flex-center"
+            width={"40%"}
+            className={style.DataGridItem}
+          >
+
+
+          </Grid>
+        </Grid>

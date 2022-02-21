@@ -11,15 +11,6 @@ const CardsContainer = ({
   setConfirmationMessage,
   handleClick,
 }) => {
-  const [viewId, setViewId] = useState("");
-  const [view, setView] = useState(0);
-
-  // if (viewId) {
-  //setView(view + 1);
-  //   const docRef = doc(db, "post", viewId);
-  //   updateDoc(docRef, { views: view });
-  // }
-
   return (
     <div>
       <Container className={style.PostsDisplay}>

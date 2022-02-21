@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { db, storage } from "../../config/fire-config";
+import { useState, useEffect } from "react";
+import { db, storage, auth } from "../../config/fire-config";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { IoMdCheckmarkCircle } from "react-icons/io";
+import { PropTypes } from "prop-types";
 import { TailSpin } from "react-loader-spinner";
 import { Image } from "react-bootstrap";
 import style from "./ProfileImage.module.css";
@@ -12,15 +13,25 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { doc, updateDoc } from "firebase/firestore";
-import { Grid, Button, Input, FormControl, Item } from "@material-ui/core";
+import { IconButton, Input, FormControl } from "@material-ui/core";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { onAuthStateChanged } from "firebase/auth";
 
-const ProfileImage = ({ photo, docRef }) => {
+const ProfileImage = ({ photo }) => {
+  const [currentUser, setCurrentUser] = useState("");
   const [displayUrl, setDisplayUrl] = useState("");
   const [progress, setProgress] = useState("getUpload");
   const [showIcons, setShowIcons] = useState(false);
 
-  //console.log("************userId: " + id);
-  //const docRef = doc(db, "users", id);
+  useEffect(async () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser("");
+      }
+    });
+  }, []);
 
   const handleImageUpload = (e) => {
     const userImage = e.target.files[0];
@@ -51,7 +62,7 @@ const ProfileImage = ({ photo, docRef }) => {
   const imageContent = () => {
     switch (progress) {
       case "getUpload":
-        return <div>Preview new photo here!</div>;
+        return <div>""</div>;
       case "uploading":
         return <div>{displayUrl ? displayImage(displayUrl) : ""}</div>;
       case "uploaded":
@@ -69,34 +80,28 @@ const ProfileImage = ({ photo, docRef }) => {
             <TailSpin color="#ef9d06" height={40} width={40} />
           </div>
         ) : (
-          <>
-            <Image
-              src={dUrl}
-              alt={dUrl}
-              height={200}
-              width={200}
-              className={style.userImage}
-            />
-            {/* <div> */}
-            <RiCloseCircleFill
-              style={{
-                fill: "#D50005",
-                fontSize: "30px",
-                cursor: "pointer",
-              }}
-              onClick={() => deleteImage(dUrl)}
-            />
+          <div className={style.userImgDiv}>
+            <Image src={dUrl} alt={dUrl} className={style.userImage} />
+            <div className={style.userImageBtn}>
+              <RiCloseCircleFill
+                style={{
+                  fill: "#D50005",
+                  fontSize: "30px",
+                  cursor: "pointer",
+                }}
+                onClick={() => deleteImage(dUrl)}
+              />
 
-            <IoMdCheckmarkCircle
-              style={{
-                fill: "#008000",
-                fontSize: "30px",
-                cursor: "pointer",
-              }}
-              onClick={(e) => handleSubmit()}
-            />
-            {/* </div> */}
-          </>
+              <IoMdCheckmarkCircle
+                style={{
+                  fill: "#008000",
+                  fontSize: "30px",
+                  cursor: "pointer",
+                }}
+                onClick={(e) => handleSubmit()}
+              />
+            </div>
+          </div>
         )}
       </>
     );
@@ -116,6 +121,7 @@ const ProfileImage = ({ photo, docRef }) => {
   };
 
   const handleSubmit = () => {
+    const docRef = doc(db, "users", currentUser.uid);
     updateDoc(docRef, { photo: displayUrl })
       .then(() => {
         setDisplayUrl("");
@@ -128,49 +134,44 @@ const ProfileImage = ({ photo, docRef }) => {
   };
 
   return (
-    <Grid item xs={8}>
-      <Item>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ height: "190px", display: "flex" }}>
-            <img src={photo} className={style.DisplayImage} />
-          </div>
-          <div style={{ display: "flex" }}>
-            <FormControl onSubmit={() => handleSubmit()}>
-              <label htmlFor="contained-button-file">
-                <Input
-                  id="contained-button-file"
-                  type="file"
-                  style={{ display: "none" }}
-                  onChange={(e) => {
-                    handleImageUpload(e);
-                  }}
-                />
-                <Button
-                  variant="contained"
-                  component="span"
-                  color="secondary"
-                  justify="center"
-                  disabled={showIcons}
-                  size="small"
-                  sx={{ margin: 1, backgroundColor: "#ef9d06" }}
-                >
-                  Change Photo
-                </Button>
-              </label>
-            </FormControl>
-          </div>
-
-          <div style={{ display: "flex" }}>{imageContent()}</div>
-        </div>
-      </Item>
-    </Grid>
+    <div className={style.mainDiv}>
+      {!showIcons ? (
+        <img src={photo} className={style.DisplayImage} />
+      ) : (
+        <>{imageContent()}</>
+      )}
+      <FormControl
+        onSubmit={() => handleSubmit()}
+        className={style.DisplayBtnPhoto}
+      >
+        <label htmlFor="contained-button-file">
+          <Input
+            id="contained-button-file"
+            type="file"
+            style={{ display: "none" }}
+            onChange={(e) => {
+              handleImageUpload(e);
+            }}
+          />
+          <IconButton
+            color="action"
+            aria-label="upload picture"
+            component="span"
+            align="center"
+            style={{
+              display: showIcons ? "none" : "block",
+            }}
+          >
+            <PhotoCamera />
+          </IconButton>
+        </label>
+      </FormControl>
+    </div>
   );
+};
+
+ProfileImage.propTypes = {
+  photo: PropTypes.string,
 };
 
 export default ProfileImage;
