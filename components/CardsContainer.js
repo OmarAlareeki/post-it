@@ -53,7 +53,7 @@ const CardsContainer = ({
                   </Card.Title>
                   <Card.Text>$ {post.price}</Card.Text>
                   <Card.Text></Card.Text>
-                  <Card.Text>{formatDay(post.postDate.seconds)}</Card.Text>
+                  <Card.Text className={style.timeAgo}>{formatDay(post.postDate.seconds)}</Card.Text>
                 </Card.Body>
               </Card.Link>
             </Card>
