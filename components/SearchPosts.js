@@ -27,18 +27,18 @@ const SearchPosts = ({ setPosts, sortType, sortValue }) => {
 
   return (
     <div className={Style.SearchContainer}>
+      <button aria-label="search" className={Style.SearchButton}>
+        <BsSearch />
+      </button>
       <input
         type="search"
-        placeholder="Search"
+        placeholder="Search Here"
         className={Style.SearchBar}
         aria-label="Search"
         onChange={({ target }) => {
           setSearchedValue(target.value.toLowerCase());
         }}
       />
-      <button aria-label="search" className={Style.SearchButton}>
-        <BsSearch />
-      </button>
     </div>
   );
 };

@@ -2,10 +2,9 @@
   text-align: center;
 }
 
-.PostsContainer{
-  margin: 70px 0  60px 300px ;
+.PostsContainer {
+  margin: 70px 0 60px 300px;
   width: calc(100vw - 400px);
-  
 }
 
 .PostsDisplay {
@@ -13,8 +12,9 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-content: space-around;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   align-items: flex-start;
+  justify-content: flex-start;
   margin-top: 13rem;
 }
 
@@ -40,7 +40,8 @@
 .mainContainer {
   display: flex;
   flex-direction: row;
-  width: calc(100vw- 400px)
+  width: calc(100vw- 400px);
+  margin-top: 50px;
 }
 
 .container {
@@ -63,7 +64,8 @@
 .SortDiv {
   display: flex;
   position: fixed;
-  top: 170px;
+  height: 85px;
+  top: 168px;
   flex-direction: row-reverse;
   justify-content: space-evenly;
   align-items: center;
@@ -91,7 +93,7 @@
 }
 
 .timeAgo {
-  font-size: 12px
+  font-size: 12px;
 }
 
 .DeleteButtonCard {
@@ -140,14 +142,14 @@
   border: none;
   font-size: 2.5rem;
 }
-.footer{
+.footer {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 3rem;
   margin-top: 3rem;
-  background-color: #EF9D06;
+  background-color: #ef9d06;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -156,7 +158,7 @@
 
 .signInContainer {
   width: 50%;
-  margin: auto
+  margin: auto;
 }
 
 /* Media queries for responsive design */
@@ -170,7 +172,7 @@
   .container {
     width: 60vw;
   }
- 
+
   .InputField {
     width: 90vw;
     margin-left: 10px;
@@ -180,13 +182,13 @@
   .container {
     width: 100vw;
   }
-  .mainContainer{
+  .mainContainer {
     width: 100vw;
-    margin:0;
+    margin: 0;
   }
-  .PostsContainer{
+  .PostsContainer {
     width: 100vw;
-    margin: 50px 0;
+    margin: 70px 0;
   }
   .Cards {
     width: 155px;
@@ -196,11 +198,10 @@
     margin-left: 10px;
   }
   .signInContainer {
-    width: 90%
+    width: 90%;
   }
   .CardImage {
     max-height: 120px;
     min-height: 120px;
   }
-  
 }

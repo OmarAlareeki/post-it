@@ -89,7 +89,7 @@ const PostsListContainer = () => {
             </Button>
           </div>
         </div>
- 
+
         <div>
           <div className={style.PostsContainer} style={{ marginTop: "35px" }}>
             {posts[0] === "Loading..." ? (
