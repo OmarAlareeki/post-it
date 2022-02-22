@@ -23,7 +23,7 @@ const SignInPage = ({}) => {
 
   const routing =(user)=>{
     router.query.routeTo?
-    router.push("/" + router.query.routeTo):
+    router.push(router.query.routeTo):
     (router.query.routeBack?
       router.push( `${router.query.routeBack}${user.uid}`):
       router.push("/"))
