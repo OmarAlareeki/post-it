@@ -15,6 +15,7 @@ const NavBar = () => {
   const [signoutModal, setSignoutModal] = useState(false);
   const [photo, setPhoto] = useState("");
   const router = useRouter();
+  const routeQuery = router.asPath
 
   useEffect(() => {
     async function authChange() {
@@ -98,9 +99,6 @@ const NavBar = () => {
               marginBottom: "0",
               fill: "#afafaf",
             }}
-            onClick={() => {
-              router.push({ pathname: "/signIn/SignIn" });
-            }}
           />
         )}
         <div className={style.ProfileDiv}>
@@ -108,8 +106,12 @@ const NavBar = () => {
             <li
               className={style.SignIn}
               onClick={() => {
-                router.push({ pathname: "/signIn/SignIn" });
-              }}
+                router.push({
+                    pathname: "/signIn/SignIn",
+                    query: {
+                      routeTo: routeQuery} ,
+                    })
+                  }}
               style={{
                 display: currentUser ? "none" : "block",
                 color: "#008000",
