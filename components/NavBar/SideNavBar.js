@@ -1,6 +1,6 @@
 import style from "../../styles/NavBar.module.css";
 import { useState, useEffect } from "react";
-import { MdFilterList } from "react-icons/md";
+import { MdFilterList} from "react-icons/md";
 import { useRouter } from "next/router";
 import { PropTypes } from "prop-types";
 import { db } from "../../config/fire-config";
@@ -21,9 +21,10 @@ const SideNavBar = ({
   setDeleteBtnStatus,
   currentUserId,
 }) => {
-  const [clickStatus, setclcikStatus] = useState(false);
+  const [clickStatus, setClickStatus] = useState(false);
   const [liValue, setLiValue] = useState("");
   const [queryCriteria, setQueryCriteria] = useState({});
+  const [menuIcon, setMenuIcon] = useState(false)
   const router = useRouter();
   const categories = new Map([
     ["Appliance", "appliance"],
@@ -38,6 +39,7 @@ const SideNavBar = ({
     ["Vehicles", "vehicles"],
     ["Others", "others"],
   ]);
+
 
   useEffect(async () => {
     const postsRef = collection(db, "posts");
@@ -99,15 +101,14 @@ const SideNavBar = ({
           setPosts([]);
         }
       } else {
-        Router.push("/signIn/SignIn");
+        router.push("/signIn/SignIn");
       }
     }
   }, [queryCriteria, sortValue, sortType]);
 
   return (
-    <div>
       <span className={style.Menu}>
-        <MdFilterList className={style.FilterIcon} />
+       <MdFilterList className={style.FilterIcon} />
         <ul className={style.SideBar}>
           <li
             className={
@@ -116,7 +117,7 @@ const SideNavBar = ({
             onClick={() => {
               setQueryCriteria({});
               setDeleteBtnStatus(false);
-              setclcikStatus(true);
+              setClickStatus(true);
               setLiValue("AllPosts");
             }}
           >
@@ -131,7 +132,7 @@ const SideNavBar = ({
               setQueryCriteria({ saved: currentUserId });
               currentUserId === undefined ? router.push("/signIn/SignIn") : "";
               setDeleteBtnStatus(false);
-              setclcikStatus(true);
+              setClickStatus(true);
               setLiValue("SavedPosts");
             }}
           >
@@ -142,12 +143,12 @@ const SideNavBar = ({
             className={clickStatus && liValue === "MyPosts" ? style.Active : ""}
             onClick={() => {
               setLiValue("MyPosts");
-              setclcikStatus(true);
+              setClickStatus(true);
               setQueryCriteria({ userID: currentUserId });
               currentUserId
                 ? setDeleteBtnStatus(true)
                 : setDeleteBtnStatus(false);
-              currentUserId === undefined ? Router.push("/signIn/SignIn") : "";
+              currentUserId === undefined ? router.push("/signIn/SignIn") : "";
             }}
           >
             My Posts
@@ -158,7 +159,7 @@ const SideNavBar = ({
             onClick={() => {
               setQueryCriteria({ price: 1 });
               setDeleteBtnStatus(false);
-              setclcikStatus(true);
+              setClickStatus(true);
               setLiValue("Free");
             }}
           >
@@ -177,7 +178,7 @@ const SideNavBar = ({
                 setQueryCriteria({ category: categories.get(categoryName) });
                 setDeleteBtnStatus(false);
                 setLiValue(categoryName);
-                setclcikStatus(true);
+                setClickStatus(true);
               }}
             >
               {categoryName}
@@ -185,7 +186,6 @@ const SideNavBar = ({
           ))}
         </ul>
       </span>
-    </div>
   );
 };
 

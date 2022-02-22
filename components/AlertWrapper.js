@@ -1,12 +1,15 @@
 //import { Alert } from "react-bootstrap";
 import { Modal, Button } from "react-bootstrap";
+import { useRouter } from 'next/router'
 
 export default function AlertSuccessWrapper({
   message,
   handleClose,
   bgColor,
   show,
+  route
 }) {
+  const router = useRouter();
   return (
     <>
       <Modal show={show}>
@@ -17,7 +20,10 @@ export default function AlertSuccessWrapper({
           >
             {message}
           </div>
-          <Button variant="secondary main" onClick={handleClose}>
+          <Button variant="secondary main" onClick={()=>{
+              handleClose()
+              route?router.push(route):""
+          }}>
             Confirm
           </Button>
         </Modal.Body>

@@ -8,7 +8,7 @@ import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 const SearchPosts = ({ setPosts, sortType, sortValue }) => {
   const [searchedValue, setSearchedValue] = useState("");
 
-  const handleSearch = useEffect(() => {
+  useEffect(() => {
     const postsRef = collection(db, "posts");
     const q = query(postsRef, orderBy(sortValue, sortType));
 
@@ -25,12 +25,6 @@ const SearchPosts = ({ setPosts, sortType, sortValue }) => {
     });
   }, [sortType, sortValue, searchedValue]);
 
-  const onkeypressed = (e) => {
-    if (e.key === "Enter") {
-      handleSearch;
-    }
-  };
-
   return (
     <div className={Style.SearchContainer}>
       <input
@@ -41,13 +35,8 @@ const SearchPosts = ({ setPosts, sortType, sortValue }) => {
         onChange={({ target }) => {
           setSearchedValue(target.value.toLowerCase());
         }}
-        onKeyUp={onkeypressed}
       />
-      <button
-        aria-label="search"
-        className={Style.SearchButton}
-        onClick={handleSearch}
-      >
+      <button aria-label="search" className={Style.SearchButton}>
         <BsSearch />
       </button>
     </div>

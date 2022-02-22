@@ -408,7 +408,7 @@ const PostItem = () => {
                   apiKey = {process.env.NEXT_PUBLIC_TINY_API_KEY}
                   value={data.description}
                   init={{
-                    height: 300,
+                    height: 200,
                     menubar: false
                   }}
                   onEditorChange={(e) =>

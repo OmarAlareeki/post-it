@@ -3,7 +3,9 @@
 }
 
 .PostsContainer{
-  padding-top: 40px;
+  margin: 70px 0  60px 300px ;
+  width: calc(100vw - 400px);
+  
 }
 
 .PostsDisplay {
@@ -13,7 +15,7 @@
   align-content: space-around;
   justify-content: space-evenly;
   align-items: flex-start;
-  margin-top: 20px;
+  margin-top: 13rem;
 }
 
 .listOrders {
@@ -32,12 +34,13 @@
   justify-content: center;
   align-items: center;
   margin-top: 100px;
+  width: 100vw;
 }
 
 .mainContainer {
-  margin-top: 30px;
   display: flex;
   flex-direction: row;
+  width: calc(100vw- 400px)
 }
 
 .container {
@@ -59,14 +62,14 @@
 
 .SortDiv {
   display: flex;
-  position: absolute;
-  right: 12%;
-  /* left: 11%; */
+  position: fixed;
+  top: 170px;
   flex-direction: row-reverse;
   justify-content: space-evenly;
   align-items: center;
-  /* padding-bottom: 20px; */
-  width: 70vw
+  width: 100vw;
+  z-index: 1;
+  background-color: #fff;
 }
 
 .Cards {
@@ -83,8 +86,12 @@
 }
 
 .CardImage {
-  max-height: 210px;
-  min-height: 210px;
+  max-height: 160px;
+  min-height: 160px;
+}
+
+.timeAgo {
+  font-size: 12px
 }
 
 .DeleteButtonCard {
@@ -133,6 +140,24 @@
   border: none;
   font-size: 2.5rem;
 }
+.footer{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  margin-top: 3rem;
+  background-color: #EF9D06;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+}
+
+.signInContainer {
+  width: 50%;
+  margin: auto
+}
 
 /* Media queries for responsive design */
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -145,17 +170,24 @@
   .container {
     width: 60vw;
   }
-
+ 
   .InputField {
     width: 90vw;
     margin-left: 10px;
   }
 }
-@media (min-width: 320px) and (max-width: 480px) {
+@media (min-width: 360px) and (max-width: 480px) {
   .container {
-    width: 70vw;
+    width: 100vw;
   }
-
+  .mainContainer{
+    width: 100vw;
+    margin:0;
+  }
+  .PostsContainer{
+    width: 100vw;
+    margin: 50px 0;
+  }
   .Cards {
     width: 155px;
   }
@@ -163,4 +195,12 @@
     width: 90vw;
     margin-left: 10px;
   }
+  .signInContainer {
+    width: 90%
+  }
+  .CardImage {
+    max-height: 120px;
+    min-height: 120px;
+  }
+  
 }

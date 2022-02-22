@@ -1,8 +1,12 @@
 .inputContainer {
     text-align: center;
-    margin: auto;
-    padding-top: 40px;
+    margin: auto ;
+    padding: 100px 0 50px;
     width: calc(100vw - 400px);
+}
+.inputField{
+    margin-bottom: 100px;
+
 }
 .imageContainer {
     display: flex;
