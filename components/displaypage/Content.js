@@ -35,7 +35,7 @@ export default function Content({ post, setLoginAlert, currentUser }) {
   function httpHtml(content) {
     const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-|\+|\%|\;)+)/g;
     return content.replace(reg, '<a style="text-decoration: underline; color: blue" href="$1$2" target="_blank">Link</a>');
-  } 
+  }
   const newDescrption = httpHtml(descrHTML)
 
 
@@ -53,6 +53,8 @@ export default function Content({ post, setLoginAlert, currentUser }) {
       {/* <p> <DaysAgo post={post} /> </p> */}
       <p> Posted {formatDay(post.postDate.seconds)} in <ZipToCity zip={post.zip} /></p>
       {/* <p> <ZipToCity zip={post.zip} /> </p> */}
+
+
       <div className={styles.buttonsGroup}>
         <Button variant="contained" color="primary" onClick={handleContactClick} className={styles.contactBtn}>
           Contact seller
@@ -69,9 +71,9 @@ export default function Content({ post, setLoginAlert, currentUser }) {
         dangerouslySetInnerHTML={{ __html: descrHTML }}
       /> */}
 
-        <div className={styles.description}
-          dangerouslySetInnerHTML={{ __html: newDescrption }}
-        />
+      <div className={styles.description}
+        dangerouslySetInnerHTML={{ __html: newDescrption }}
+      />
 
       {/* <p>{post.description} </p> */}
     </>
