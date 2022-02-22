@@ -1,14 +1,12 @@
 import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import SearchPosts from "./SearchPosts";
-import { JestMockExtended } from "jest-mock-extended";
 
 jest.mock("../config/fire-config.js");
 
 describe("SearchPosts", () => {
   const searchPostsProps = {
-    setPosts: JestMockExtended,
-    sortType: jest.fn(),
+    setPosts: jest.fn(),
   };
 
   beforeEach(() => {
@@ -35,7 +33,7 @@ describe("SearchPosts", () => {
     screen.debug();
   });
 
-  test("Should set setPosts when pressed enter", () => {
+  test("Should call setPosts everytime we type into Input field", () => {
     const mockSetPosts = jest.fn();
 
     render(<SearchPosts setPosts={mockSetPosts} />);
@@ -45,31 +43,11 @@ describe("SearchPosts", () => {
     fireEvent.change(input, {
       target: { value: newInputValue },
     });
-    const button = screen.getByRole("button", { name: /search/i });
-    fireEvent.click(button);
+    // const button = screen.getByRole("button", { name: /search/i });
+    // fireEvent.click(button);
 
-    expect(mockSetPosts).toHaveBeenCalled();
+    expect(mockSetPosts).toHaveBeenCalledWith("tool");
 
     screen.debug();
   });
-
-  // test("Should set setPosts with the searched Term", () => {
-  //   const mockSetQueryCriteria = jest.fn();
-
-  //   render(<SearchPosts setQueryCriteria={mockSetQueryCriteria} />);
-
-  //   const newInputValue = "Tool";
-  //   const input = screen.getByPlaceholderText("Search");
-  //   fireEvent.change(input, {
-  //     target: { value: newInputValue },
-  //   });
-  //   const button = screen.getByRole("button", { name: /search/i });
-  //   fireEvent.click(button);
-
-  //   expect(mockSetQueryCriteria).toHaveBeenCalledWith({
-  //     searchCriteria: "tool",
-  //   });
-
-  //   screen.debug();
-  // });
 });

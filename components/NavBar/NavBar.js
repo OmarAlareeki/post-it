@@ -30,9 +30,8 @@ const NavBar = () => {
       if (currentUser) {
         const docRef = doc(db, "users", currentUser.uid);
         const docSnap = await getDoc(docRef);
-        console.log(docRef);
+
         if (docSnap.exists()) {
-          console.log(docSnap.data().photo);
           docSnap.data().photo ? setPhoto(docSnap.data().photo) : "";
         } else {
           await setDoc(doc(db, "users", currentUser.uid), {
@@ -53,8 +52,7 @@ const NavBar = () => {
   }, [loggedIn]);
 
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
-  console.log(currentUser);
- 
+
   return (
     <nav className={style.NavContainer}>
       <div className={style.LogoDiv}>
