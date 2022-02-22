@@ -5,18 +5,14 @@ import Head from "next/head";
 import styles from "./Map.module.css";
 import zipcodes from "zipcodes";
 import "leaflet/dist/images/marker-shadow.png";
-// import roundIcon from "./202202-round-PI.png";
 import L from 'leaflet';
 
 
 
 export default function Map({ zip, title, price }) {
-    // useEffect(()=>{
-    //     console.log(zipcodes.lookup(zip));
-    // },[zip])
+
     const { latitude = 0, longitude = 0 } = zipcodes.lookup(zip) || {}
 
-    // const position = [37.334789, -121.888138]
     const position = [latitude, longitude]
     if (!latitude && !longitude) {
         return "No location available"
@@ -42,7 +38,7 @@ export default function Map({ zip, title, price }) {
             <MapContainer className={styles.mapContainer} style={{
                 width: "100%",
                 height: "400px"
-            }} center={position} zoom={15} scrollWheelZoom={false}>
+            }} center={position} zoom={11} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

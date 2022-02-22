@@ -34,7 +34,7 @@ export default function Content({ post, setLoginAlert, currentUser }) {
   // to check regular expression go to https://regex101.com/
   function httpHtml(content) {
     const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-|\+|\%|\;)+)/g;
-    return content.replace(reg, '<a style="text-decoration: underline; color: blue" href="$1$2">Link</a>');
+    return content.replace(reg, '<a style="text-decoration: underline; color: blue" href="$1$2" target="_blank">Link</a>');
   } 
   const newDescrption = httpHtml(descrHTML)
 
