@@ -11,7 +11,6 @@ import {
 } from "firebase/firestore";
 import style from "../../styles/UserProfile.module.css";
 import {
-  Grid,
   Button,
   TableContainer,
   Table,
@@ -57,8 +56,8 @@ function UserProfile() {
     onAuthStateChanged(auth, (user) => (user ? "" : router.push("/")));
   });
   return (
-    <div>
-      <main className={style.UserProfileContainer}>
+    <div className={style.UserProfileContainer}>
+      <main>
         <div className={style.ImageBackgroundOvly}></div>
         <div className={style.DataBox}>
           <>

@@ -100,7 +100,7 @@ const PostsListContainer = () => {
               <div
                 style={{
                   textAlign: "center",
-                  padding: "110px",
+                  marginTop: "17rem",
                   fontSize: "50px",
                 }}
               >
