@@ -67,15 +67,10 @@ export default function Content({ post, setLoginAlert, currentUser }) {
           {post.phone} <br /> {post.email}{" "}
         </p>
       )}
-      {/* <div
-        dangerouslySetInnerHTML={{ __html: descrHTML }}
-      /> */}
-
       <div className={styles.description}
         dangerouslySetInnerHTML={{ __html: newDescrption }}
       />
 
-      {/* <p>{post.description} </p> */}
     </>
   );
 }
