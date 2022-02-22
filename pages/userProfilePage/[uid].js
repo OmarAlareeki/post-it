@@ -52,11 +52,10 @@ function UserProfile() {
       setPostCount(queryList);
     });
   }, [uid]);
-  console.log(user);
 
-  useEffect(()=>{
+  useEffect(() => {
     onAuthStateChanged(auth, (user) => (user ? "" : router.push("/")));
-  })
+  });
   return (
     <div>
       <main className={style.UserProfileContainer}>

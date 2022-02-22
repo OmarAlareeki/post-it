@@ -4,7 +4,7 @@
 
 .PostsContainer {
   margin: 70px 0 60px 300px;
-  width: calc(100vw - 400px);
+  width: calc(100vw - 21rem);
 }
 
 .PostsDisplay {
@@ -167,10 +167,31 @@
     width: 70vw;
     margin-left: 10px;
   }
+
+  .PostsContainer {
+    width: calc(100vw - 20rem);
+  }
+
+  .SortDiv {
+    left: 122px;
+  }
 }
 @media (min-width: 481px) and (max-width: 767px) {
   .container {
     width: 60vw;
+  }
+
+  .PostsContainer {
+    margin-left: 30px;
+  }
+
+  .PostsDisplay {
+    margin-top: 16rem;
+    width: 100vw;
+  }
+
+  .footer {
+    width: 100vw;
   }
 
   .InputField {
@@ -187,8 +208,15 @@
     margin: 0;
   }
   .PostsContainer {
+    margin-left: 30px;
+  }
+  .footer {
     width: 100vw;
-    margin: 70px 0;
+  }
+
+  .PostsDisplay {
+    margin-top: 16rem;
+    width: 100vw;
   }
   .Cards {
     width: 155px;

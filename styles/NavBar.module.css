@@ -1,11 +1,12 @@
 .NavContainer {
   display: flex;
   justify-content: space-between;
-  margin: 0 30px;
-  padding: 20px 0;
+  /* margin: 0 30px; */
+  padding: 20px;
   position: fixed;
   top: 0;
-  width: calc(100vw - 60px);
+  width: 100vw;
+  /* width: calc(100vw - 60px); */
   height: 100px;
   z-index: 99;
   background-color: #fff;
@@ -97,7 +98,7 @@
   display: block;
   position: absolute;
   top: 75px;
-  right: 0px;
+  right: 20px;
   height: 100px;
   width: 110px;
   font-size: 15px;
@@ -174,10 +175,6 @@
   }
 }
 @media (min-width: 481px) and (max-width: 767px) {
-  .NavContainer {
-    width: 97vw;
-  }
-
   .SearchBar {
     width: 280px;
   }
@@ -189,21 +186,24 @@
   .FilterIcon {
     display: block;
     font-size: 30px;
-    position: relative;
+    /* position: relative; */
+    position: fixed;
     left: 20px;
-    bottom: -17px;
+    /* bottom: -17px; */
+    top: 124px;
+    z-index: 2;
     /* left: 470px; */
   }
 
   .Menu:hover > .SideBar {
     display: block;
     position: fixed;
-    top: 0;
+    top: 115px;
     bottom: 0;
     /* right: 26px; */
     text-align: center;
     font-size: 14px;
-    z-index: 1;
+    z-index: 3;
     margin-top: 0px;
     padding: 15px;
     background-color: #ffc107;
@@ -245,10 +245,11 @@
   .FilterIcon {
     display: block;
     font-size: 30px;
-    position: relative;
-    left: 10px;
-    top: 120px;
-    z-index: 99;
+    /* position: relative; */
+    position: fixed;
+    left: 20px;
+    top: 123px;
+    z-index: 2;
   }
 
   .Menu:hover > .SideBar {
