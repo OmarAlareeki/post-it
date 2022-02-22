@@ -45,6 +45,7 @@ export default function Title({ post, setLoginAlert, currentUser, user, setUser 
                 imageUrls: post.imageUrls[0],
                 price: post.price,
                 title: post.title,
+                zip: post.zip
             });
             updateSavedPosts(newSavedPosts);
         }

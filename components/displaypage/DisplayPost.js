@@ -50,7 +50,7 @@ export default function DisplayPost({ post }) {
 
 
     return (
-        <>
+        <div className={styles.mainContainer}>
             {loginAlert && (
                 <Popup
                     close={() => {
@@ -75,7 +75,7 @@ export default function DisplayPost({ post }) {
                     <PhotoGallery photos={post.imageUrls} />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

@@ -10,6 +10,15 @@
         "map"
 }
 
+.mainContainer {
+        width:100%;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 3rem;
+        padding-top: 100px; 
+        margin: 0 auto;
+}
+
 .photoGallery {
     grid-area: photoGallery;
     min-width: 0;
@@ -29,11 +38,15 @@
 
 /*  landscape mobile */
 @media (min-width:768px) {
-    
+    .mainContainer {
+        padding-left: 50px;
+        padding-right: 50px;
+}
 }
 
 /* tablet, */
 @media (min-width:1024px) {
+    
     .mainField {
         grid-template-columns: 1.5fr 1fr !important; 
         grid-gap:10px;
@@ -46,6 +59,9 @@
 
 /* desktop */
 @media (min-width: 1280px) {
+    .mainContainer {  
+        max-width: 1000px;
+}
     .mainField {
         grid-template-columns: 1.5fr 1fr !important; 
         grid-gap:10px;

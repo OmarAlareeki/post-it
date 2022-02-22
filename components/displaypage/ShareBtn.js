@@ -53,7 +53,7 @@ export default function ShareBtn() {
                         </div>
                     }
                 >
-                    <Button className={styles.btn} variant="outlined" endIcon={<ShareIcon />} color="primary" onClick={handleTooltipOpen}>
+                    <Button className={styles.btn} variant="outlined" endIcon={<ShareIcon />} color="secondary" onClick={handleTooltipOpen}>
                         Share
                     </Button>
                 </CustomizedTooltip>
