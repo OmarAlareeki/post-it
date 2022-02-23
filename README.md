@@ -52,10 +52,8 @@ as safe and friction-free as possible.
 ## Stretch Goals (rough priority ordering)
 
     Views count for a post
-    Category drop down menu
     Chat between users
     Video upload for a post
-    Scheduling / calendar integration
     Adding expiration period for a post
 
  ## Frameworks and Libraries
