@@ -48,8 +48,7 @@
 @media (min-width:1024px) {
     
     .mainField {
-        grid-template-columns: 1.5fr 1fr !important; 
-        grid-gap:10px;
+        grid-template-columns: 2fr 1fr !important; 
         grid-template-areas:
             "title title"
             "photoGallery map"
@@ -64,7 +63,7 @@
 }
     .mainField {
         grid-template-columns: 1.5fr 1fr !important; 
-        grid-gap:10px;
+        grid-gap:30px;
         grid-template-areas:
             "title title"
             "photoGallery content"
