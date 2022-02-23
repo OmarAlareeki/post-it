@@ -25,6 +25,12 @@ const SearchPosts = ({ setPosts, sortType, sortValue }) => {
     });
   }, [sortType, sortValue, searchedValue]);
 
+  // const onkeypressed = (e) => {
+  //   if (e.key === "Enter") {
+  //     handleSearch;
+  //   }
+  // };
+
   return (
     <div className={Style.SearchContainer}>
       <button aria-label="search" className={Style.SearchButton}>
@@ -38,6 +44,7 @@ const SearchPosts = ({ setPosts, sortType, sortValue }) => {
         onChange={({ target }) => {
           setSearchedValue(target.value.toLowerCase());
         }}
+        // onKeyUp={onkeypressed}
       />
     </div>
   );

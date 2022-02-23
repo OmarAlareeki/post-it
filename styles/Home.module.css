@@ -83,13 +83,19 @@
   margin-top: 10px;
   margin-right: 10px;
   background: #fef2eb;
-  margin: 2px;
-  /* border: 1px solid rgba(0, 0, 0, 0.125); */
+  /* margin: 2px; */
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: none;
+  padding: 10px;
 }
 
 .CardImage {
   max-height: 160px;
   min-height: 160px;
+}
+
+.Cards > p {
+  margin: 0;
 }
 
 .timeAgo {
@@ -153,6 +159,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
+  right: 0;
   z-index: 99;
 }
 
@@ -187,7 +194,7 @@
 
   .PostsDisplay {
     margin-top: 16rem;
-    width: 100vw;
+    width: 81vw;
   }
 
   .footer {
@@ -216,7 +223,7 @@
 
   .PostsDisplay {
     margin-top: 16rem;
-    width: 100vw;
+    width: 86vw;
   }
   .Cards {
     width: 155px;

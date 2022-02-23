@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "../config/fire-config";
 import "bootstrap/dist/css/bootstrap.css";
 import CardsContainer from "./CardsContainer.js";
 import SearchPosts from "./SearchPosts.js";
 import SideNavBar from "./NavBar/SideNavBar";
-import AlertWrapper from "./AlertWrapper";
+import AlertWrapper from "../utils/AlertWrapper";
 import style from "../styles/Home.module.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { Button } from "react-bootstrap";
@@ -29,11 +29,13 @@ const PostsListContainer = () => {
     setShowAlert(false);
   };
 
-  const currentUserId = currUser.uid;
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) =>
+      user ? setCurrUser(user) : setCurrUser("")
+    );
+  }, []);
 
-  onAuthStateChanged(auth, (user) =>
-    user ? setCurrUser(user) : setCurrUser("")
-  );
+  const currentUserId = currUser.uid;
 
   const postNewItem = () => {
     currUser
@@ -100,7 +102,7 @@ const PostsListContainer = () => {
               <div
                 style={{
                   textAlign: "center",
-                  padding: "110px",
+                  marginTop: "17rem",
                   fontSize: "50px",
                 }}
               >

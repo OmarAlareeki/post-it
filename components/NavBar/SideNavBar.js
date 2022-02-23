@@ -1,6 +1,6 @@
 import style from "../../styles/NavBar.module.css";
 import { useState, useEffect } from "react";
-import { MdFilterList} from "react-icons/md";
+import { MdFilterList } from "react-icons/md";
 import { useRouter } from "next/router";
 import { PropTypes } from "prop-types";
 import { db } from "../../config/fire-config";
@@ -24,8 +24,9 @@ const SideNavBar = ({
   const [clickStatus, setClickStatus] = useState(false);
   const [liValue, setLiValue] = useState("");
   const [queryCriteria, setQueryCriteria] = useState({});
-  const [menuIcon, setMenuIcon] = useState(false)
+
   const router = useRouter();
+
   const categories = new Map([
     ["Appliance", "appliance"],
     ["Baby and Kids", "babyAndKids"],
@@ -39,7 +40,6 @@ const SideNavBar = ({
     ["Vehicles", "vehicles"],
     ["Others", "others"],
   ]);
-
 
   useEffect(async () => {
     const postsRef = collection(db, "posts");
@@ -107,85 +107,83 @@ const SideNavBar = ({
   }, [queryCriteria, sortValue, sortType]);
 
   return (
-      <span className={style.Menu}>
-       <MdFilterList className={style.FilterIcon} />
-        <ul className={style.SideBar}>
+    <span className={style.Menu}>
+      <MdFilterList className={style.FilterIcon} />
+      <ul className={style.SideBar}>
+        <li
+          className={clickStatus && liValue === "AllPosts" ? style.Active : ""}
+          onClick={() => {
+            setQueryCriteria({});
+            setDeleteBtnStatus(false);
+            setClickStatus(true);
+            setLiValue("AllPosts");
+          }}
+        >
+          All Posts
+        </li>
+
+        <li
+          className={
+            clickStatus && liValue === "SavedPosts" ? style.Active : ""
+          }
+          onClick={() => {
+            setQueryCriteria({ saved: currentUserId });
+            currentUserId === undefined ? router.push("/signIn/SignIn") : "";
+            setDeleteBtnStatus(false);
+            setClickStatus(true);
+            setLiValue("SavedPosts");
+          }}
+        >
+          Saved Posts
+        </li>
+
+        <li
+          className={clickStatus && liValue === "MyPosts" ? style.Active : ""}
+          onClick={() => {
+            setLiValue("MyPosts");
+            setClickStatus(true);
+            setQueryCriteria({ userID: currentUserId });
+            currentUserId
+              ? setDeleteBtnStatus(true)
+              : setDeleteBtnStatus(false);
+            currentUserId === undefined ? router.push("/signIn/SignIn") : "";
+          }}
+        >
+          My Posts
+        </li>
+
+        <li
+          className={clickStatus && liValue === "Free" ? style.Active : ""}
+          onClick={() => {
+            setQueryCriteria({ price: 1 });
+            setDeleteBtnStatus(false);
+            setClickStatus(true);
+            setLiValue("Free");
+          }}
+        >
+          Free
+        </li>
+
+        <li className={style.CategoryList}> Categories: </li>
+
+        {[...categories.keys()].map((categoryName, i) => (
           <li
             className={
-              clickStatus && liValue === "AllPosts" ? style.Active : ""
+              clickStatus && liValue === categoryName ? style.Active : ""
             }
+            key={i}
             onClick={() => {
-              setQueryCriteria({});
+              setQueryCriteria({ category: categories.get(categoryName) });
               setDeleteBtnStatus(false);
+              setLiValue(categoryName);
               setClickStatus(true);
-              setLiValue("AllPosts");
             }}
           >
-            All Posts
+            {categoryName}
           </li>
-
-          <li
-            className={
-              clickStatus && liValue === "SavedPosts" ? style.Active : ""
-            }
-            onClick={() => {
-              setQueryCriteria({ saved: currentUserId });
-              currentUserId === undefined ? router.push("/signIn/SignIn") : "";
-              setDeleteBtnStatus(false);
-              setClickStatus(true);
-              setLiValue("SavedPosts");
-            }}
-          >
-            Saved Posts
-          </li>
-
-          <li
-            className={clickStatus && liValue === "MyPosts" ? style.Active : ""}
-            onClick={() => {
-              setLiValue("MyPosts");
-              setClickStatus(true);
-              setQueryCriteria({ userID: currentUserId });
-              currentUserId
-                ? setDeleteBtnStatus(true)
-                : setDeleteBtnStatus(false);
-              currentUserId === undefined ? router.push("/signIn/SignIn") : "";
-            }}
-          >
-            My Posts
-          </li>
-
-          <li
-            className={clickStatus && liValue === "Free" ? style.Active : ""}
-            onClick={() => {
-              setQueryCriteria({ price: 1 });
-              setDeleteBtnStatus(false);
-              setClickStatus(true);
-              setLiValue("Free");
-            }}
-          >
-            Free
-          </li>
-
-          <li className={style.CategoryList}> Categories: </li>
-
-          {[...categories.keys()].map((categoryName, i) => (
-            <li
-              className={
-                clickStatus && liValue === categoryName ? style.Active : ""
-              }
-              key={i}
-              onClick={() => {
-                setQueryCriteria({ category: categories.get(categoryName) });
-                setDeleteBtnStatus(false);
-                setLiValue(categoryName);
-                setClickStatus(true);
-              }}
-            >
-              {categoryName}
-            </li>
-          ))}
-        </ul>
-      </span>
+        ))}
+      </ul>
+    </span>
   );
 };
 
