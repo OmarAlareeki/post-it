@@ -57,9 +57,8 @@ function UserProfile() {
   });
   return (
     <div className={style.UserProfileContainer}>
-      <main>
-        <div className={style.ImageBackgroundOvly}></div>
-        <div className={style.DataBox}>
+      <main className={style.UPmainParent}>
+        <div className={style.DataBoxChild}>
           <>
             <ProfileImage photo={user.photo} />
           </>
@@ -97,6 +96,7 @@ function UserProfile() {
                           borderBottom: "none",
                           whiteSpace: "normal",
                           wordWrap: "break-word",
+                          padding: "0px",
                         }}
                       >
                         <Typography variant="body1" gutterBottom>
@@ -141,7 +141,7 @@ function UserProfile() {
                         sx={{ borderBottom: "none" }}
                       >
                         <Typography variant="body1" gutterBottom>
-                          Saved Post : {user?.savedPosts?.length}
+                          Saved Post : {user.savedPosts?.length}
                         </Typography>
                       </TableCell>
 
@@ -179,9 +179,7 @@ function UserProfile() {
             </div>
           </>
         </div>
-        <div className={style.DivbottomMid}></div>
       </main>
-      <div className={style.DivBottomTrapez}></div>
     </div>
   );
 }
