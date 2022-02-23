@@ -4,19 +4,19 @@
 
 First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
 
+npm run dev
+or
+yarn dev
 
 Open [http://localhost:3000]
 
 
--You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - 
-your feedback and contributions are welcome!
+- You can check out (https://post-it-tau.vercel.app/). Your feedback and contributions are welcome!.
 
-## General Information
+
+## General Information:
+
 Team Name: Post-It
 Team Members: OmarAlareeki, CodergirlVS, MunirNuristani and NGFuture
 
@@ -31,12 +31,13 @@ in order to curb needless consumption, engender human connection, and promote su
 - Our app contributes to this mission by making the experience of offering and accepting goods 
 as safe and friction-free as possible.
 
-** Minimum Viable Product **
+## Minimum Viable Product:
 
- ## User stories:
-Since this is essentially a two-sided marketplace, we have two User personas,
- Listers (the “sellers”) and Searchers (“buyers”). (An interesting wrinkle here is that 
- in some sense the Listers are themselves receiving a service—probing that may bear fruit.)
+ - User stories:
+ 
+   Since this is essentially a two-sided marketplace, we have two User personas,
+   Listers (the “sellers”) and Searchers (“buyers”). (An interesting wrinkle here is that 
+   in some sense the Listers are themselves receiving a service—probing that may bear fruit.)
 
     As a Lister, In order to keep my life clutter-free as easily as possible, I want to snap a photo of 
     things I want to be rid of and have someone come pick it up to take it away.
