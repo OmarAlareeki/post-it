@@ -166,6 +166,8 @@
 .signInContainer {
   width: 50%;
   margin: auto;
+  margin-top: 120px
+
 }
 
 /* Media queries for responsive design */
@@ -197,10 +199,6 @@
     width: 81vw;
   }
 
-  .footer {
-    width: 100vw;
-  }
-
   .InputField {
     width: 90vw;
     margin-left: 10px;
@@ -226,7 +224,7 @@
     width: 86vw;
   }
   .Cards {
-    width: 155px;
+    width: 150px;
   }
   .InputField {
     width: 90vw;
