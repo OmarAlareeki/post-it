@@ -10,11 +10,11 @@ import {
 } from "firebase/firestore";
 import { getDatabase, ref, set } from "firebase/database";
 import { db, storage } from "../../config/fire-config";
-import DaysAgo, { formatDay } from "../DaysAgo";
+import DaysAgo, { formatDay } from "../../utils/DaysAgo";
 import ShareBtn from "./ShareBtn"
 import Button from '@mui/material/Button';
 import NumberFormat from 'react-number-format';
-import ZipToCity from '../ZipToCity';
+import ZipToCity from '../../utils/ZipToCity';
 
 export default function Content({ post, openLoginPopup, currentUser }) {
 

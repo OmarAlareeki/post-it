@@ -2,9 +2,9 @@ import React from "react";
 import { Container, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
-import { formatDay } from "./DaysAgo";
+import { formatDay } from "../utils/DaysAgo";
 import DeletePost from "./DeletePosts";
-import ZipToCity from "./ZipToCity";
+import ZipToCity from "../utils/ZipToCity";
 import NumberFormat from "react-number-format";
 
 const CardsContainer = ({
