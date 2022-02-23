@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "../config/fire-config";
 import "bootstrap/dist/css/bootstrap.css";
 import CardsContainer from "./CardsContainer.js";
@@ -29,11 +29,13 @@ const PostsListContainer = () => {
     setShowAlert(false);
   };
 
-  const currentUserId = currUser.uid;
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) =>
+      user ? setCurrUser(user) : setCurrUser("")
+    );
+  }, []);
 
-  onAuthStateChanged(auth, (user) =>
-    user ? setCurrUser(user) : setCurrUser("")
-  );
+  const currentUserId = currUser.uid;
 
   const postNewItem = () => {
     currUser

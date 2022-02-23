@@ -1,185 +1,62 @@
-.UserProfileContainer {
-  margin: 10em 13em 0 10em;
-  background-image: linear-gradient(#fff, #fff, #fff, #fff, #f5f5f5);
-  box-shadow: 2px 40px #f0eeee;
-  border: 1px solid;
-}
-/* 
-.ImageBackgroundOvly {
-  margin-left: 10em;
-  width: 20vw;
-  height: 70vh
-  background-color: #efae37cf;
-} */
-
-/* .DataBox {
-  width: 800px;
-  height: 400px;
-  position: absolute;
-  top: 200px;
-  left: 350px;
-  background-image: linear-gradient(90deg, #efae37cf 50%, #fff 50%);
+.UPmainParent {
+  width: 70vw;
+  max-height: 80vh;
+  margin-top: 10em;
+  margin-left: 3em;
+  height: 700px;
+  padding: 0px 24px;
+  background-image: linear-gradient(
+    -45deg,
+    #efae37cf 50%,
+    #fff,
+    #f5f5f5,
+    #fff,
+    #fff 50%
+  );
+  position: relative;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   display: flex;
-  justify-content: flex-s;
-  box-shadow: 5px 5px 10px 5px #686565;
+  flex-wrap: wrap;
+  animation: resize 6s infinite;
+  flex-basis: 700px;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+.DataBoxChild {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: linear-gradient(45deg, #efae37cf 50%, #fff 50%);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  animation: resize 6s infinite;
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: 400px;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+.DisplayCard {
+  padding-top: 10px;
+  flex-basis: 200px;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+/* @keyframes resize {
+  0%,
+  100% {
+    width: 100%;
+  }
+  30% {
+    width: 20%;
+  }
 } */
-
-/* .DisplayCard {
-  padding: 0px;
-  margin-left: 125px;
-} */
-/* 
-.DivbottomMid {
-  width: 458px;
-  margin-left: -1px;
-  border: solid;
-  border-color: transparent transparent #efae37cf transparent;
-  border-width: 0px 20px 60px 35px;
-} */
-/* 
-.DivBottomTrapez {
-  width: 490px;
-  margin-left: 94px;
-  border: solid;
-  border-color: transparent transparent #efae37cf transparent;
-  border-width: 0px 28px 90px 0px;
-} */
-
-@media (min-width: 1300px) and (max-width: 1500px) {
-  .ImageBackgroundOvly {
-    width: 400px;
-  }
-
-  .DataBox {
-    width: 745px;
-    height: 375px;
-  }
-
-  .DivbottomMid {
-    margin-left: 16px;
-    width: 435px;
-    border-width: 0px 16px 60px 20px;
-  }
-
-  .DivBottomTrapez {
-    margin-left: 89px;
-    width: 459px;
-    border-width: 0px 24px 90px 0px;
-  }
-}
-
-@media (min-width: 1025px) and (max-width: 1280px) {
-  .ImageBackgroundOvly {
-    width: 350px;
-    height: 480px;
-  }
-
-  .DataBox {
-    width: 600px;
-    height: 330px;
-    left: 274px;
-    top: 264px;
-  }
-
-  .DisplayCard {
-    width: 350px;
-    left: -4px;
-    top: 192px;
-  }
-
-  .DivbottomMid {
-    width: 388px;
-    margin-left: 13px;
-    border-width: 0px 15px 60px 21px;
-  }
-
-  .DivBottomTrapez {
-    width: 400px;
-    margin-left: 71px;
-    border-width: 0px 11px 90px 0px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .UserProfileContainer {
-    margin-top: 7%;
-    margin-right: 5%;
-    margin-left: 4%;
-    max-width: 90%;
-  }
-  .DivbottomMid {
-    border-width: 0px 10px 60px 19px;
-  }
-  .DivBottomTrapez {
-    border-width: 0px 29px 90px 0px;
-    margin-left: 39px;
-    width: 338px;
-  }
-  .DataBox {
-    top: 300px;
-    width: 700px;
-    height: 367px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .DisplayCard {
-    margin-left: -104px;
-    margin-top: 0;
-    width: 360px;
-  }
-}
-
-/* 
-  ##Device = Tablets, Ipads (landscape)
-  ##Screen = B/w 768px to 1024px
-*/
-
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-}
-
-/* 
-  ##Device = Low Resolution Tablets, Mobiles (Landscape)
-  ##Screen = B/w 481px to 767px
-*/
-
-@media (min-width: 481px) and (max-width: 767px) {
-}
-
-/* 
-  ##Device = Most of the Smartphones Mobiles (Portrait)
-  ##Screen = B/w 320px to 479px
-*/
-
-@media (min-width: 360px) and (max-width: 640px) {
-  .UserProfileContainer {
-    margin-top: 15%;
-    margin-right: 5%;
-    margin-left: 4%;
-  }
-
-  .ImageBackgroundOvly {
-    width: 200px;
-    height: 553px;
-  }
-
-  .DataBox {
-    top: 243px;
-    height: fit-content;
-    background-image: linear-gradient(180deg, #efae37cf 50%, #fff 50%);
-    flex-direction: column;
-    width: auto;
-  }
-
-  .DisplayCard {
-    margin-left: 0;
-    margin-top: -11px;
-  }
-
-  .DivbottomMid {
-    display: none;
-  }
-  .DivBottomTrapez {
-    display: none;
-  }
-}
