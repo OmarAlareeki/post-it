@@ -16,13 +16,13 @@ import Button from '@mui/material/Button';
 import NumberFormat from 'react-number-format';
 import ZipToCity from '../ZipToCity';
 
-export default function Content({ post, setLoginAlert, currentUser }) {
+export default function Content({ post, openLoginPopup, currentUser }) {
 
   const [showContacts, setShowContacts] = useState(false);
 
   const handleContactClick = () => {
     if (!currentUser) {
-      setLoginAlert(true);
+      openLoginPopup();
       return;
     }
     setShowContacts(true);

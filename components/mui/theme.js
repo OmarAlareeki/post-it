@@ -24,17 +24,18 @@ const theme = createTheme({
       main: red.A400,
     },
 
-    components: {
-      MuiButton: {
-        styleOverrides: {
-          outlined: {
-            backgroundColor: "green"
-          }
+
+
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        outlined: {
+          borderColor: "#EF9D06"
         }
       }
     }
-
-  },
+  }
 });
 
 export default theme;

@@ -19,11 +19,22 @@ const Map = dynamic(
     () => import('./Map'),
     { ssr: false }
 )
+import {useRouter} from "next/router";
 
 export default function DisplayPost({ post }) {
     const [currentUser, setCurrentUser] = useState("");
     const [user, setUser] = useState(null);
     const [loginAlert, setLoginAlert] = useState(false);
+    
+    const router = useRouter();
+
+    const openLoginPopup = () => {
+        setLoginAlert(true);
+        if (!router.query.routeTo) {
+            router.push(router.asPath+`?routeTo=${router.asPath}`)
+        }
+    }
+    
     useEffect(() => {
         return onAuthStateChanged(auth, (user) => {
             if (user)  {
@@ -39,7 +50,7 @@ export default function DisplayPost({ post }) {
         if (!currentUser) {
             setUser(null);
             return;
-        }
+        } else { setLoginAlert(false) }
         const docRef = doc(db, "users", currentUser.uid);
         return (onSnapshot(docRef, (doc) => {
             const userDataBase = doc.data();
@@ -63,10 +74,10 @@ export default function DisplayPost({ post }) {
 
             <div className={styles.mainField}>
                 <div className={styles.title}>
-                    <Title post={post} setLoginAlert={setLoginAlert} currentUser={currentUser} user={user} setUser={setUser}/>
+                    <Title post={post} openLoginPopup={openLoginPopup} currentUser={currentUser} user={user} setUser={setUser}/>
                 </div>
                 <div className={styles.content}>
-                    <Content post={post} setLoginAlert={setLoginAlert} currentUser={currentUser} />
+                    <Content post={post} openLoginPopup={openLoginPopup} currentUser={currentUser} />
                 </div>
                 <div className={styles.map}>
                     <Map zip={post.zip} title={post.title} price={post.price} />

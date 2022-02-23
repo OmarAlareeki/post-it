@@ -11,7 +11,7 @@ import DeletePostDP from "./DeletePostDP";
 import EditPostDP from "./EditPostDP";
 
 
-export default function Title({ post, setLoginAlert, currentUser, user, setUser }) {
+export default function Title({ post, openLoginPopup, currentUser, user, setUser }) {
     const liked = user &&
         user.savedPosts &&
         !!user.savedPosts.find((nextPost) => {
@@ -26,7 +26,7 @@ export default function Title({ post, setLoginAlert, currentUser, user, setUser 
 
     const handleLikeClick = () => {
         if (!currentUser) {
-            setLoginAlert(true);
+            openLoginPopup();
             return;
         }
         if (liked) {

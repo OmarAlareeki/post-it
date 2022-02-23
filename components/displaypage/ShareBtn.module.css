@@ -6,7 +6,7 @@
 }
 
 .tooltip {
-  width: 100px;
+  width: 90px;
   height: 20px;
   text-align: center;
 }
@@ -14,7 +14,9 @@
 
   /*  landscape mobile */
   @media (min-width:768px) {
-
+    .tooltip {
+      width: 100px;
+    }
 }
 
 /* tablet, */
