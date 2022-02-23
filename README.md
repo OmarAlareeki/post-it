@@ -15,11 +15,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 -You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-General Information
+## General Information
 Team Name: Post-It
 Team Members: OmarAlareeki, CodergirlVS, MunirNuristani and NGFuture
 
-- Project Overview and Concept
+## Project Overview and Concept
 Drawing inspiration from the UX of apps like OfferUp and LetGo, Post-It aims to give the user a way to find and sell goods.
 
 
@@ -28,7 +28,7 @@ Drawing inspiration from the UX of apps like OfferUp and LetGo, Post-It aims to 
 - Our app contributes to this mission by making the experience of offering and accepting goods as safe and friction-free as possible.
 Minimum Viable Product
 
-- User stories:
+ ## User stories:
 Since this is essentially a two-sided marketplace, we have two User personas, Listers (the “sellers”) and Searchers (“buyers”). (An interesting wrinkle here is that in some sense the Listers are themselves receiving a service—probing that may bear fruit.)
 
     As a Lister, In order to keep my life clutter-free as easily as possible, I want to snap a photo of things I want to be rid of and have someone come pick it up to take it away.
@@ -38,7 +38,7 @@ Since this is essentially a two-sided marketplace, we have two User personas, Li
     As a Searcher, In order to fill a specific need, I want to easily see listings for free items and details relevant to making a decision to invest the time into picking it up.
 
 
-- Stretch Goals (rough priority ordering)
+## Stretch Goals (rough priority ordering)
 
     Views count for a post
     Category drop down menu
@@ -47,7 +47,7 @@ Since this is essentially a two-sided marketplace, we have two User personas, Li
     Scheduling / calendar integration
     Adding expiration period for a post
 
-- Frameworks and Libraries
+ ## Frameworks and Libraries
 
     NextJs
     Facebook Login
@@ -62,7 +62,7 @@ Since this is essentially a two-sided marketplace, we have two User personas, Li
 
     Jest
 
-- ## Deploy on Vercel
+## Deploy on Vercel
      Check out live site
 https://post-it-tau.vercel.app/
 
