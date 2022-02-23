@@ -42,8 +42,8 @@ const DeletePost = ({
 
   // Handle the actual deletion of the item
   const submitDelete = async (title, pid) => {
-    const newTitle = title.match(/.{1,3}/g);
-    setConfirmationMessage(`${newTitle}  was deleted successfully.`);
+    // const newTitle = title.match(/.{1,3}/g);
+    setConfirmationMessage(`${title}  was deleted successfully.`);
     await deleteDoc(doc(db, "posts", pid));
     setDisplayConfirmationModal(false);
     handleClick();

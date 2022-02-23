@@ -1,9 +1,9 @@
 import React from "react";
-import { Container, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import style from "../styles/Home.module.css";
 import { formatDay } from "../utils/DaysAgo";
-import DeletePost from "./DeletePosts";
+import DeletePost from "../utils/DeletePosts";
 import ZipToCity from "../utils/ZipToCity";
 import NumberFormat from "react-number-format";
 
