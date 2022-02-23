@@ -35,10 +35,7 @@ export default function Map({ zip, title, price }) {
                 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
             </Head>
 
-            <MapContainer className={styles.mapContainer} style={{
-                width: "100%",
-                height: "400px"
-            }} center={position} zoom={11} scrollWheelZoom={false}>
+            <MapContainer className={styles.mapContainer}  center={position} zoom={11} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
