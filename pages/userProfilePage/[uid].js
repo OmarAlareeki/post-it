@@ -114,6 +114,7 @@ function UserProfile() {
                         >
                           <Button
                             variant="outlined"
+                            color="action"
                             startIcon={<PasswordIcon />}
                             size="small"
                             onClick={() => {
