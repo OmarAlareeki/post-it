@@ -43,7 +43,7 @@ const PostsListContainer = () => {
       : router.push({
           pathname: "/signIn/SignIn",
           query: {
-            routeTo: `postItem`,
+            routeTo: "/postItem",
           },
         });
   };
