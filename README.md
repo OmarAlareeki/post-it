@@ -18,7 +18,11 @@ Open [http://localhost:3000]
 ## General Information:
 
 Team Name: Post-It
-Team Members: OmarAlareeki, CodergirlVS, MunirNuristani and NGFuture
+Team Members: 
+OmarAlareeki   | https://github.com/OmarAlareeki
+MunirNuristani | https://github.com/MunirNuristani
+CodergirlVS    | https://github.com/CodergirlVS
+NGFuture       | https://github.com/NGFuture
 
 ## Project Overview and Concept
 Drawing inspiration from the UX of apps like OfferUp and LetGo, 
