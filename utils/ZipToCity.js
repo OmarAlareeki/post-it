@@ -4,7 +4,6 @@ import zipcodes from "zipcodes";
 
 export default function ZipToCity ({zip}) {
  
-    // let zipInfo = zipcodes.lookup(zip);
     const { city } = zipcodes.lookup(zip) || {}
     
     var zipInfo = zipcodes.lookup(zip);
@@ -16,7 +15,6 @@ export default function ZipToCity ({zip}) {
     //   state: 'CA',
     //   country: 'US' }
 
-    // return zipInfo.city
     return `${zipInfo.city}, ${zipInfo.state}`
 
 }

@@ -13,7 +13,6 @@ export default function PhotoGallery({ photos }) {
         {photos.map((photo, i) => (
           <Carousel.Item
             key={i}
-            //className={styles.carouselItem}
             className="carousel-item img-fluid"
           >
             <div className={styles.carouselItem}>
