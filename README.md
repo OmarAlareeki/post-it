@@ -19,10 +19,10 @@ Open [http://localhost:3000]
 
 Team Name: Post-It
 Team Members: 
-OmarAlareeki   | https://github.com/OmarAlareeki
-MunirNuristani | https://github.com/MunirNuristani
-CodergirlVS    | https://github.com/CodergirlVS
-NGFuture       | https://github.com/NGFuture
+OmarAlareeki          | https://github.com/OmarAlareeki
+MunirNuristani        | https://github.com/MunirNuristani
+Vaidehi Sapre         | https://github.com/CodergirlVS
+Natalia Grigoryeva    | https://github.com/NGFuture
 
 ## Project Overview and Concept
 Drawing inspiration from the UX of apps like OfferUp and LetGo, 
@@ -66,6 +66,7 @@ as safe and friction-free as possible.
     Facebook Login
     Google Login
     Bootstrap
+    npm
     React Bootstrap
     material-ui
     react-lodash

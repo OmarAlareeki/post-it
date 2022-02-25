@@ -35,7 +35,7 @@ export default function Map({ zip, title, price }) {
                 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
             </Head>
 
-            <MapContainer className={styles.mapContainer}  center={position} zoom={11} scrollWheelZoom={false}>
+            <MapContainer className={styles.mapContainer}  center={position} zoom={11} zoomControl={false} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -48,7 +48,6 @@ export default function Map({ zip, title, price }) {
 
 
             </MapContainer>
-            {/* <img srs="/public/202202-round-PI.png" style={{"width": "200px"}}></img> */}
         </>
     )
 }

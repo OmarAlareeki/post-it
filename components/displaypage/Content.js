@@ -41,7 +41,6 @@ export default function Content({ post, openLoginPopup, currentUser }) {
 
   return (
     <>
-      {/* <h2>${post.price} </h2> */}
       {(post.price === 0) ? (
         <h2>Free</h2>
       ) : (
@@ -50,10 +49,7 @@ export default function Content({ post, openLoginPopup, currentUser }) {
           </h2>
         )}
 
-      {/* <p> <DaysAgo post={post} /> </p> */}
       <p> Posted {formatDay(post.postDate.seconds)} in <ZipToCity zip={post.zip} /></p>
-      {/* <p> <ZipToCity zip={post.zip} /> </p> */}
-
 
       <div className={styles.buttonsGroup}>
         <Button variant="contained" color="primary" onClick={handleContactClick} className={styles.contactBtn}>

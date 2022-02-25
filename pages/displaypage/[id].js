@@ -3,7 +3,6 @@ import { doc, onSnapshot, collection, getDoc } from "firebase/firestore";
 import { db, storage } from "../../config/fire-config";
 import { useState, useEffect } from "react";
 import DisplayPost from "../../components/displaypage/DisplayPost.js";
-// import DisplayPageLayout from "../../components/displaypage/DisplayPageLayout";
 
 export default function Post() {
   const router = useRouter();
