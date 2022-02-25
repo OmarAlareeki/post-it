@@ -85,7 +85,7 @@ const PostsListContainer = () => {
             <Button
               variant="warning"
               onClick={() => postNewItem()}
-              style={{ backgroundColor: "#ffc107", zIndex: "500" }}
+              style={{ backgroundColor: "#ffc107"}}
             >
               Add Post
             </Button>
