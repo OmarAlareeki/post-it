@@ -4,11 +4,16 @@ import { BsSearch } from "react-icons/bs";
 import { PropTypes } from "prop-types";
 import { db } from "../config/fire-config";
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
+// import firebaseConfig from "../config/fire-config";
+// import { initializeApp } from "firebase/app";
+// import { getFirestore } from "firebase/firestore";
 
 const SearchPosts = ({ setPosts, sortType, sortValue }) => {
   const [searchedValue, setSearchedValue] = useState("");
 
-  useEffect(() => {
+  function handleSearch() {
+    // const app = initializeApp(firebaseConfig);
+    // const db = getFirestore(app);
     const postsRef = collection(db, "posts");
     const q = query(postsRef, orderBy(sortValue, sortType));
 
@@ -23,13 +28,17 @@ const SearchPosts = ({ setPosts, sortType, sortValue }) => {
         )
       );
     });
+  }
+
+  useEffect(() => {
+    handleSearch();
   }, [sortType, sortValue, searchedValue]);
 
-  // const onkeypressed = (e) => {
-  //   if (e.key === "Enter") {
-  //     handleSearch;
-  //   }
-  // };
+  const onkeypressed = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
     <div className={Style.SearchContainer}>
@@ -44,7 +53,7 @@ const SearchPosts = ({ setPosts, sortType, sortValue }) => {
         onChange={({ target }) => {
           setSearchedValue(target.value.toLowerCase());
         }}
-        // onKeyUp={onkeypressed}
+        onKeyUp={onkeypressed}
       />
     </div>
   );

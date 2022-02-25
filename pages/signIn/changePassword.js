@@ -71,7 +71,7 @@ function changePassword() {
           bgColor={"#EF9D06"}
           show={showAlert}
         />
-        <h1 className="m-4">Change Passward</h1>
+        <h1 className="m-4">Change Password</h1>
 
         <div className="">
           <Form

@@ -12,7 +12,8 @@
 .DisplayImage {
   width: auto;
   transition: transform 0.2s;
-  height: 300px;
+  max-height: 300px;
+  min-height: 270px;
   padding-top: 30px;
 }
 
