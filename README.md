@@ -21,7 +21,7 @@ Team Name: Post-It
 Team Members: 
 OmarAlareeki          | https://github.com/OmarAlareeki
 MunirNuristani        | https://github.com/MunirNuristani
-CodergirlVS           | https://github.com/CodergirlVS
+Vaidehi Sapre         | https://github.com/CodergirlVS
 Natalia Grigoryeva    | https://github.com/NGFuture
 
 ## Project Overview and Concept
@@ -66,6 +66,7 @@ as safe and friction-free as possible.
     Facebook Login
     Google Login
     Bootstrap
+    npm
     React Bootstrap
     material-ui
     react-lodash
