@@ -60,8 +60,10 @@
   "devDependencies": {
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@testing-library/dom": "^8.11.3",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
     "babel-jest": "^26.3.0",
     "babel-preset-jest": "^27.5.1",
     "eslint": "8.5.0",

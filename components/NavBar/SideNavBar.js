@@ -1,6 +1,6 @@
 import style from "../../styles/NavBar.module.css";
 import { useState, useEffect } from "react";
-import { MdFilterList } from "react-icons/md";
+import { VscMenu } from "react-icons/vsc";
 import { useRouter } from "next/router";
 import { PropTypes } from "prop-types";
 import { db } from "../../config/fire-config";
@@ -108,7 +108,7 @@ const SideNavBar = ({
 
   return (
     <span className={style.Menu}>
-      <MdFilterList className={style.FilterIcon} />
+      <VscMenu className={style.FilterIcon} />
       <ul className={style.SideBar}>
         <li
           className={clickStatus && liValue === "AllPosts" ? style.Active : ""}

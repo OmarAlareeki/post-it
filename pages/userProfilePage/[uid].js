@@ -164,7 +164,7 @@ function UserProfile() {
                         scope="row"
                         colSpan={2}
                         align="center"
-                        sx={{ borderBottom: "none" }}
+                        sx={{ borderBottom: "none", padding: "0px" }}
                       >
                         <Typography variant="body1" gutterBottom>
                           Account since :{" "}

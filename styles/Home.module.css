@@ -3,8 +3,8 @@
 }
 
 .PostsContainer {
-  margin: 70px 0 60px 300px;
-  width: calc(100vw - 21rem);
+  margin: 70px 0px 60px 250px;
+  width: calc(100vw - 19rem);
 }
 
 .PostsDisplay {
@@ -89,9 +89,16 @@
   padding: 10px;
 }
 
+.CardImgDiv {
+  height: 160px;
+  width: 100%;
+}
 .CardImage {
-  max-height: 160px;
-  min-height: 160px;
+  /* max-height: 160px;
+  min-height: 160px; */
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 
 .Cards > p {
@@ -178,11 +185,11 @@
   }
 
   .PostsContainer {
-    width: calc(100vw - 20rem);
+    width: calc(100vw - 19rem);
   }
 
   .SortDiv {
-    left: 122px;
+    left: 73px;
   }
 }
 @media (min-width: 481px) and (max-width: 767px) {
@@ -191,12 +198,12 @@
   }
 
   .PostsContainer {
-    margin-left: 30px;
+    margin: 70px 0px 60px 135px;
+    width: calc(100vw - 16rem);
   }
 
   .PostsDisplay {
-    margin-top: 16rem;
-    width: 81vw;
+    margin-top: 13rem;
   }
 
   .InputField {
@@ -213,7 +220,7 @@
     margin: 0;
   }
   .PostsContainer {
-    margin-left: 30px;
+    margin: 70px 0px 60px 90px;
   }
   .footer {
     width: 100vw;
@@ -221,8 +228,12 @@
 
   .PostsDisplay {
     margin-top: 16rem;
-    width: 86vw;
   }
+
+  .SortDiv {
+    top: 178px;
+  }
+
   .Cards {
     width: 150px;
   }

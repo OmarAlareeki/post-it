@@ -38,10 +38,11 @@ const Sort = ({ setSortValue, setSortType }) => {
         variant="standard"
         sx={{ m: 1, minWidth: 115, bottom: 8, color: "#00243D" }}
       >
-        <InputLabel id="demo-simple-select-helper-label">SortBy</InputLabel>
+        <InputLabel id="selectLabel">SortBy</InputLabel>
         <Select
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
+          labelId="selectLabel"
+          id="mySelect"
+          label="SortBy"
           value={sortOption}
           renderValue={() => renderValue(sortOption)}
           onChange={handleSortChange}

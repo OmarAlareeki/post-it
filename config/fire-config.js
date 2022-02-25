@@ -13,10 +13,10 @@ const firebaseConfig = {
   measurementId: "${config.measurementId}",
 };
 
-// const app = initializeApp(firebaseConfig);
-// const db = getFirestore(app);
-// const storage = getStorage(app);
-// const auth = getAuth(app);
-// export { db, storage, auth };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const auth = getAuth(app);
+export { db, storage, auth };
 
-export default firebaseConfig;
+// export default firebaseConfig;
