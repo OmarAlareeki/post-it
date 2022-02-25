@@ -86,7 +86,7 @@ as safe and friction-free as possible.
     
  Database:
  
-  Firebase
+   Firebase
 
 ## Deploy on Vercel
      Check out live site
