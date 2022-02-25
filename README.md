@@ -65,16 +65,28 @@ as safe and friction-free as possible.
     NextJs
     Facebook Login
     Google Login
+    react-lodash
+    react-leaflet
     Bootstrap
     npm
     React Bootstrap
     material-ui
-    react-lodash
-    react-leaflet
+    
+ UX:
+   
+   Figma
 
   Testing:
 
     Jest
+    
+ Project Management;
+  
+    Trello
+    
+ Database:
+ 
+  Firebase
 
 ## Deploy on Vercel
      Check out live site
