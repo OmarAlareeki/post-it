@@ -68,13 +68,14 @@ as safe and friction-free as possible.
     react-lodash
     react-leaflet
     Bootstrap
+    TinyMCE
+    
+   UI/UX:
+
+    Figma - MockUI
     npm
     React Bootstrap
     material-ui
-    
- UX:
-   
-   Figma
 
   Testing:
 
@@ -86,7 +87,7 @@ as safe and friction-free as possible.
     
  Database:
  
-   Firebase
+   Firebase@ 9.0
 
 ## Deploy on Vercel
      Check out live site
