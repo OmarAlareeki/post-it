@@ -1,18 +1,18 @@
-
 import React from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/fire-config";
 import { Modal, Button } from "react-bootstrap";
 
-const SignoutModal = ({ show, onHide, setLoggedIn }) => {
+const SignoutModal = ({ show, onHide, setLoggedIn, onExit }) => {
   const logout = async () => {
     await signOut(auth);
     setLoggedIn(false);
     onHide();
+    onExit();
   };
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} onExit={onExit}>
       <div className="m-4 d-flex flex-column justify-content-center">
         <span> Are you sure you want to sign out?</span>
         <Button
