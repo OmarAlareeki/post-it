@@ -53,6 +53,7 @@ const NavBar = () => {
   }, [loggedIn]);
 
   const toggleSignOutModal = () => setSignoutModal(!signoutModal);
+  const reload = () => window.location.reload();
 
   return (
     <nav className={style.NavContainer}>
@@ -150,6 +151,7 @@ const NavBar = () => {
         show={signoutModal}
         onHide={toggleSignOutModal}
         setLoggedIn={setLoggedIn}
+        onExit={reload}
       />
     </nav>
   );
