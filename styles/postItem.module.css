@@ -30,12 +30,15 @@
     width: 16rem;
     font-weight: bold;
     border: 3px #EF9D06 solid;
-    transition: 500ms
+    transition: 500ms;
+    color: #000;
+    
 }
 
 .submitButton:hover{
     background-color: #3CD014;
-    transition: 500ms
+    transition: 500ms;
+    color: #000;
 }
 .cancelButton{
     background-color: #fff;
