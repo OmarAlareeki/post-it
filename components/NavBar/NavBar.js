@@ -52,9 +52,7 @@ const NavBar = () => {
     authChange();
   }, [loggedIn]);
 
-  const toggleSignOutModal = () => {
-    setSignoutModal(!signoutModal);
-  };
+  const toggleSignOutModal = () => setSignoutModal(!signoutModal);
   const reload = () => window.location.reload();
 
   return (
