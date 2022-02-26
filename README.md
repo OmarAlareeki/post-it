@@ -20,7 +20,7 @@ Open [http://localhost:3000]
 Team Name: Post-It
 Team Members: 
 Omar Alareeki         | https://github.com/OmarAlareeki
-[Munir Nuristani] (https://github.com/MunirNuristani)
+(Munir Nuristani)[https://github.com/MunirNuristani]
 Vaidehi Sapre         | https://github.com/CodergirlVS
 Natalia Grigoryeva    | https://github.com/NGFuture
 
