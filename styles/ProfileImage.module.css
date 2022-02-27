@@ -11,6 +11,7 @@
 
 .DisplayImage {
   width: auto;
+  max-width: 300px;
   transition: transform 0.2s;
   max-height: 300px;
   min-height: 270px;
@@ -28,6 +29,7 @@
 }
 
 .userImage {
+  max-width: 300px;
   width: auto;
   height: 200px;
 }
