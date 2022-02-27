@@ -23,7 +23,12 @@ export default function MyApp(props) {
           name="description"
           content="This app helps to keep track of orders"
         />
-        <link rel="icon" href="/logo_fav.png" />
+        <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/logofav.png"
+      />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
