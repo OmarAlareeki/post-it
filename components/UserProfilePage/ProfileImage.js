@@ -5,7 +5,7 @@ import { IoMdCheckmarkCircle } from "react-icons/io";
 import { PropTypes } from "prop-types";
 import { TailSpin } from "react-loader-spinner";
 import { Image } from "react-bootstrap";
-import style from "./ProfileImage.module.css";
+import style from "../../styles/ProfileImage.module.css";
 import {
   ref,
   uploadBytesResumable,
@@ -122,6 +122,7 @@ const ProfileImage = ({ photo }) => {
 
   const handleSubmit = () => {
     const docRef = doc(db, "users", currentUser.uid);
+    console.log(currentUser.uid);
     updateDoc(docRef, { photo: displayUrl })
       .then(() => {
         setDisplayUrl("");
